@@ -29,7 +29,7 @@ RUN cargo build --release
 # ------------------------------------------------------------------------------
 # Stage 2: Node sidecar deps (apiku + Puppeteer Chrome)
 # ------------------------------------------------------------------------------
-FROM node:22-slim-bookworm AS nodebackend
+FROM node:22-bookworm-slim AS nodebackend
 
 WORKDIR /nodeapp
 

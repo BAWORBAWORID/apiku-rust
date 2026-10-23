@@ -1,0 +1,3529 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zyyvor Api'S - Admin Dashboard</title>
+    <meta name="description" content="Admin dashboard for Zyyvor API management">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="/src/images/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/src/images/logo.jpg">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#050505',
+                        surface: '#0a0a0a',
+                        border: 'rgba(255,255,255,0.06)',
+                        input: '#0a0a0a',
+                        primary: {
+                            DEFAULT: '#fff',
+                            hover: '#ddd',
+                            dim: 'rgba(255,255,255,0.06)',
+                            glow: 'rgba(255,255,255,0.15)'
+                        },
+                        success: '#10b981',
+                        error: '#ef4444',
+                        warning: '#f59e0b',
+                        info: '#3b82f6',
+                        purple: '#888',
+                        pink: '#ec4899'
+                    },
+                    animation: {
+                        'grid-flow': 'gridMove 20s linear infinite',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-down': 'slideDown 0.3s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                    },
+                    keyframes: {
+                        gridMove: {
+                            '0%': { backgroundPosition: '0 0' },
+                            '100%': { backgroundPosition: '40px 40px' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(8px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px) scale(0.98)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(99, 102, 241, 0.15)',
+                        'neon': '0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1)',
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)',
+                        'card-hover': '0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3)',
+                    }
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e5e5e5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+            background-size: 32px 32px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .cyber-grid::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, #050505 80%);
+        }
+
+        /* Glass Header */
+        .glass-header {
+            background: rgba(5,5,5,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        /* Touch-friendly: prevent tap highlight */
+        * { -webkit-tap-highlight-color: transparent; }
+
+        /* Tab Buttons */
+        .tab-btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #9ca3af;
+            background: transparent;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+            min-height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.375rem;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        .tab-btn:hover {
+            color: #e5e7eb;
+            background: rgba(255,255,255,0.06);
+        }
+        .tab-btn:active {
+            transform: scale(0.96);
+        }
+        .tab-btn.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        /* Tab scroll container for mobile */
+        .tab-scroll {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            padding: 0.25rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .tab-scroll::-webkit-scrollbar { display: none; }
+        .tab-scroll::after {
+            content: '';
+            flex-shrink: 0;
+            width: 4px;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .data-table thead th {
+            background: rgba(10,10,10,0.8);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            white-space: nowrap;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .data-table tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.2s ease;
+        }
+        .data-table tbody tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        .data-table tbody td {
+            padding: 0.75rem 1rem;
+            font-size: 0.8125rem;
+            color: #e5e5e5;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: middle;
+        }
+
+        /* Method Badges */
+        .method-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5625rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        .m-get { background: rgba(34,197,94,0.08); color: #4ade80; border: 1px solid rgba(34,197,94,0.15); }
+        .m-post { background: rgba(59,130,246,0.08); color: #60a5fa; border: 1px solid rgba(59,130,246,0.15); }
+        .m-put { background: rgba(245,158,11,0.08); color: #fbbf24; border: 1px solid rgba(245,158,11,0.15); }
+        .m-delete { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.15); }
+
+        /* Status Select */
+        .status-select {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: 'JetBrains Mono', monospace;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            padding-right: 2rem;
+        }
+        .status-select:focus {
+            border-color: rgba(255,255,255,0.15);
+        }
+        .status-select option {
+            background: #0a0a0a;
+            color: #e5e5e5;
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 0;
+        }
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            max-width: 480px;
+            width: calc(100% - 2rem);
+            padding: 1.5rem;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-backdrop.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Fullscreen modal on very small screens */
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 16px 16px 0 0;
+                margin-top: auto;
+                max-height: 85vh;
+                padding: 1.25rem;
+            }
+            .modal-backdrop {
+                align-items: flex-end;
+            }
+            .modal-content {
+                transform: translateY(100%);
+            }
+            .modal-backdrop.show .modal-content {
+                transform: translateY(0);
+            }
+        }
+
+        /* Input Fields */
+        .input-field {
+            background-color: #050505;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            color: #e5e5e5;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        .input-field:focus {
+            border-color: rgba(255,255,255,0.15);
+        }
+        .input-field::placeholder {
+            color: #555;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .toggle-switch.active {
+            background: white;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #555;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+            background: #050505;
+        }
+
+        /* Toast */
+        .toast {
+            min-width: 300px;
+            max-width: 420px;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        .toast-success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+        .toast-error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        .toast-warning {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: transparent;
+            color: #555;
+            font-size: 0.8125rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .action-btn:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.12);
+            color: white;
+        }
+        .action-btn:active {
+            transform: scale(0.92);
+        }
+        .action-btn.danger:hover {
+            background: rgba(239,68,68,0.1);
+            border-color: rgba(239,68,68,0.3);
+            color: #ef4444;
+        }
+
+        /* Ensure buttons have good touch targets */
+        @media (max-width: 768px) {
+            .action-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            font-size: 0.75rem;
+            color: #555;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 2rem;
+        }
+        .footer-link {
+            color: #888;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .footer-link:hover { color: white; }
+
+        /* Settings Section */
+        .settings-section {
+            background: rgba(10,10,10,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+        .settings-section h3 {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #e5e5e5;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .settings-section label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+        .empty-state i {
+            font-size: 2.5rem;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-top-color: #6366f1;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive table wrapper - horizontal scroll */
+        .table-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            position: relative;
+            background:
+                linear-gradient(to right, #030712 30%, transparent),
+                linear-gradient(to left, #030712 30%, transparent);
+            background-attachment: local, local;
+            background-size: 40px 100%, 40px 100%;
+            background-repeat: no-repeat;
+            background-position: left center, right center;
+        }
+        .table-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #030712;
+            border-radius: 10px;
+        }
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 10px;
+        }
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        /* Ensure tables are wide enough to scroll */
+        .data-table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        /* Scroll hint dot animation at the bottom */
+        .scroll-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            padding: 0.5rem 0 0.25rem;
+            font-size: 0.65rem;
+            color: #6b7280;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .table-wrapper:hover ~ .scroll-hint,
+        .table-wrapper:active ~ .scroll-hint {
+            opacity: 1;
+        }
+        .scroll-hint .scroll-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #555;
+            animation: scrollDot 1.4s ease-in-out infinite;
+        }
+        .scroll-hint .scroll-dot:nth-child(2) { animation-delay: 0.2s; }
+        .scroll-hint .scroll-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes scrollDot {
+            0%, 60%, 100% { opacity: 0.2; transform: scale(0.8); }
+            30% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Fixed column widths for data-table */
+        .data-table th:nth-child(1),
+        .data-table td:nth-child(1) { min-width: 200px; max-width: 320px; }
+        .data-table th:nth-child(2),
+        .data-table td:nth-child(2) { min-width: 140px; max-width: 240px; }
+        .data-table th:nth-child(3),
+        .data-table td:nth-child(3) { min-width: 100px; max-width: 160px; }
+        .data-table th:nth-child(4),
+        .data-table td:nth-child(4) { min-width: 120px; max-width: 180px; }
+        .data-table th:nth-child(5),
+        .data-table td:nth-child(5) { min-width: 130px; max-width: 160px; }
+        .data-table th:nth-child(6),
+        .data-table td:nth-child(6) { min-width: 80px; max-width: 120px; }
+
+        /* Keys/Users tables have 7 cols */
+        .data-table th:nth-child(7),
+        .data-table td:nth-child(7) { min-width: 100px; max-width: 140px; }
+
+        /* ==================== COMPREHENSIVE RESPONSIVE BREAKPOINTS ==================== */
+
+        /* Small phones (< 480px) */
+        @media (max-width: 480px) {
+            .data-table {
+                min-width: 620px;
+            }
+            .data-table td, .data-table th {
+                white-space: nowrap;
+            }
+            .data-table thead th {
+                padding: 0.5rem 0.625rem;
+                font-size: 0.625rem;
+            }
+            .data-table tbody td {
+                padding: 0.5rem 0.625rem;
+                font-size: 0.75rem;
+            }
+            .scroll-hint {
+                opacity: 0.6 !important;
+                font-size: 0.6rem;
+            }
+            .scroll-hint .scroll-dot {
+                width: 3px;
+                height: 3px;
+            }
+            .tab-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.6875rem;
+            }
+        }
+
+        /* Medium phones to small tablets (481px - 768px) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .data-table {
+                min-width: 700px;
+            }
+            .data-table td, .data-table th {
+                white-space: nowrap;
+            }
+            .data-table thead th {
+                padding: 0.625rem 0.875rem;
+                font-size: 0.65625rem;
+            }
+            .data-table tbody td {
+                padding: 0.625rem 0.875rem;
+                font-size: 0.78125rem;
+            }
+        }
+
+        /* Tablets (769px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .data-table {
+                min-width: 760px;
+            }
+            .data-table thead th {
+                padding: 0.6875rem 0.9375rem;
+                font-size: 0.671875rem;
+            }
+            .data-table tbody td {
+                padding: 0.6875rem 0.9375rem;
+                font-size: 0.796875rem;
+            }
+            .tab-btn {
+                padding: 0.5625rem 1.25rem;
+                font-size: 0.78125rem;
+            }
+        }
+
+        /* Laptops (1025px - 1280px) */
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            .data-table thead th {
+                font-size: 0.671875rem;
+                padding: 0.6875rem 0.9375rem;
+            }
+            .data-table tbody td {
+                font-size: 0.796875rem;
+                padding: 0.6875rem 0.9375rem;
+            }
+        }
+
+        /* Large desktops (1281px+) */
+        @media (min-width: 1281px) {
+            .data-table thead th {
+                font-size: 0.6875rem;
+                padding: 0.75rem 1rem;
+            }
+            .data-table tbody td {
+                font-size: 0.8125rem;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Input field responsive sizes */
+        @media (max-width: 480px) {
+            .input-field {
+                padding: 0.625rem 0.875rem !important;
+                font-size: 0.8125rem !important;
+            }
+            .settings-section {
+                padding: 1rem !important;
+            }
+            .settings-section h3 {
+                font-size: 0.75rem !important;
+            }
+            .settings-section label {
+                font-size: 0.6875rem !important;
+            }
+            .toggle-switch {
+                width: 40px !important;
+                height: 22px !important;
+            }
+            .toggle-switch::after {
+                width: 18px !important;
+                height: 18px !important;
+            }
+            .toggle-switch.active::after {
+                transform: translateX(18px) !important;
+            }
+        }
+
+        /* Mobile navbar adjustments */
+        @media (max-width: 640px) {
+            .glass-header .flex.items-center.gap-4 > a .flex.flex-col span:first-child {
+                font-size: 0.875rem !important;
+            }
+            .glass-header .flex.items-center.gap-4 > a .flex.flex-col span:last-child {
+                font-size: 0.5625rem !important;
+            }
+            #navMenu {
+                width: 200px !important;
+                left: -8px !important;
+            }
+            .scroll-hint {
+                padding: 0.375rem 0 0.125rem !important;
+            }
+        }
+
+        /* IP Management cards responsive */
+        @media (max-width: 480px) {
+            #content-ips .grid {
+                gap: 0.75rem !important;
+            }
+            #content-ips .flex.gap-2 {
+                flex-direction: column !important;
+            }
+            #content-ips .flex.gap-2 input {
+                width: 100% !important;
+            }
+            #content-ips .flex.gap-2 button {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+        }
+
+        /* Settings mobile */
+        @media (max-width: 480px) {
+            #content-settings .grid-cols-1.sm\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+            #content-settings .sm\:col-span-2 {
+                grid-column: span 1 !important;
+            }
+        }
+
+        /* Toast responsive */
+        @media (max-width: 480px) {
+            #toast-container {
+                top: 4px !important;
+                right: 4px !important;
+                left: 4px !important;
+            }
+            .toast {
+                min-width: unset !important;
+                max-width: 100% !important;
+                font-size: 0.75rem !important;
+                padding: 0.75rem 1rem !important;
+            }
+        }
+
+        /* Footer responsive */
+        @media (max-width: 480px) {
+            .footer {
+                padding: 1.5rem 0.75rem 0.75rem !important;
+                font-size: 0.6875rem !important;
+            }
+        }
+
+        /* Stats bar responsive */
+        @media (max-width: 480px) {
+            #content-endpoints .flex.flex-col.sm\:flex-row.gap-3.mb-4 > .flex.items-center.gap-3 {
+                flex-wrap: wrap !important;
+                gap: 0.5rem !important;
+            }
+            #content-endpoints .flex.items-center.gap-3 > div {
+                padding: 0.375rem 0.75rem !important;
+            }
+            #content-endpoints .flex.items-center.gap-3 > div span,
+            #content-endpoints .flex.items-center.gap-3 > div span + span {
+                font-size: 0.6875rem !important;
+            }
+        }
+
+        /* Mobile header */
+        @media (max-width: 480px) {
+            h1.text-2xl.sm\:text-3xl {
+                font-size: 1.375rem !important;
+            }
+            .text-gray-500.text-sm.mt-1 {
+                font-size: 0.75rem !important;
+            }
+        }
+
+        /* Sidebar Layout & Enterprise Snappy Dashboard Styles */
+        #sidebar {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #sidebar-overlay {
+            transition: opacity 0.2s ease-in-out;
+        }
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.75rem 1.15rem;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            background: transparent;
+            border-left: 2px solid transparent;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+        .sidebar-btn:hover:not(.active) {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .sidebar-btn.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            border-left: 2px solid #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+            font-weight: 700;
+        }
+        main .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+        /* Tablet Collapsed Mode (768px - 1023px) Tooltips */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .sidebar-btn {
+                padding: 0.75rem 0;
+                justify-content: center;
+                border-left: 0 !important;
+            }
+            .sidebar-btn.active {
+                background: rgba(255, 255, 255, 0.15);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            }
+            .sidebar-btn::after {
+                content: attr(title);
+                position: absolute;
+                left: calc(100% + 14px);
+                top: 50%;
+                transform: translateY(-50%) scale(0.92);
+                background: rgba(15, 17, 23, 0.95);
+                color: #ffffff;
+                padding: 6px 12px;
+                border-radius: 8px;
+                font-size: 12px;
+                font-weight: 600;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+                z-index: 200;
+            }
+            .sidebar-btn:hover::after {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans min-h-screen flex flex-col bg-background text-gray-200">
+
+    <!-- Background Grid -->
+    <div class="cyber-grid animate-grid-flow"></div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] hidden md:hidden"></div>
+
+    <!-- Vertical Sidebar (Offcanvas Mobile, Collapsed Tablet w-20, Full Desktop w-64) -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-[100] -translate-x-full md:translate-x-0 w-64 md:w-20 lg:w-64 glass-header border-r border-white/[0.06] flex flex-col transition-all duration-200 shadow-2xl md:shadow-none bg-[#0a0a0a]/75 backdrop-blur-2xl">
+        <!-- Sidebar Header / Logo -->
+        <div class="p-6 md:p-4 lg:p-6 border-b border-white/[0.06] flex items-center justify-between md:justify-center lg:justify-between">
+            <a href="/" class="flex items-center gap-3 group">
+                <img src="/src/images/logo.jpg" alt="Zyyvor" style="width:36px;height:36px;border-radius:8px;object-fit:cover" onerror="this.style.display='none'">
+                <div class="flex flex-col md:hidden lg:flex">
+                    <span class="font-bold text-base leading-tight text-white tracking-tight">Zyyvor Api'S</span>
+                    <span class="text-[10px] text-gray-500 font-mono tracking-widest uppercase mt-0.5">Admin Control</span>
+                </div>
+            </a>
+            <!-- Close Sidebar Button (Mobile Only) -->
+            <button onclick="toggleSidebar(false)" class="md:hidden p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar Navigation Menu -->
+        <nav class="flex-1 px-4 md:px-2 lg:px-4 py-6 space-y-1.5 overflow-y-auto">
+            <div class="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest px-3 md:px-0 lg:px-3 mb-3 md:text-center lg:text-left"><span class="md:hidden lg:inline">Core Management</span><span class="hidden md:inline lg:hidden">•</span></div>
+            <button id="sidebar-btn-endpoints" class="sidebar-btn active" onclick="switchTab('endpoints')" title="Endpoints">
+                <i class="fas fa-server w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">Endpoints</span>
+            </button>
+            <button id="sidebar-btn-keys" class="sidebar-btn" onclick="switchTab('keys')" title="API Keys">
+                <i class="fas fa-key w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">API Keys</span>
+            </button>
+            <button id="sidebar-btn-users" class="sidebar-btn" onclick="switchTab('users')" title="Users">
+                <i class="fas fa-users w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">Users</span>
+            </button>
+            <button id="sidebar-btn-ips" class="sidebar-btn" onclick="switchTab('ips')" title="IP Management">
+                <i class="fas fa-network-wired w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">IP Management</span>
+            </button>
+
+            <div class="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest px-3 md:px-0 lg:px-3 pt-6 mb-3 md:text-center lg:text-left"><span class="md:hidden lg:inline">System & Monitor</span><span class="hidden md:inline lg:hidden">•</span></div>
+            <button id="sidebar-btn-settings" class="sidebar-btn" onclick="switchTab('settings')" title="Settings">
+                <i class="fas fa-gear w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">Settings</span>
+            </button>
+            <button id="sidebar-btn-live" class="sidebar-btn" onclick="switchTab('live')" title="Live Feed">
+                <i class="fas fa-bolt w-5 text-center text-warning shrink-0"></i>
+                <span class="md:hidden lg:inline">Live Feed</span>
+            </button>
+        </nav>
+
+        <!-- Sidebar Footer / Quick External Links -->
+        <div class="p-4 md:p-2 lg:p-4 border-t border-white/[0.06] mt-auto bg-white/[0.02]">
+            <div class="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 text-xs">
+                <a href="/docs" target="_blank" title="Documentation" class="flex items-center justify-center lg:justify-start gap-2 px-3 md:px-2 lg:px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-book text-[11px] shrink-0"></i>
+                    <span class="md:hidden lg:inline">Docs</span>
+                </a>
+                <a href="/stats" target="_blank" title="System Status" class="flex items-center justify-center lg:justify-start gap-2 px-3 md:px-2 lg:px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-chart-line text-[11px] shrink-0"></i>
+                    <span class="md:hidden lg:inline">Status</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper (shifted right on tablet & desktop to accommodate sidebar) -->
+    <div id="main-wrapper" class="flex-1 md:pl-20 lg:pl-64 flex flex-col min-h-screen transition-all duration-200">
+
+        <!-- Top Navbar -->
+        <header class="sticky top-0 z-40 glass-header h-16 border-b border-white/[0.06] w-full bg-[#0a0a0a]/70 backdrop-blur-xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+                <!-- Left Side: Hamburger (Mobile) + Page Title -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <button onclick="toggleSidebar(true)" class="md:hidden p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-colors focus:outline-none">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-sm sm:text-base leading-tight text-white tracking-tight">Admin Control Center</span>
+                        <span class="text-[10px] text-gray-500 font-mono hidden sm:inline">Enterprise Monitoring & Configuration</span>
+                    </div>
+                </div>
+
+                <!-- Right Side: Status System & Logout -->
+                <div class="flex items-center gap-3">
+                    <div id="systemStatus" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-sm">
+                        <i class="fas fa-user-shield text-success text-xs animate-pulse"></i>
+                        <span id="user-greeting" class="text-xs font-bold text-gray-300 tracking-wide">Logged in</span>
+                    </div>
+                    <button onclick="logout()" class="flex items-center gap-2 px-3 py-2 rounded-lg border border-error/30 text-error text-xs font-bold hover:bg-error/15 transition-colors active:scale-95">
+                        <i class="fas fa-right-from-bracket text-sm"></i>
+                        <span class="hidden sm:inline text-xs">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Body with Fresh Whitespace & Padding -->
+        <main class="flex-grow pt-6 pb-10 px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-7xl mx-auto space-y-6">
+
+            <!-- Tab Content: Endpoints -->
+            <div id="content-endpoints" class="tab-content hidden animate-fade-in">
+                <!-- Search & Stats Bar -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <div class="relative flex-1">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-600 text-sm"></i>
+                        </div>
+                        <input
+                            type="text"
+                            id="endpoint-search"
+                            placeholder="Search endpoints by route, name, or category..."
+                            class="input-field w-full pl-11 pr-4 py-3 text-sm font-mono"
+                            oninput="filterEndpoints()"
+                        >
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface/50 border border-border">
+                            <i class="fas fa-cube text-primary-DEFAULT text-xs"></i>
+                            <span class="text-[11px] text-gray-400">Total:</span>
+                            <span id="endpoint-total" class="text-xs font-bold text-white font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface/50 border border-border">
+                            <i class="fas fa-filter text-primary-DEFAULT text-xs"></i>
+                            <span class="text-[11px] text-gray-400">Showing:</span>
+                            <span id="endpoint-filtered" class="text-xs font-bold text-white font-mono">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Endpoints Table -->
+                <div class="table-wrapper rounded-xl border border-border">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Methods</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="endpoints-tbody">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-3 text-sm">Loading endpoints...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroll-hint">
+                    <span>Swipe</span>
+                    <span class="scroll-dot"></span>
+                    <span class="scroll-dot"></span>
+                    <span class="scroll-dot"></span>
+                    <span>scroll</span>
+                </div>
+            </div>
+
+            <!-- Tab Content: API Keys -->
+            <div id="content-keys" class="tab-content hidden animate-fade-in">
+                <!-- Header Bar -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-key text-primary-DEFAULT"></i>
+                        <span class="text-sm text-gray-400">Total keys: <span id="keys-total" class="font-bold text-white font-mono">0</span></span>
+                    </div>
+                    <button onclick="openGenerateModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white text-black text-xs font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-plus"></i>
+                        Generate New Key
+                    </button>
+                </div>
+
+                <!-- Keys Table -->
+                <div class="table-wrapper rounded-xl border border-border">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Name</th>
+                                <th>Rate Limit</th>
+                                <th>Package</th>
+                                <th>Expires</th>
+                                <th>Restrictions</th>
+                                <th>Created</th>
+                                <th>Last Used</th>
+                                <th>Usage</th>
+                                <th>Enabled</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keys-tbody">
+                            <tr>
+                                <td colspan="11">
+                                    <div class="empty-state">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-3 text-sm">Loading API keys...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroll-hint">
+                    <span>Swipe</span>
+                    <span class="scroll-dot"></span>
+                    <span class="scroll-dot"></span>
+                    <span class="scroll-dot"></span>
+                    <span>scroll</span>
+                </div>
+            </div>
+
+            <!-- Tab Content: User Management -->
+            <div id="content-users" class="tab-content hidden animate-fade-in">
+                <!-- Header Bar -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-users text-primary-DEFAULT"></i>
+                        <span class="text-sm text-gray-400">Total users: <span id="users-total" class="font-bold text-white font-mono">0</span></span>
+                    </div>
+                    <button onclick="openCreateUserModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white text-black text-xs font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-plus"></i>
+                        Create User
+                    </button>
+                </div>
+
+                <!-- Users Table -->
+                <div class="table-wrapper rounded-xl border border-border">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-3 text-sm">Loading users...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroll-hint">
+                    <span>Swipe</span>
+                    <span class="scroll-dot"></span>
+                    <span class="scroll-dot"></span>
+                    <span class="scroll-dot"></span>
+                    <span>scroll</span>
+                </div>
+            </div>
+
+            <!-- Tab Content: IP Management -->
+            <div id="content-ips" class="tab-content hidden animate-fade-in">
+                <!-- IP Stats -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-ban text-error"></i> Banned IPs (<span id="banned-count">0</span>)</h3>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="ban-ip-input" class="input-field flex-1 px-4 py-2.5 text-sm font-mono" placeholder="Enter IP address...">
+                            <button onclick="banIP()" class="px-4 py-2.5 rounded-lg bg-error/20 text-error text-xs font-bold hover:bg-error/30 transition-colors border border-error/30">
+                                <i class="fas fa-ban mr-1"></i>Ban
+                            </button>
+                            <button onclick="unbanIP()" class="px-4 py-2.5 rounded-lg bg-warning/20 text-warning text-xs font-bold hover:bg-warning/30 transition-colors border border-warning/30">
+                                <i class="fas fa-check mr-1"></i>Unban
+                            </button>
+                        </div>
+                        <div id="banned-list" class="text-sm text-gray-400 max-h-48 overflow-y-auto">
+                            <p class="text-xs">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3><i class="fas fa-shield text-success"></i> Whitelist IPs (<span id="whitelist-count">0</span>)</h3>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="whitelist-ip-input" class="input-field flex-1 px-4 py-2.5 text-sm font-mono" placeholder="Enter IP to whitelist...">
+                            <button onclick="addWhitelistIP()" class="px-4 py-2.5 rounded-lg bg-success/20 text-success text-xs font-bold hover:bg-success/30 transition-colors border border-success/30">
+                                <i class="fas fa-plus mr-1"></i>Add
+                            </button>
+                        </div>
+                        <div id="whitelist-list" class="text-sm text-gray-400 max-h-48 overflow-y-auto">
+                            <p class="text-xs">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Live Notifications -->
+            <div id="content-live" class="tab-content hidden animate-fade-in">
+                <!-- Live Stats Bar -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface/50 border border-border">
+                            <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+                            <span class="text-[11px] text-gray-400">Status:</span>
+                            <span class="text-xs font-bold text-success font-mono">LIVE</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface/50 border border-border">
+                            <i class="fas fa-users text-primary-DEFAULT text-xs"></i>
+                            <span class="text-[11px] text-gray-400">IPs:</span>
+                            <span id="live-total-ips" class="text-xs font-bold text-white font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface/50 border border-border">
+                            <i class="fas fa-chart-simple text-primary-DEFAULT text-xs"></i>
+                            <span class="text-[11px] text-gray-400">Req:</span>
+                            <span id="live-total-req" class="text-xs font-bold text-white font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface/50 border border-border">
+                            <i class="fas fa-triangle-exclamation text-warning text-xs"></i>
+                            <span class="text-[11px] text-gray-400">Violations:</span>
+                            <span id="live-total-violations" class="text-xs font-bold text-warning font-mono">0</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 ml-auto">
+                        <div id="next-reset-countdown" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface/50 border border-border">
+                            <i class="fas fa-calendar-clock text-info text-xs"></i>
+                            <span class="text-[11px] text-gray-400">Next Reset:</span>
+                            <span id="reset-countdown" class="text-xs font-bold text-white font-mono">--</span>
+                        </div>
+                        <button onclick="clearNotificationFeed()" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-error/10 border border-error/30 text-error text-xs font-bold hover:bg-error/20 transition-colors">
+                            <i class="fas fa-trash-can"></i>
+                            Clear Feed
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifications Feed -->
+                <div id="live-feed" class="space-y-2 max-h-[600px] overflow-y-auto pr-1">
+                    <div class="text-center py-12">
+                        <i class="fas fa-bolt text-3xl text-gray-700 mb-3"></i>
+                        <p class="text-sm text-gray-500">Waiting for live notifications...</p>
+                        <p class="text-xs text-gray-600 mt-1">Auto-refreshes every 5 seconds</p>
+                    </div>
+                </div>
+
+                <!-- Active IPs Table -->
+                <div class="mt-6">
+                    <h3 class="text-sm font-bold text-gray-400 mb-3 flex items-center gap-2">
+                        <i class="fas fa-network-wired text-primary-DEFAULT"></i>
+                        Active IPs (Top 20)
+                    </h3>
+                    <div class="table-wrapper rounded-xl border border-border">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>IP</th>
+                                    <th>Requests</th>
+                                    <th>Violations</th>
+                                    <th>Last Path</th>
+                                    <th>Last Active</th>
+                                </tr>
+                            </thead>
+                            <tbody id="live-ips-tbody">
+                                <tr><td colspan="5"><div class="empty-state py-6"><p class="text-xs text-gray-500">No active IPs</p></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="scroll-hint">
+                        <span>Swipe</span>
+                        <span class="scroll-dot"></span>
+                        <span class="scroll-dot"></span>
+                        <span class="scroll-dot"></span>
+                        <span>scroll</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Settings -->
+            <div id="content-settings" class="tab-content hidden animate-fade-in">
+                <div class="space-y-4">
+                    <!-- Database Status Section -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-database text-primary-DEFAULT"></i> Database Status</h3>
+                        <div id="db-status-container" class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div id="db-status-dot" class="w-3 h-3 rounded-full bg-success-500"></div>
+                                <div>
+                                    <p id="db-status-text" class="text-sm font-semibold text-green-400">Online</p>
+                                    <p id="db-status-detail" class="text-xs text-gray-600 mt-0.5">JSON-based stats storage</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span id="db-type-badge" class="text-[10px] font-mono font-bold px-2 py-1 rounded bg-success/10 text-success border border-success-20">JSON</span>
+                                <span id="db-file-badge" class="text-[10px] font-mono px-2 py-1 rounded bg-surface border border-border text-success">api-stats.json</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Maintenance Mode Section -->
+                    <div class="settings-section border-l-4 border-amber-500">
+                        <h3><i class="fas fa-screwdriver-wrench text-amber-400"></i> Maintenance Mode</h3>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <label class="block font-bold mb-1">System Maintenance</label>
+                                <p class="text-xs text-gray-500">Aktifkan untuk mengubah seluruh API dan sistem menjadi mode perbaikan (Under Maintenance)</p>
+                            </div>
+                            <div>
+                                <div id="toggle-maintenance" class="toggle-switch" onclick="toggleSetting(this, 'maintenance')"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Button Section -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-comment-dots text-pink"></i> Feedback Button</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Enabled</label>
+                                <div id="toggle-feedback" class="toggle-switch" onclick="toggleSetting(this, 'feedbackButton.enabled')"></div>
+                            </div>
+                            <div>
+                                <label class="block mb-2">URL</label>
+                                <input type="text" id="setting-feedback-url" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="https://...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rate Limit Section -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-gauge-high text-primary-DEFAULT"></i> Rate Limiting</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Enabled</label>
+                                <div id="toggle-rateLimit" class="toggle-switch active" onclick="toggleSetting(this, 'rateLimit.enabled')"></div>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Max Requests (per window)</label>
+                                <input type="number" id="setting-rateLimit-maxRequests" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="500">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Window (ms) <span class="text-xs text-gray-500">86400000 = 24 jam</span></label>
+                                <input type="number" id="setting-rateLimit-windowMs" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="86400000">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Message</label>
+                                <input type="text" id="setting-rateLimit-message" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="Rate limit exceeded...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-shield-halved text-error"></i> Spam Detection</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Max Violations (sebelum ban)</label>
+                                <input type="number" id="setting-spamDetection-maxViolations" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="20">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Max Unique IPs (flood protection)</label>
+                                <input type="number" id="setting-spamDetection-maxUniqueIPs" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-fire text-warning"></i> Popular Endpoints</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Limit (jumlah top endpoints)</label>
+                                <input type="number" id="setting-popularLimit" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="50" min="10" max="200">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bell text-warning"></i> Notifications</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Enabled</label>
+                                <div id="toggle-notifications" class="toggle-switch active" onclick="toggleSetting(this, 'notifications.enabled')"></div>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Title</label>
+                                <input type="text" id="setting-notifications-title" class="input-field w-full px-4 py-2.5 text-sm" placeholder="Notification title">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block mb-2">Message</label>
+                                <textarea id="setting-notifications-message" class="input-field w-full px-4 py-2.5 text-sm resize-none" rows="3" placeholder="Notification message"></textarea>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Button Text</label>
+                                <input type="text" id="setting-notifications-buttonText" class="input-field w-full px-4 py-2.5 text-sm" placeholder="e.g. OK, MANTAP">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Source Code Text</label>
+                                <input type="text" id="setting-notifications-sourceCodeText" class="input-field w-full px-4 py-2.5 text-sm" placeholder="e.g. KUNJUNGI WEB">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block mb-2">Custom Domain (Source URL)</label>
+                                <input type="url" id="setting-notifications-sourceCodeUrl" class="input-field w-full px-4 py-2.5 text-sm font-mono" placeholder="https://example.com/">
+                                <p class="text-[10px] text-gray-600 mt-1">Destination URL for the notification button / source link</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Releases Section -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-tag text-success"></i> Releases</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <!-- Release Items List -->
+                            <div id="releases-list">
+                                <div class="text-xs text-gray-500 py-2">Loading releases...</div>
+                            </div>
+                            <!-- Add Release Button -->
+                            <div class="flex justify-center pt-1">
+                                <button onclick="openAddReleaseModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs font-bold hover:bg-white/10 transition-all">
+                                    <i class="fas fa-plus"></i>
+                                    Add Release
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Announcements Section -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bullhorn text-info"></i> Announcements</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="flex items-center justify-between">
+                                <label class="block mb-0">Enabled</label>
+                                <div class="flex items-center gap-3">
+                                    <div id="toggle-announcements" class="toggle-switch active" onclick="toggleSetting(this, 'announcements.enabled')"></div>
+                                </div>
+                            </div>
+                            <!-- Announcement Items List -->
+                            <div id="announcements-list">
+                                <div class="text-xs text-gray-500 py-2">Loading announcements...</div>
+                            </div>
+                            <!-- Add Announcement Button -->
+                            <div class="flex justify-center pt-1">
+                                <button onclick="openAddAnnouncementModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs font-bold hover:bg-white/10 transition-all">
+                                    <i class="fas fa-plus"></i>
+                                    Add Announcement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Save Button -->
+                    <div class="flex justify-end pt-2">
+                        <button onclick="saveSettings()" id="saveSettingsBtn" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                            <i class="fas fa-floppy-disk"></i>
+                            Save Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer border-t border-border mt-auto py-6">
+        <div class="flex flex-col items-center justify-center gap-1.5">
+            <div class="flex items-center justify-center gap-2">
+                <img src="/src/images/logo.jpg" alt="" style="width:16px;height:16px;border-radius:3px;object-fit:cover" onerror="this.style.display='none'">
+                <span>&copy; 2026 Zyyvor Api'S</span>
+            </div>
+            <span id="footerVer" class="font-mono text-[10px] text-gray-500"></span>
+        </div>
+    </footer>
+    </div> <!-- End #main-wrapper -->
+
+    <!-- Modal -->
+    <div id="modal" class="modal-backdrop" onclick="if(event.target===this)closeModal()">
+        <div class="modal-content" id="modal-content">
+            <!-- Dynamic content -->
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-4 z-[300] flex flex-col gap-3"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS with snappy 300ms duration
+        AOS.init({ once: true, duration: 300, offset: 15 });
+
+        // ==================== GLOBALS ====================
+        let allEndpoints = [];
+        let allKeys = [];
+        let settingsConfig = {};
+        window._releaseItems = [];
+
+        // ==================== NAV MENU ====================
+        function toggleNavMenu() {
+            document.getElementById('navMenu').classList.toggle('hidden');
+        }
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('navMenu');
+            const btn = document.querySelector('button[onclick="toggleNavMenu()"]');
+            if (menu && !menu.classList.contains('hidden')) {
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        // ==================== SIDEBAR & TAB SWITCHING ====================
+        function toggleSidebar(show) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar && overlay) {
+                if (show === undefined) {
+                    show = sidebar.classList.contains('-translate-x-full');
+                }
+                if (show) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
+                    overlay.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.remove('translate-x-0');
+                    overlay.classList.add('hidden');
+                }
+            }
+        }
+
+        // switchTabUI: only toggles visibility + saves to localStorage (no data fetch)
+        function switchTabUI(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.sidebar-btn').forEach(el => {
+                el.classList.remove('active', 'bg-white/10', 'text-white', 'border-l-2', 'border-white', 'shadow-glow');
+            });
+            const targetContent = document.getElementById(`content-${tabName}`);
+            if (targetContent) targetContent.classList.remove('hidden');
+            const activeBtn = document.getElementById(`sidebar-btn-${tabName}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'bg-white/10', 'text-white', 'border-l-2', 'border-white', 'shadow-glow');
+            }
+            localStorage.setItem('admin_active_tab', tabName);
+        }
+
+        function switchTab(tabName) {
+            // UI switch
+            switchTabUI(tabName);
+
+            // Close mobile offcanvas sidebar automatically after selecting menu item on mobile (< 768px)
+            if (window.innerWidth < 768) {
+                toggleSidebar(false);
+            }
+
+            // Stop live polling when leaving Live tab
+            if (tabName !== 'live' && typeof stopLivePolling === 'function') stopLivePolling();
+
+            // Load data for the selected tab
+            if (tabName === 'endpoints' && typeof loadEndpoints === 'function') loadEndpoints();
+            if (tabName === 'keys' && typeof loadApiKeys === 'function') loadApiKeys();
+            if (tabName === 'users' && typeof loadUsers === 'function') loadUsers();
+            if (tabName === 'ips' && typeof loadIPs === 'function') loadIPs();
+            if (tabName === 'settings' && typeof loadSettings === 'function') loadSettings();
+            if (tabName === 'live') {
+                if (typeof loadLiveFeed === 'function') loadLiveFeed();
+                if (typeof loadLiveIPs === 'function') loadLiveIPs();
+                if (typeof startLivePolling === 'function') startLivePolling();
+            }
+        }
+
+        // ==================== MODAL ====================
+        function openModal(html) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modal-content').innerHTML = html;
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+
+        // ==================== TOAST ====================
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-circle-xmark',
+                warning: 'fa-triangle-exclamation'
+            };
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <i class="fas ${icons[type] || icons.success}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // ==================== LOAD ENDPOINTS ====================
+        async function loadEndpoints() {
+            try {
+                const res = await fetch('/admin/api/endpoints');
+                if (res.status === 401) {
+                    window.location.href = '/admin/login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    allEndpoints = data.endpoints;
+                    document.getElementById('endpoint-total').textContent = data.total;
+                    renderEndpoints(allEndpoints);
+                }
+            } catch (err) {
+                console.error('Failed to load endpoints:', err);
+                showToast('Failed to load endpoints', 'error');
+            }
+        }
+
+        function renderEndpoints(endpoints) {
+            const tbody = document.getElementById('endpoints-tbody');
+            document.getElementById('endpoint-filtered').textContent = endpoints.length;
+
+            if (endpoints.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <i class="fas fa-ghost"></i>
+                                <p class="font-medium">No endpoints found</p>
+                                <p class="text-sm mt-1">Try a different search term</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = endpoints.map(ep => {
+                const methods = (ep.methods || [ep.method] || []).map(m => {
+                    const cls = `m-${m.toLowerCase()}`;
+                    return `<span class="method-badge ${cls}">${m}</span>`;
+                }).join(' ');
+
+                const statusColors = {
+                    online: 'color: #22C55E',
+                    offline: 'color: #EF4444',
+                    maintenance: 'color: #F59E0B',
+                    premium: 'color: #8B5CF6',
+                    vip: 'color: #FACC15'
+                };
+
+                return `
+                    <tr>
+                        <td>
+                            <code class="text-xs font-mono text-primary-DEFAULT bg-primary-dim px-2 py-1 rounded">${escapeHtml(ep.route)}</code>
+                        </td>
+                        <td class="font-semibold text-white text-xs">${escapeHtml(ep.name || '-')}</td>
+                        <td>
+                            <span class="text-xs px-2 py-1 rounded bg-surface border border-border text-gray-400">${escapeHtml(ep.category || '-')}</span>
+                        </td>
+                        <td>${methods}</td>
+                        <td>
+                            ${currentRole === 'superadmin' ? `
+                            <select
+                                class="status-select"
+                                style="${statusColors[ep.status] || statusColors.online}"
+                                onchange="updateEndpointStatus('${escapeHtml(ep.route)}', this.value, this)"
+                            >
+                                <option value="online" ${ep.status === 'online' ? 'selected' : ''} style="color: #22C55E">online</option>
+                                <option value="offline" ${ep.status === 'offline' ? 'selected' : ''} style="color: #EF4444">offline</option>
+                                <option value="maintenance" ${ep.status === 'maintenance' ? 'selected' : ''} style="color: #F59E0B">maintenance</option>
+                                <option value="premium" ${ep.status === 'premium' ? 'selected' : ''} style="color: #8B5CF6">premium</option>
+                                <option value="vip" ${ep.status === 'vip' ? 'selected' : ''} style="color: #FACC15">vip</option>
+                            </select>
+                            ` : `
+                            <span class="status-badge" style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:4px;background:${statusColors[ep.status]?.replace('color:', '').trim()}20;color:${statusColors[ep.status]?.replace('color:', '').trim()};border:1px solid ${statusColors[ep.status]?.replace('color:', '').trim()}40">${ep.status}</span>
+                            `}
+                        </td>
+                        <td>
+                            <a href="${escapeHtml(ep.route)}" target="_blank" class="action-btn" title="Open endpoint">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterEndpoints() {
+            const query = document.getElementById('endpoint-search').value.toLowerCase().trim();
+            if (!query) {
+                renderEndpoints(allEndpoints);
+                return;
+            }
+            const filtered = allEndpoints.filter(ep =>
+                (ep.route || '').toLowerCase().includes(query) ||
+                (ep.name || '').toLowerCase().includes(query) ||
+                (ep.category || '').toLowerCase().includes(query)
+            );
+            renderEndpoints(filtered);
+        }
+
+        // ==================== UPDATE ENDPOINT STATUS ====================
+        async function updateEndpointStatus(route, status, selectEl) {
+            try {
+                const res = await fetch('/admin/api/endpoints/status', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ route, status })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`${route} set to ${status}`);
+                    // Update local data
+                    const ep = allEndpoints.find(e => e.route === route);
+                    if (ep) ep.status = status;
+                    // Update select color
+                    const colors = { online: '#22C55E', offline: '#EF4444', maintenance: '#F59E0B', premium: '#8B5CF6', vip: '#FACC15' };
+                    selectEl.style.color = colors[status] || colors.online;
+                } else {
+                    showToast(data.error || 'Failed to update', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        // ==================== LOAD API KEYS ====================
+        async function loadApiKeys() {
+            try {
+                const res = await fetch('/admin/api/keys');
+                if (res.status === 401) {
+                    window.location.href = '/admin/login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    allKeys = data.keys;
+                    document.getElementById('keys-total').textContent = data.total;
+                    renderKeys(allKeys);
+                }
+            } catch (err) {
+                console.error('Failed to load API keys:', err);
+                showToast('Failed to load API keys', 'error');
+            }
+        }
+
+        function renderKeys(keys) {
+            const tbody = document.getElementById('keys-tbody');
+
+            if (keys.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="11">
+                                    <div class="empty-state">
+                                        <i class="fas fa-key"></i>
+                                        <p class="font-medium">No API keys found</p>
+                                        <p class="text-sm mt-1">Generate a new key to get started</p>
+                                    </div>
+                                </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = keys.map(k => {
+                const created = k.createdAt ? new Date(k.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-';
+                const lastUsed = k.lastUsed ? new Date(k.lastUsed).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Never';
+
+                const rl = k.rateLimit || {};
+                const rateLimitLabel = `D:${rl.maxPerDay ?? '∞'} M:${rl.maxPerMinute ?? '∞'}`;
+
+                const pkgType = k.package?.type || k.role || '';
+                let pkgBadge = '';
+                if (pkgType === 'vip') {
+                    pkgBadge = '<span class="text-[10px] font-mono text-yellow-400 bg-yellow-400/10 px-2 py-0.5 rounded border border-yellow-400/20">VIP</span>';
+                } else if (pkgType === 'premium') {
+                    pkgBadge = '<span class="text-[10px] font-mono text-purple-400 bg-purple-400/10 px-2 py-0.5 rounded border border-purple-400/20">Premium</span>';
+                } else {
+                    pkgBadge = '<span class="text-[10px] font-mono text-gray-500">—</span>';
+                }
+
+                let expiresBadge = '';
+                if (k.expiresAt) {
+                    const expDate = new Date(k.expiresAt);
+                    const now = Date.now();
+                    const daysLeft = Math.ceil((expDate.getTime() - now) / 86400000);
+                    if (daysLeft <= 0) {
+                        expiresBadge = '<span class="text-[10px] font-mono text-red-400 bg-red-400/10 px-2 py-0.5 rounded border border-red-400/20">Expired</span>';
+                    } else if (daysLeft <= 3) {
+                        expiresBadge = `<span class="text-[10px] font-mono text-yellow-400 bg-yellow-400/10 px-2 py-0.5 rounded border border-yellow-400/20" title="${k.expiresAt}">${daysLeft}d</span>`;
+                    } else {
+                        expiresBadge = `<span class="text-[10px] font-mono text-gray-400 bg-gray-400/10 px-2 py-0.5 rounded border border-gray-400/20" title="${k.expiresAt}">${daysLeft}d</span>`;
+                    }
+                } else {
+                    expiresBadge = '<span class="text-[10px] font-mono text-success bg-success/10 px-2 py-0.5 rounded border border-success/20">Lifetime</span>';
+                }
+
+                const eps = k.allowedEndpoints && k.allowedEndpoints.length ? k.allowedEndpoints.join(', ') : null;
+                const sts = k.allowedStatuses && k.allowedStatuses.length ? k.allowedStatuses.join(', ') : null;
+                const restrictionsBadge = sts
+                    ? '<span class="text-[10px] font-mono text-gray-300 bg-white/5 px-2 py-0.5 rounded border border-white/10" title="Restrictions">' + escapeHtml(sts) + '</span>'
+                    : (eps ? '<span class="text-[10px] font-mono text-gray-300 bg-white/5 px-2 py-0.5 rounded border border-white/10" title="Restrictions">' + escapeHtml(eps) + '</span>' : '<span class="text-[10px] font-mono text-gray-600">—</span>');
+
+                return `
+                    <tr>
+                        <td>
+                            <code class="text-xs font-mono text-primary-DEFAULT bg-primary-dim px-2 py-1 rounded">${escapeHtml(k.key)}</code>
+                        </td>
+                        <td class="font-semibold text-white text-xs">${escapeHtml(k.name || '-')}</td>
+                        <td>
+                            <span class="text-[10px] font-mono text-info bg-info/10 px-2 py-1 rounded border border-info/20 whitespace-nowrap" title="Day/Minute limits">${rateLimitLabel}</span>
+                        </td>
+                        <td>${pkgBadge}</td>
+                        <td>${expiresBadge}</td>
+                        <td>${restrictionsBadge}</td>
+                        <td class="text-xs text-gray-400">${created}</td>
+                        <td class="text-xs text-gray-400">${lastUsed}</td>
+                        <td class="text-xs font-mono text-white">${k.usageCount || 0}</td>
+                        <td>
+                            <div class="toggle-switch ${k.enabled ? 'active' : ''}" onclick="toggleApiKey('${escapeHtml(k._key)}', ${!k.enabled}, this)"></div>
+                        </td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <button class="action-btn" onclick="editKeyRateLimits('${escapeHtml(k._key)}')" title="Edit">
+                                    <i class="fas fa-gauge-high"></i>
+                                </button>
+                                <button class="action-btn danger" onclick="deleteApiKey('${escapeHtml(k._key)}')" title="Delete key">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==================== GENERATE API KEY ====================
+        function openGenerateModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-key text-primary-DEFAULT"></i>
+                        Generate New API Key
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Key Name</label>
+                    <input type="text" id="modal-key-name" class="input-field w-full px-4 py-3 text-sm" placeholder="e.g. Production Server">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+                        Custom Key Value <span class="text-gray-500 normal-case font-normal">(optional, auto-generate jika kosong)</span>
+                    </label>
+                    <input type="text" id="modal-key-custom" class="input-field w-full px-4 py-3 text-sm font-mono" placeholder="e.g. my-custom-key-123" minlength="3">
+                    <p class="text-[10px] text-gray-500 mt-1.5"><i class="fas fa-info-circle"></i> Min. 3 karakter. Harus unique.</p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Package</label>
+                    <select id="modal-key-pkg" class="input-field w-full px-4 py-3 text-sm font-mono">
+                        <option value="premium">Premium</option>
+                        <option value="vip">VIP</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Expired</label>
+                    <select id="modal-key-expired" class="input-field w-full px-4 py-3 text-sm font-mono">
+                        <option value="lifetime">Lifetime</option>
+                        <option value="3">3 Days</option>
+                        <option value="7">7 Days</option>
+                        <option value="14">14 Days</option>
+                        <option value="30">30 Days</option>
+                    </select>
+                        <p class="text-[10px] text-gray-600 mt-1.5"><i class="fas fa-info-circle"></i> Lifetime = tiada expiration.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-3 mb-5">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Per Minute</label>
+                        <input type="number" id="modal-key-min" class="input-field w-full px-3 py-2.5 text-sm" value="60" min="1">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Per Day</label>
+                        <input type="number" id="modal-key-day" class="input-field w-full px-3 py-2.5 text-sm" value="1000" min="1">
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <h4 class="text-xs font-bold text-info uppercase tracking-widest mb-3"><i class="fas fa-route mr-1.5"></i>Endpoint Restrictions</h4>
+                    <input type="text" id="modal-gen-endpoints" class="input-field w-full px-4 py-3 text-sm font-mono"
+                        placeholder="e.g. /api/am/*, /api/ai/*">
+                    <p class="text-[10px] text-gray-600 mt-1.5"><i class="fas fa-info-circle"></i> Comma-separated. Kosong = semua. Support wildcard *</p>
+                </div>
+                <div class="mb-5">
+                    <h4 class="text-xs font-bold text-info uppercase tracking-widest mb-3"><i class="fas fa-shield-halved mr-1.5"></i>Status Restrictions</h4>
+                    <div class="flex flex-wrap gap-2" id="modal-gen-statuses">
+                        <label class="flex items-center gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-lg border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+                            <input type="checkbox" value="premium" class="accent-purple-500"> Premium
+                        </label>
+                        <label class="flex items-center gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-lg border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+                            <input type="checkbox" value="vip" class="accent-yellow-500"> VIP
+                        </label>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="generateApiKey()" class="px-5 py-2.5 rounded-lg bg-primary-DEFAULT text-white text-sm font-bold hover:bg-primary-hover transition-all shadow-glow">
+                        <i class="fas fa-plus mr-2"></i>Generate
+                    </button>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('modal-key-name')?.focus(), 100);
+        }
+
+        async function generateApiKey() {
+            const nameInput = document.getElementById('modal-key-name');
+            const name = nameInput?.value?.trim();
+            if (!name) {
+                showToast('Please enter a key name', 'warning');
+                return;
+            }
+
+            const customKey = document.getElementById('modal-key-custom')?.value?.trim() || null;
+            if (customKey && customKey.length < 3) {
+                showToast('Custom key must be at least 3 characters', 'warning');
+                return;
+            }
+            const maxPerMinute = parseInt(document.getElementById('modal-key-min')?.value) || 60;
+            const maxPerDay = parseInt(document.getElementById('modal-key-day')?.value) || 1000;
+            const pkgType = document.getElementById('modal-key-pkg')?.value || 'premium';
+            const expiredVal = document.getElementById('modal-key-expired')?.value || 'lifetime';
+
+            const genEndpointsRaw = document.getElementById('modal-gen-endpoints')?.value?.trim();
+            const allowedEndpoints = genEndpointsRaw ? genEndpointsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+            const genStatusCheckboxes = document.querySelectorAll('#modal-gen-statuses input[type=checkbox]:checked');
+            const allowedStatuses = Array.from(genStatusCheckboxes).map(cb => cb.value);
+
+            // Show loading state
+            const generateBtn = document.querySelector('#modal-content button:last-child');
+            if (generateBtn) {
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<div class="loading-spinner"></div> Generating...';
+            }
+
+            try {
+                let expiresDate = null;
+                if (expiredVal && expiredVal !== 'lifetime') {
+                    const days = parseInt(expiredVal);
+                    if (days > 0) {
+                        expiresDate = new Date(Date.now() + days * 86400000).toISOString();
+                    }
+                }
+
+                const packageData = { type: pkgType, expired: expiresDate };
+
+                const payload = {
+                    name,
+                    customKey: customKey || undefined,
+                    package: packageData,
+                    rateLimit: { maxPerDay, maxPerMinute },
+                    allowedEndpoints: allowedEndpoints.length ? allowedEndpoints : null,
+                    allowedStatuses: allowedStatuses.length ? allowedStatuses : null,
+                };
+                const res = await fetch('/admin/api/keys', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const fullKey = data.key.key;
+                    document.getElementById('modal-content').innerHTML = `
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-2xl bg-success/10 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-check-circle text-3xl text-success"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-1">API Key Generated</h3>
+                            <p class="text-sm text-gray-400 mb-5">Copy your API key now. You won't be able to see it again!</p>
+                            <div class="relative mb-6">
+                                <code id="generated-key-display" class="block w-full bg-surface border border-border rounded-xl px-4 py-4 text-xs font-mono text-primary-DEFAULT text-left break-all select-all">${escapeHtml(fullKey)}</code>
+                                <button onclick="copyGeneratedKey()" id="copy-key-btn" class="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-lg bg-primary-DEFAULT/20 text-primary-DEFAULT hover:bg-primary-DEFAULT/40 transition-colors" title="Copy key">
+                                    <i class="fas fa-copy text-sm"></i>
+                                </button>
+                            </div>
+                            <div class="flex justify-center gap-3">
+                                <button onclick="closeModal(); loadApiKeys();" class="px-6 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                                    <i class="fas fa-check mr-2"></i>Done
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    showToast('API key generated successfully');
+                } else {
+                    showToast(data.error || 'Failed to generate key', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        // Copy generated key to clipboard
+        function copyGeneratedKey() {
+            const keyEl = document.getElementById('generated-key-display');
+            if (!keyEl) return;
+            const keyText = keyEl.textContent.trim();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(keyText).then(() => {
+                    const btn = document.getElementById('copy-key-btn');
+                    if (btn) {
+                        btn.innerHTML = '<i class="fas fa-check text-success"></i>';
+                        setTimeout(() => {
+                            btn.innerHTML = '<i class="fas fa-copy text-sm"></i>';
+                        }, 2000);
+                    }
+                    showToast('API key copied to clipboard');
+                }).catch(() => {
+                    fallbackCopy(keyText);
+                });
+            } else {
+                fallbackCopy(keyText);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('API key copied to clipboard');
+            } catch (e) {
+                showToast('Failed to copy. Please select and copy manually.', 'warning');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // ==================== TOGGLE API KEY ====================
+        async function toggleApiKey(key, enabled, toggleEl) {
+            try {
+                const res = await fetch(`/admin/api/keys/${encodeURIComponent(key)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enabled })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    toggleEl.classList.toggle('active');
+                    showToast(`Key ${enabled ? 'enabled' : 'disabled'}`);
+                } else {
+                    showToast(data.error || 'Failed to update key', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        // ==================== DELETE API KEY ====================
+        async function deleteApiKey(key) {
+            openModal(`
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-error/10 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-triangle-exclamation text-2xl text-error"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Delete API Key?</h3>
+                    <p class="text-sm text-gray-400 mb-6">This action cannot be undone. The key will be permanently removed.</p>
+                    <div class="flex justify-center gap-3">
+                        <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                            Cancel
+                        </button>
+                        <button onclick="confirmDeleteKey('${escapeHtml(key)}')" class="px-5 py-2.5 rounded-lg bg-error text-white text-sm font-bold hover:bg-red-600 transition-colors shadow-lg shadow-error/25">
+                            <i class="fas fa-trash mr-2"></i>Delete
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function confirmDeleteKey(key) {
+            try {
+                const res = await fetch(`/admin/api/keys/${encodeURIComponent(key)}`, {
+                    method: 'DELETE'
+                });
+                if (!res.ok) {
+                    const text = await res.text();
+                    console.error('DELETE failed:', res.status, text);
+                    showToast(text?.includes('Key not found') ? 'Key not found - it may have already been deleted' : `Error: ${res.status}`, 'error');
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('API key deleted');
+                    loadApiKeys();
+                } else {
+                    showToast(data.error || 'Failed to delete key', 'error');
+                }
+            } catch (err) {
+                console.error('Delete API key error:', err);
+                showToast('Network error: ' + err.message, 'error');
+            }
+        }
+
+        // ==================== EDIT KEY RATE LIMITS ====================
+        async function editKeyRateLimits(key) {
+            const k = allKeys.find(kk => kk._key === key);
+            if (!k) return;
+            const rl = k.rateLimit || {};
+            const kExp = k.expiresAt ? new Date(k.expiresAt) : null;
+            const remainingDays = kExp ? Math.ceil((kExp.getTime() - Date.now()) / 86400000) : null;
+            const edExp = (!kExp || remainingDays <= 0) ? 'lifetime'
+                : (remainingDays <= 3 ? '3' : remainingDays <= 7 ? '7' : remainingDays <= 14 ? '14' : remainingDays <= 30 ? '30' : 'lifetime');
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-gauge-high text-primary-DEFAULT"></i>
+                        Edit Key Settings
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="space-y-5 mb-6">
+                    <div class="pb-4 border-b border-border/50">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Key Name</label>
+                        <input type="text" id="modal-edit-name" class="input-field w-full px-4 py-3 text-sm" value="${escapeHtml(k.name || '')}">
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-info uppercase tracking-widest mb-3"><i class="fas fa-tag mr-1.5"></i>Package</h4>
+                        <select id="modal-edit-pkg" class="input-field w-full px-4 py-3 text-sm font-mono">
+                            <option value="premium"${(k.package?.type || k.role) === 'premium' ? ' selected' : ''}>Premium</option>
+                            <option value="vip"${(k.package?.type || k.role) === 'vip' ? ' selected' : ''}>VIP</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-info uppercase tracking-widest mb-3"><i class="fas fa-clock mr-1.5"></i>Expired</h4>
+                        <select id="modal-edit-expired" class="input-field w-full px-4 py-3 text-sm font-mono">
+                            <option value="lifetime"${edExp === 'lifetime' ? ' selected' : ''}>Lifetime</option>
+                            <option value="3"${edExp === '3' ? ' selected' : ''}>3 Days</option>
+                            <option value="7"${edExp === '7' ? ' selected' : ''}>7 Days</option>
+                            <option value="14"${edExp === '14' ? ' selected' : ''}>14 Days</option>
+                            <option value="30"${edExp === '30' ? ' selected' : ''}>30 Days</option>
+                        </select>
+                        <p class="text-[10px] text-gray-600 mt-1.5"><i class="fas fa-info-circle"></i> Lifetime = tiada expiration.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-info uppercase tracking-widest mb-3"><i class="fas fa-gauge-high mr-1.5"></i>Rate Limits (0 = unlimited)</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Per Day</label>
+                                <input type="number" id="modal-rl-day" class="input-field w-full px-3 py-2.5 text-sm font-mono" value="${escapeHtml(rl.maxPerDay ?? 0)}" min="0" placeholder="0">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">Per Minute</label>
+                                <input type="number" id="modal-rl-minute" class="input-field w-full px-3 py-2.5 text-sm font-mono" value="${escapeHtml(rl.maxPerMinute ?? 0)}" min="0" placeholder="0">
+                            </div>
+                            </div>
+                        <p class="text-[10px] text-gray-600 mt-2">Set to 0 for unlimited on any tier</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-info uppercase tracking-widest mb-3"><i class="fas fa-route mr-1.5"></i>Endpoint Restrictions</h4>
+                        <input type="text" id="modal-edit-endpoints" class="input-field w-full px-4 py-3 text-sm font-mono"
+                            value="${k.allowedEndpoints && Array.isArray(k.allowedEndpoints) ? escapeHtml(k.allowedEndpoints.join(', ')) : ''}"
+                            placeholder="e.g. /api/am/*, /api/ai/*">
+                        <p class="text-[10px] text-gray-600 mt-1.5"><i class="fas fa-info-circle"></i> Comma-separated. Kosong = semua. Support wildcard *</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-info uppercase tracking-widest mb-3"><i class="fas fa-shield-halved mr-1.5"></i>Status Restrictions</h4>
+                        <div class="flex flex-wrap gap-2" id="modal-edit-statuses">
+                            <label class="flex items-center gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-lg border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+                                <input type="checkbox" value="premium" class="accent-purple-500" ${k.allowedStatuses && k.allowedStatuses.includes('premium') ? 'checked' : ''}> Premium
+                            </label>
+                            <label class="flex items-center gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-lg border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+                                <input type="checkbox" value="vip" class="accent-yellow-500" ${k.allowedStatuses && k.allowedStatuses.includes('vip') ? 'checked' : ''}> VIP
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="confirmKeySettings('${escapeHtml(key)}')" class="px-5 py-2.5 rounded-lg bg-primary-DEFAULT text-white text-sm font-bold hover:bg-primary-hover transition-all shadow-glow">
+                        <i class="fas fa-check mr-2"></i>Save
+                    </button>
+                </div>
+            `);
+            setTimeout(() => {
+                const input = document.getElementById('modal-edit-name');
+                if (input) { input.focus(); input.select(); }
+            }, 100);
+        }
+
+        async function confirmKeySettings(key) {
+            const name = document.getElementById('modal-edit-name')?.value?.trim();
+            const pkgType = document.getElementById('modal-edit-pkg')?.value || 'premium';
+            const expiredVal = document.getElementById('modal-edit-expired')?.value || 'lifetime';
+            const maxPerDay = parseInt(document.getElementById('modal-rl-day')?.value) || 0;
+            const maxPerMinute = parseInt(document.getElementById('modal-rl-minute')?.value) || 0;
+
+            const editEndpointsRaw = document.getElementById('modal-edit-endpoints')?.value?.trim();
+            const editAllowedEndpoints = editEndpointsRaw ? editEndpointsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+            const editStatusCheckboxes = document.querySelectorAll('#modal-edit-statuses input[type=checkbox]:checked');
+            const editAllowedStatuses = Array.from(editStatusCheckboxes).map(cb => cb.value);
+
+            let expiresDate = null;
+            if (expiredVal && expiredVal !== 'lifetime') {
+                const days = parseInt(expiredVal);
+                if (days > 0) {
+                    expiresDate = new Date(Date.now() + days * 86400000).toISOString();
+                }
+            }
+
+            const payload = {
+                name: name || 'Unnamed',
+                package: { type: pkgType, expired: expiresDate },
+                rateLimit: { maxPerDay, maxPerMinute },
+                allowedEndpoints: editAllowedEndpoints.length ? editAllowedEndpoints : null,
+                allowedStatuses: editAllowedStatuses.length ? editAllowedStatuses : null
+            };
+
+            try {
+                const res = await fetch(`/admin/api/keys/${encodeURIComponent(key)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('Key settings updated');
+                    loadApiKeys();
+                } else {
+                    showToast(data.error || 'Failed to update', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        // ==================== LOAD SETTINGS ====================
+        async function loadSettings() {
+            try {
+                const res = await fetch('/admin/api/settings');
+                if (res.status === 401) {
+                    window.location.href = '/admin/login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    settingsConfig = data.config;
+                    populateSettings(settingsConfig, data.dbStatus, data.totalEndpoints);
+                } else {
+                    showError('settings', data.error || 'Unknown error');
+                }
+            } catch (err) {
+                console.error('Failed to load settings:', err);
+                showError('settings', err.message);
+                showToast('Failed to load settings', 'error');
+            }
+        }
+
+        function showError(section, msg) {
+            ['releases-list', 'announcements-list'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.innerHTML.includes('Loading')) {
+                    el.innerHTML = '<div class="text-center py-6 text-gray-500"><i class="fas fa-exclamation-triangle text-xl text-error mb-2"></i><p class="text-xs">Failed to load: ' + escapeHtml(msg) + '</p></div>';
+                }
+            });
+        }
+
+        function populateSettings(config, dbStatus, totalEndpoints) {
+            // Database Status
+            if (dbStatus) {
+                const dot = document.getElementById('db-status-dot');
+                const text = document.getElementById('db-status-text');
+                const detail = document.getElementById('db-status-detail');
+                const fileBadge = document.getElementById('db-file-badge');
+
+                if (dbStatus.connected) {
+                    dot.className = 'w-3 h-3 rounded-full bg-success';
+                    text.className = 'text-sm font-semibold text-success';
+                    text.textContent = dbStatus.message || 'SQLite database terhubung';
+                } else {
+                    dot.className = 'w-3 h-3 rounded-full bg-error';
+                    text.className = 'text-sm font-semibold text-error';
+                    text.textContent = dbStatus.message || 'SQLite database tidak tersedia';
+                }
+                if (dbStatus.file) {
+                    fileBadge.textContent = dbStatus.file;
+                }
+                if (dbStatus.type) {
+                    document.getElementById('db-type-badge').textContent = dbStatus.type;
+                }
+                detail.textContent = dbStatus.connected ? 'Stats API tersimpan secara lokal' : 'Stats fallback ke JSON file';
+            } else {
+                // Fallback if no dbStatus
+                document.getElementById('db-status-dot').className = 'w-3 h-3 rounded-full bg-warning';
+                document.getElementById('db-status-text').className = 'text-sm font-semibold text-warning';
+                document.getElementById('db-status-text').textContent = 'Status tidak diketahui';
+                document.getElementById('db-status-detail').textContent = 'Gagal memuat status database';
+            }
+
+            // Rate Limit
+            const rl = config.rateLimit || {};
+            setToggle('toggle-rateLimit', rl.enabled !== false);
+            setInput('setting-rateLimit-maxRequests', rl.maxRequests || 500);
+            setInput('setting-rateLimit-windowMs', rl.windowMs || 86400000);
+            setInput('setting-rateLimit-message', rl.message || 'Rate limit exceeded - your IP has been blocked.');
+
+            // Spam Detection
+            const sd = config.spamDetection || {};
+            setInput('setting-spamDetection-maxViolations', sd.maxViolations || 20);
+            setInput('setting-spamDetection-maxUniqueIPs', sd.maxUniqueIPs || 100);
+
+            // Popular Endpoints
+            const popularLimitInput = document.getElementById('setting-popularLimit');
+            popularLimitInput.value = config.popularLimit || 50;
+            if (totalEndpoints) popularLimitInput.max = totalEndpoints;
+
+            // Notifications
+            const notif = config.notifications || {};
+            setToggle('toggle-notifications', notif.enabled === true);
+            setInput('setting-notifications-title', notif.title || '');
+            setInput('setting-notifications-message', notif.message || '');
+            setInput('setting-notifications-buttonText', notif.buttonText || '');
+            setInput('setting-notifications-sourceCodeText', notif.sourceCodeText || '');
+            setInput('setting-notifications-sourceCodeUrl', notif.sourceCodeUrl || '');
+
+            // Releases
+            renderReleases(config.releases || []);
+
+            // Announcements
+            const ann = config.announcements || {};
+            setToggle('toggle-announcements', ann.enabled === true);
+            renderAnnouncements(ann.items || []);
+
+            // Maintenance Mode
+            setToggle('toggle-maintenance', config.maintenance === true);
+
+            // Feedback
+            const fb = config.feedbackButton || {};
+            setToggle('toggle-feedback', fb.enabled === true);
+            setInput('setting-feedback-url', fb.url || '');
+        }
+
+        function setToggle(id, active) {
+            const el = document.getElementById(id);
+            if (el) {
+                if (active) el.classList.add('active');
+                else el.classList.remove('active');
+            }
+        }
+
+        function setInput(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.value = value;
+        }
+
+        function toggleSetting(el, path) {
+            el.classList.toggle('active');
+        }
+
+        function getToggleValue(id) {
+            return document.getElementById(id)?.classList.contains('active') || false;
+        }
+
+        // ==================== RELEASES MANAGEMENT ====================
+        function renderReleases(items) {
+            window._releaseItems = items || [];
+            const container = document.getElementById('releases-list');
+            if (!container) return;
+
+            if (!items || items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-6 text-gray-500">
+                        <i class="fas fa-tag text-2xl text-gray-700 mb-2"></i>
+                        <p class="text-xs">No releases yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map((item, idx) => `
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-surface/50 border border-border group hover:bg-primary-DEFAULT/[0.03] transition-colors">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-white truncate">${escapeHtml(item.version || 'Untitled')}</span>
+                            <span class="text-[10px] text-gray-500 font-mono whitespace-nowrap">${escapeHtml(item.date || '')}</span>
+                        </div>
+                        <p class="text-xs text-gray-400 line-clamp-2">${escapeHtml(item.changelog ? (Array.isArray(item.changelog) ? item.changelog.join(', ') : item.changelog) : '')}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-shrink-0 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onclick="openEditReleaseModal(${idx})" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-primary-DEFAULT/10 text-gray-500 hover:text-primary-DEFAULT transition-colors" title="Edit">
+                            <i class="fas fa-pen text-xs"></i>
+                        </button>
+                        <button onclick="deleteRelease(${idx})" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-error/10 text-gray-500 hover:text-error transition-colors" title="Delete">
+                            <i class="fas fa-trash text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAddReleaseModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-tag text-success"></i>
+                        Add Release <span class="text-xs font-normal text-gray-500 ml-2">Latest v${window._releaseItems[0]?.version || '—'}</span>
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Version</label>
+                        <input type="text" id="modal-rel-version" class="input-field w-full px-4 py-3 text-sm font-mono" placeholder="e.g. 1.8.0">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Date</label>
+                        <input type="text" id="modal-rel-date" class="input-field w-full px-4 py-3 text-sm font-mono" placeholder="e.g. May 23, 2026">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Changelog (one per line)</label>
+                        <textarea id="modal-rel-changelog" class="input-field w-full px-4 py-3 text-sm font-mono resize-none" rows="4" placeholder="- Fixed bug XYZ&#10;- Added new feature ABC&#10;- Updated dependencies"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="saveReleaseItem(-1)" class="px-5 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-plus mr-2"></i>Add
+                    </button>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('modal-rel-version')?.focus(), 100);
+        }
+
+        function openEditReleaseModal(index) {
+            const item = window._releaseItems[index];
+            if (!item) return;
+            const changelog = Array.isArray(item.changelog) ? item.changelog.join('\n') : (item.changelog || '');
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-pen text-success"></i>
+                        Edit Release — <span class="text-yellow-400">v${escapeHtml(item.version)}</span>
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Version</label>
+                        <input type="text" id="modal-rel-version" class="input-field w-full px-4 py-3 text-sm font-mono" value="${escapeHtml(item.version || '')}" placeholder="e.g. 1.8.0">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Date</label>
+                        <input type="text" id="modal-rel-date" class="input-field w-full px-4 py-3 text-sm font-mono" value="${escapeHtml(item.date || '')}" placeholder="e.g. May 23, 2026">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Changelog (one per line)</label>
+                        <textarea id="modal-rel-changelog" class="input-field w-full px-4 py-3 text-sm font-mono resize-none" rows="4" placeholder="- Fixed bug XYZ&#10;- Added new feature ABC">${escapeHtml(changelog)}</textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="saveReleaseItem(${index})" class="px-5 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-check mr-2"></i>Save
+                    </button>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('modal-rel-version')?.focus(), 100);
+        }
+
+        async function saveReleaseItem(index) {
+            const version = document.getElementById('modal-rel-version')?.value?.trim();
+            const date = document.getElementById('modal-rel-date')?.value?.trim();
+            const changelogRaw = document.getElementById('modal-rel-changelog')?.value?.trim();
+
+            if (!version) {
+                showToast('Version is required', 'warning');
+                return;
+            }
+
+            const changelog = changelogRaw ? changelogRaw.split('\n').map(l => l.trim()).filter(Boolean) : [];
+            const item = { version, date: date || '', changelog };
+
+            if (index === -1) {
+                window._releaseItems.unshift(item);
+            } else {
+                window._releaseItems[index] = item;
+            }
+
+            renderReleases(window._releaseItems);
+            closeModal();
+            const saved = await saveReleaseOnly();
+            showToast(index === -1 ? (saved ? 'Release added' : 'Gagal menyimpan') : (saved ? 'Release updated' : 'Gagal menyimpan'), saved ? 'success' : 'error');
+        }
+
+        function deleteRelease(index) {
+            const item = window._releaseItems[index];
+            if (!item) return;
+
+            openModal(`
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-error/10 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-triangle-exclamation text-2xl text-error"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Delete Release?</h3>
+                    <p class="text-sm text-gray-400 mb-2">"${escapeHtml(item.version)}"</p>
+                    <p class="text-sm text-gray-400 mb-6">This action cannot be undone.</p>
+                    <div class="flex justify-center gap-3">
+                        <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                            Cancel
+                        </button>
+                        <button onclick="confirmDeleteRelease(${index})" class="px-5 py-2.5 rounded-lg bg-error text-white text-sm font-bold hover:bg-red-600 transition-colors shadow-lg shadow-error/25">
+                            <i class="fas fa-trash mr-2"></i>Delete
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function confirmDeleteRelease(index) {
+            window._releaseItems.splice(index, 1);
+            renderReleases(window._releaseItems);
+            closeModal();
+            const saved = await saveReleaseOnly();
+            showToast(saved ? 'Release deleted' : 'Gagal menyimpan perubahan', saved ? 'success' : 'error');
+        }
+
+        // ==================== AUTO-SAVE RELEASES TO SERVER ====================
+        async function saveReleaseOnly() {
+            try {
+                const res = await fetch('/admin/api/settings');
+                const resData = await res.json();
+                const config = resData.config || {};
+                const payload = {
+                    ...config,
+                    releases: window._releaseItems || [],
+                    announcements: {
+                        ...(config.announcements || {}),
+                        enabled: getToggleValue('toggle-announcements'),
+                        items: window._announcementItems || []
+                    }
+                };
+                const saveRes = await fetch('/admin/api/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ config: payload })
+                });
+                const data = await saveRes.json();
+                return data.success === true;
+            } catch (err) {
+                console.error('Auto-save release error:', err);
+                return false;
+            }
+        }
+
+        // ==================== ANNOUNCEMENTS MANAGEMENT ====================
+        window._announcementItems = [];
+
+        function renderAnnouncements(items) {
+            window._announcementItems = items || [];
+            const container = document.getElementById('announcements-list');
+            if (!container) return;
+
+            if (!items || items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-6 text-gray-500">
+                        <i class="fas fa-bullhorn text-2xl text-gray-700 mb-2"></i>
+                        <p class="text-xs">No announcements yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map((item, idx) => `
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-surface/50 border border-border group hover:bg-primary-DEFAULT/[0.03] transition-colors">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold text-white truncate">${escapeHtml(item.title || 'Untitled')}</span>
+                            ${item.releaseVersion ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-900/30 text-purple-400 border border-purple-500/20 font-mono whitespace-nowrap">v${escapeHtml(item.releaseVersion)}</span>` : ''}
+                            <span class="text-[10px] text-gray-500 font-mono whitespace-nowrap">${escapeHtml(item.date || '')}</span>
+                        </div>
+                        <p class="text-xs text-gray-400 line-clamp-2">${escapeHtml(item.description || '')}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-shrink-0 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onclick="openEditAnnouncementModal(${idx})" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-primary-DEFAULT/10 text-gray-500 hover:text-primary-DEFAULT transition-colors" title="Edit">
+                            <i class="fas fa-pen text-xs"></i>
+                        </button>
+                        <button onclick="deleteAnnouncement(${idx})" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-error/10 text-gray-500 hover:text-error transition-colors" title="Delete">
+                            <i class="fas fa-trash text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAddAnnouncementModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-bullhorn text-info"></i>
+                        Add Announcement
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Title</label>
+                        <input type="text" id="modal-ann-title" class="input-field w-full px-4 py-3 text-sm" placeholder="e.g. New Feature Released">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Linked to Release</label>
+                        <select id="modal-ann-release" class="input-field w-full px-4 py-3 text-sm font-mono">
+                            <option value="">— None (standalone) —</option>
+                            ${window._releaseItems.map(r => `<option value="${escapeHtml(r.version)}">v${escapeHtml(r.version)} — ${escapeHtml(r.date || '')}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Description</label>
+                        <textarea id="modal-ann-description" class="input-field w-full px-4 py-3 text-sm resize-none" rows="3" placeholder="Describe the announcement..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Date</label>
+                        <input type="text" id="modal-ann-date" class="input-field w-full px-4 py-3 text-sm font-mono" placeholder="e.g. May 23, 2026">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="saveAnnouncement(-1)" class="px-5 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-plus mr-2"></i>Add
+                    </button>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('modal-ann-title')?.focus(), 100);
+        }
+
+        function openEditAnnouncementModal(index) {
+            const item = window._announcementItems[index];
+            if (!item) return;
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-pen text-info"></i>
+                        Edit Announcement
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Title</label>
+                        <input type="text" id="modal-ann-title" class="input-field w-full px-4 py-3 text-sm" value="${escapeHtml(item.title || '')}" placeholder="e.g. New Feature Released">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Linked to Release</label>
+                        <select id="modal-ann-release" class="input-field w-full px-4 py-3 text-sm font-mono">
+                            <option value="">— None (standalone) —</option>
+                            ${window._releaseItems.map(r => `<option value="${escapeHtml(r.version)}" ${r.version === item.releaseVersion ? 'selected' : ''}>v${escapeHtml(r.version)} — ${escapeHtml(r.date || '')}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Description</label>
+                        <textarea id="modal-ann-description" class="input-field w-full px-4 py-3 text-sm resize-none" rows="3" placeholder="Describe the announcement...">${escapeHtml(item.description || '')}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Date</label>
+                        <input type="text" id="modal-ann-date" class="input-field w-full px-4 py-3 text-sm font-mono" value="${escapeHtml(item.date || '')}" placeholder="e.g. May 23, 2026">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="saveAnnouncement(${index})" class="px-5 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-check mr-2"></i>Save
+                    </button>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('modal-ann-title')?.focus(), 100);
+        }
+
+        async function saveAnnouncement(index) {
+            const title = document.getElementById('modal-ann-title')?.value?.trim();
+            const description = document.getElementById('modal-ann-description')?.value?.trim();
+            const date = document.getElementById('modal-ann-date')?.value?.trim();
+            const releaseVersion = document.getElementById('modal-ann-release')?.value?.trim() || '';
+
+            if (!title) {
+                showToast('Title is required', 'warning');
+                return;
+            }
+
+            const item = { title, description: description || '', date: date || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), releaseVersion };
+
+            if (index === -1) {
+                // Add new (taro di atas)
+                window._announcementItems.unshift(item);
+            } else {
+                // Update existing
+                window._announcementItems[index] = item;
+            }
+
+            renderAnnouncements(window._announcementItems);
+            closeModal();
+            const saved = await saveAnnouncementOnly();
+            showToast(index === -1 ? (saved ? 'Announcement added' : 'Gagal menyimpan') : (saved ? 'Announcement updated' : 'Gagal menyimpan'), saved ? 'success' : 'error');
+        }
+
+        function deleteAnnouncement(index) {
+            const item = window._announcementItems[index];
+            if (!item) return;
+
+            openModal(`
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-error/10 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-triangle-exclamation text-2xl text-error"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Delete Announcement?</h3>
+                    <p class="text-sm text-gray-400 mb-2">"${escapeHtml(item.title)}"</p>
+                    <p class="text-sm text-gray-400 mb-6">This action cannot be undone.</p>
+                    <div class="flex justify-center gap-3">
+                        <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                            Cancel
+                        </button>
+                        <button onclick="confirmDeleteAnnouncement(${index})" class="px-5 py-2.5 rounded-lg bg-error text-white text-sm font-bold hover:bg-red-600 transition-colors shadow-lg shadow-error/25">
+                            <i class="fas fa-trash mr-2"></i>Delete
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function confirmDeleteAnnouncement(index) {
+            window._announcementItems.splice(index, 1);
+            renderAnnouncements(window._announcementItems);
+            closeModal();
+            const saved = await saveAnnouncementOnly();
+            showToast(saved ? 'Announcement deleted' : 'Gagal menyimpan perubahan', saved ? 'success' : 'error');
+        }
+
+        // ==================== AUTO-SAVE ANNOUNCEMENTS TO SERVER ====================
+        async function saveAnnouncementOnly() {
+            try {
+                const res = await fetch('/admin/api/settings');
+                const resData = await res.json();
+                const config = resData.config || {};
+                const payload = {
+                    ...config,
+                    announcements: {
+                        ...(config.announcements || {}),
+                        enabled: getToggleValue('toggle-announcements'),
+                        items: window._announcementItems || []
+                    }
+                };
+                const saveRes = await fetch('/admin/api/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ config: payload })
+                });
+                const data = await saveRes.json();
+                return data.success === true;
+            } catch (err) {
+                console.error('Auto-save announcement error:', err);
+                return false;
+            }
+        }
+
+        // ==================== SAVE SETTINGS ====================
+        async function saveSettings() {
+            const btn = document.getElementById('saveSettingsBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading-spinner"></div> Saving...';
+
+            const config = {
+                ...settingsConfig,
+                maintenance: getToggleValue('toggle-maintenance'),
+                rateLimit: {
+                    ...(settingsConfig.rateLimit || {}),
+                    enabled: getToggleValue('toggle-rateLimit'),
+                    maxRequests: parseInt(document.getElementById('setting-rateLimit-maxRequests')?.value) || 500,
+                    windowMs: parseInt(document.getElementById('setting-rateLimit-windowMs')?.value) || 86400000,
+                    message: document.getElementById('setting-rateLimit-message')?.value || 'Rate limit exceeded - your IP has been blocked.'
+                },
+                spamDetection: {
+                    ...(settingsConfig.spamDetection || {}),
+                    maxViolations: parseInt(document.getElementById('setting-spamDetection-maxViolations')?.value) || 20,
+                    maxUniqueIPs: parseInt(document.getElementById('setting-spamDetection-maxUniqueIPs')?.value) || 100
+                },
+                popularLimit: parseInt(document.getElementById('setting-popularLimit')?.value) || 50,
+                notifications: {
+                    ...(settingsConfig.notifications || {}),
+                    enabled: getToggleValue('toggle-notifications'),
+                    title: document.getElementById('setting-notifications-title')?.value || '',
+                    message: document.getElementById('setting-notifications-message')?.value || '',
+                    buttonText: document.getElementById('setting-notifications-buttonText')?.value || '',
+                    sourceCodeText: document.getElementById('setting-notifications-sourceCodeText')?.value || '',
+                    sourceCodeUrl: document.getElementById('setting-notifications-sourceCodeUrl')?.value || ''
+                },
+                releases: window._releaseItems || [],
+                announcements: {
+                    ...(settingsConfig.announcements || {}),
+                    enabled: getToggleValue('toggle-announcements'),
+                    items: window._announcementItems || []
+                },
+                feedbackButton: {
+                    ...(settingsConfig.feedbackButton || {}),
+                    enabled: getToggleValue('toggle-feedback'),
+                    url: document.getElementById('setting-feedback-url')?.value || ''
+                }
+            };
+
+            try {
+                const res = await fetch('/admin/api/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ config })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    settingsConfig = config;
+                    showToast('Settings saved successfully');
+                } else {
+                    showToast(data.error || 'Failed to save settings', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-floppy-disk"></i> Save Settings';
+            }
+        }
+
+        // ==================== USER MANAGEMENT ====================
+        async function loadUsers() {
+            try {
+                const res = await fetch('/admin/api/users');
+                if (res.status === 401) {
+                    window.location.href = '/admin/login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('users-total').textContent = data.total;
+                    renderUsers(data.users);
+                }
+            } catch (err) {
+                console.error('Failed to load users:', err);
+                showToast('Failed to load users', 'error');
+            }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('users-tbody');
+
+            if (users.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <i class="fas fa-users-slash"></i>
+                                <p class="font-medium">No users found</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = users.map(u => {
+                const created = u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-';
+                const updated = u.updatedAt ? new Date(u.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-';
+
+                const isSelf = u.username === currentUser;
+                const isSuperadminTarget = u.role === 'superadmin';
+                const canManage = currentRole === 'superadmin' || !isSuperadminTarget;
+
+                const roleColors = {
+                    superadmin: '#8b5cf6',
+                    admin: '#6366f1'
+                };
+
+                return `
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-DEFAULT to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                                    ${u.username.charAt(0).toUpperCase()}
+                                </div>
+                                <span class="font-semibold text-white text-sm">${escapeHtml(u.username)}</span>
+                                ${isSelf ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-primary-DEFAULT/20 text-primary-DEFAULT border border-primary-DEFAULT/30">You</span>' : ''}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="text-xs px-2 py-1 rounded font-bold" style="background: ${roleColors[u.role] || '#6366f1'}20; color: ${roleColors[u.role] || '#6366f1'}; border: 1px solid ${roleColors[u.role] || '#6366f1'}30;">
+                                ${escapeHtml(u.role)}
+                            </span>
+                        </td>
+                        <td class="text-xs text-gray-400">${created}</td>
+                        <td class="text-xs text-gray-400">${updated}</td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                ${!isSelf && canManage ? `
+                                <button class="action-btn" onclick="openEditUserModal('${escapeHtml(u.username)}', '${escapeHtml(u.role)}')" title="Edit user">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                                ` : `
+                                <span class="text-xs text-gray-500 italic">Protected</span>
+                                `}
+                                ${!isSelf && canManage ? `
+                                <button class="action-btn danger" onclick="openDeleteUserModal('${escapeHtml(u.username)}')" title="Delete user">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openCreateUserModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-user-plus text-primary-DEFAULT"></i>
+                        Create Admin User
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Username</label>
+                        <input type="text" id="modal-user-username" class="input-field w-full px-4 py-3 text-sm font-mono" placeholder="e.g. admin2" minlength="3" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Password</label>
+                        <input type="password" id="modal-user-password" class="input-field w-full px-4 py-3 text-sm font-mono" placeholder="Min. 6 characters" minlength="6" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Role</label>
+                        <select id="modal-user-role" class="input-field w-full px-4 py-3 text-sm">
+                            <option value="admin">Admin</option>
+                            ${currentRole === 'superadmin' ? '<option value="superadmin">Super Admin</option>' : ''}
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="createUser()" class="px-5 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-plus mr-2"></i>Create
+                    </button>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('modal-user-username')?.focus(), 100);
+        }
+
+        async function createUser() {
+            const username = document.getElementById('modal-user-username')?.value?.trim();
+            const password = document.getElementById('modal-user-password')?.value;
+            const role = document.getElementById('modal-user-role')?.value || 'admin';
+
+            if (!username || !password) {
+                showToast('Username and password required', 'warning');
+                return;
+            }
+            if (username.length < 3) {
+                showToast('Username must be at least 3 characters', 'warning');
+                return;
+            }
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters', 'warning');
+                return;
+            }
+
+            try {
+                const res = await fetch('/admin/api/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, role })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('User created successfully');
+                    loadUsers();
+                } else {
+                    showToast(data.error || 'Failed to create user', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        function openEditUserModal(username, userRole) {
+            openModal(`
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-user-edit text-primary-DEFAULT"></i>
+                        Edit User: ${escapeHtml(username)}
+                    </h3>
+                    <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">New Password (leave blank to keep)</label>
+                        <input type="password" id="modal-edit-password" class="input-field w-full px-4 py-3 text-sm font-mono" placeholder="Min. 6 characters if changing">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Role</label>
+                        <select id="modal-edit-role" class="input-field w-full px-4 py-3 text-sm">
+                            ${!(currentRole === 'superadmin' && userRole === 'superadmin') ? `<option value="admin" ${userRole === 'admin' ? 'selected' : ''}>Admin</option>` : ''}
+                            ${currentRole === 'superadmin' ? `<option value="superadmin" ${userRole === 'superadmin' ? 'selected' : ''}>Super Admin</option>` : ''}
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="editUser('${escapeHtml(username)}')" class="px-5 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-all">
+                        <i class="fas fa-check mr-2"></i>Save
+                    </button>
+                </div>
+            `);
+        }
+
+        async function editUser(username) {
+            const password = document.getElementById('modal-edit-password')?.value;
+            const role = document.getElementById('modal-edit-role')?.value;
+
+            const body = {};
+            if (password) body.password = password;
+            if (role) body.role = role;
+
+            if (!body.password && !body.role) {
+                showToast('No changes to save', 'warning');
+                return;
+            }
+
+            try {
+                const res = await fetch(`/admin/api/users/${encodeURIComponent(username)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('User updated successfully');
+                    loadUsers();
+                } else {
+                    showToast(data.error || 'Failed to update user', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        function openDeleteUserModal(username) {
+            openModal(`
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-error/10 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-triangle-exclamation text-2xl text-error"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Delete User?</h3>
+                    <p class="text-sm text-gray-400 mb-6">Are you sure you want to delete <strong class="text-white">${escapeHtml(username)}</strong>? This action cannot be undone.</p>
+                    <div class="flex justify-center gap-3">
+                        <button onclick="closeModal()" class="px-5 py-2.5 rounded-lg bg-surface border border-border text-sm font-semibold text-gray-400 hover:text-white hover:border-white/30 transition-colors">
+                            Cancel
+                        </button>
+                        <button onclick="confirmDeleteUser('${escapeHtml(username)}')" class="px-5 py-2.5 rounded-lg bg-error text-white text-sm font-bold hover:bg-red-600 transition-colors shadow-lg shadow-error/25">
+                            <i class="fas fa-trash mr-2"></i>Delete
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function confirmDeleteUser(username) {
+            try {
+                const res = await fetch(`/admin/api/users/${encodeURIComponent(username)}`, {
+                    method: 'DELETE'
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('User deleted');
+                    loadUsers();
+                } else {
+                    showToast(data.error || 'Failed to delete user', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        // ==================== IP MANAGEMENT ====================
+        async function loadIPs() {
+            try {
+                const res = await fetch('/admin/api/ips');
+                if (res.status === 401) {
+                    window.location.href = '/admin/login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    renderIPs(data.banned, data.whitelist);
+                }
+            } catch (err) {
+                console.error('Failed to load IPs:', err);
+                showToast('Failed to load IP data', 'error');
+            }
+        }
+
+        function renderIPs(banned, whitelist) {
+            // Banned
+            document.getElementById('banned-count').textContent = banned.count || 0;
+            const bannedList = document.getElementById('banned-list');
+            if (banned.ips && banned.ips.length > 0) {
+                bannedList.innerHTML = banned.ips.map(ip => `
+                    <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/5 transition-colors border-b border-border/50 last:border-0">
+                        <code class="text-xs font-mono text-error">${escapeHtml(ip)}</code>
+                        <button onclick="unbanSpecificIP('${escapeHtml(ip)}')" class="text-xs text-gray-500 hover:text-error transition-colors" title="Unban">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                bannedList.innerHTML = '<p class="text-xs text-gray-500 py-2">No banned IPs</p>';
+            }
+
+            // Whitelist
+            document.getElementById('whitelist-count').textContent = whitelist.count || 0;
+            const whitelistEl = document.getElementById('whitelist-list');
+            if (whitelist.ips && whitelist.ips.length > 0) {
+                whitelistEl.innerHTML = whitelist.ips.map(ip => `
+                    <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/5 transition-colors border-b border-border/50 last:border-0">
+                        <code class="text-xs font-mono text-success">${escapeHtml(ip)}</code>
+                        <button onclick="removeWhitelistIP('${escapeHtml(ip)}')" class="text-xs text-gray-500 hover:text-error transition-colors" title="Remove">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                whitelistEl.innerHTML = '<p class="text-xs text-gray-500 py-2">No whitelisted IPs</p>';
+            }
+        }
+
+        async function banIP() {
+            const ip = document.getElementById('ban-ip-input')?.value?.trim();
+            if (!ip) { showToast('Enter an IP address to ban', 'warning'); return; }
+            try {
+                const res = await fetch('/admin/api/ips/ban', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('ban-ip-input').value = '';
+                    showToast(`IP ${ip} banned`, 'success');
+                    loadIPs();
+                } else {
+                    showToast(data.error || 'Failed to ban', 'error');
+                }
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function unbanIP() {
+            const ip = document.getElementById('ban-ip-input')?.value?.trim();
+            if (!ip) {
+                showToast('Enter an IP address to unban', 'warning');
+                return;
+            }
+            try {
+                const res = await fetch('/admin/api/ips/unban', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('ban-ip-input').value = '';
+                    showToast(`IP ${ip} unbanned`);
+                    loadIPs();
+                } else {
+                    showToast(data.error || 'Failed to unban', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        async function unbanSpecificIP(ip) {
+            try {
+                const res = await fetch('/admin/api/ips/unban', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`IP ${ip} unbanned`);
+                    loadIPs();
+                } else {
+                    showToast(data.error || 'Failed to unban', 'error');
+                }
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function addWhitelistIP() {
+            const ip = document.getElementById('whitelist-ip-input')?.value?.trim();
+            if (!ip) {
+                showToast('Enter an IP address to whitelist', 'warning');
+                return;
+            }
+            try {
+                const res = await fetch('/admin/api/ips/whitelist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('whitelist-ip-input').value = '';
+                    showToast(`IP ${ip} added to whitelist`);
+                    loadIPs();
+                } else {
+                    showToast(data.error || 'Failed to whitelist', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        async function removeWhitelistIP(ip) {
+            try {
+                const res = await fetch(`/admin/api/ips/whitelist/${encodeURIComponent(ip)}`, {
+                    method: 'DELETE'
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`IP ${ip} removed from whitelist`);
+                    loadIPs();
+                } else {
+                    showToast(data.error || 'Failed to remove', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        // ==================== LIVE NOTIFICATIONS ====================
+        let livePollInterval = null;
+
+        async function loadLiveFeed() {
+            try {
+                const res = await fetch('/admin/api/notifications/feed');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (data.success) {
+                    renderLiveFeed(data.notifications);
+                }
+            } catch (err) {
+                console.error('Live feed error:', err);
+            }
+        }
+
+        function renderLiveFeed(notifications) {
+            const feed = document.getElementById('live-feed');
+            if (!feed) return;
+
+            if (!notifications || notifications.length === 0) {
+                feed.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-check-circle text-2xl text-gray-700 mb-2"></i>
+                        <p class="text-sm text-gray-500">No recent notifications</p>
+                        <p class="text-xs text-gray-600 mt-1">Waiting for incoming requests...</p>
+                    </div>
+                `;
+                return;
+            }
+
+            feed.innerHTML = notifications.slice().reverse().slice(0, 50).map(n => {
+                const time = n.timestamp ? timeAgo(n.timestamp) : '';
+                const sevColors = {
+                    critical: 'border-l-error bg-error/5',
+                    warning: 'border-l-warning bg-warning/5',
+                    info: 'border-l-primary-DEFAULT bg-primary-dim'
+                };
+                const sevClass = sevColors[n.severity] || sevColors.info;
+
+                const typeIcons = {
+                    spam: 'fa-shield-halved text-error',
+                    violation: 'fa-triangle-exclamation text-warning',
+                    ban: 'fa-ban text-error',
+                    unban: 'fa-check text-success',
+                    lock: 'fa-lock text-error',
+                    unlock: 'fa-unlock text-success',
+                    stats: 'fa-chart-simple text-info',
+                    request: 'fa-arrow-right text-primary-DEFAULT'
+                };
+                const iconInfo = typeIcons[n.type] || 'fa-bell text-gray-400';
+                const [iconClass, iconColor] = iconInfo.split(' ');
+
+                return `
+                    <div class="flex items-start gap-3 p-3 rounded-xl border border-border/50 ${sevClass} border-l-4 transition-all hover:bg-white/[0.02]">
+                        <div class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${iconClass} ${iconColor} text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-xs font-bold text-white capitalize">${escapeHtml(n.type)}</span>
+                                ${n.ip ? '<code class="text-[10px] font-mono text-gray-400 bg-surface px-1.5 py-0.5 rounded">' + escapeHtml(n.ip) + '</code>' : ''}
+                                <span class="text-[10px] text-gray-600 ml-auto">${time}</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">${escapeHtml(n.message || '')}</p>
+                            ${n.path ? '<code class="text-[10px] font-mono text-primary-DEFAULT/60 mt-1 block">' + escapeHtml(n.method || '') + ' ' + escapeHtml(n.path) + '</code>' : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadLiveIPs() {
+            try {
+                const res = await fetch('/admin/api/requests/stats');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('live-total-ips').textContent = data.totalIPs || 0;
+                    document.getElementById('live-total-req').textContent = data.totalRequests || 0;
+                    document.getElementById('live-total-violations').textContent = data.totalViolations || 0;
+                    renderLiveIPs(data.ips || []);
+                }
+            } catch (err) {
+                console.error('Live IPs error:', err);
+            }
+        }
+
+        function renderLiveIPs(ips) {
+            const tbody = document.getElementById('live-ips-tbody');
+            if (!tbody) return;
+
+            if (!ips || ips.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state py-6"><p class="text-xs text-gray-500">No active IPs</p></div></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = ips.map(ip => {
+                const lastActive = ip.lastRequest ? timeAgo(ip.lastRequest) : '-';
+                const violationClass = ip.violations > 0 ? 'text-warning' : 'text-gray-400';
+                return `
+                    <tr>
+                        <td><code class="text-xs font-mono text-primary-DEFAULT bg-primary-dim px-2 py-1 rounded">${escapeHtml(ip.ip)}</code></td>
+                        <td class="text-xs font-mono text-white">${ip.totalRequests || 0}</td>
+                        <td class="text-xs font-mono ${violationClass}">${ip.violations || 0}</td>
+                        <td class="text-xs text-gray-400 max-w-[200px] truncate">${escapeHtml(ip.lastPath || '-')}</td>
+                        <td class="text-xs text-gray-500">${lastActive}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function startLivePolling() {
+            stopLivePolling();
+            livePollInterval = setInterval(() => {
+                loadLiveFeed();
+                loadLiveIPs();
+                updateResetCountdown();
+            }, 5000);
+        }
+
+        function stopLivePolling() {
+            if (livePollInterval) {
+                clearInterval(livePollInterval);
+                livePollInterval = null;
+            }
+        }
+
+        async function clearNotificationFeed() {
+            try {
+                const res = await fetch('/admin/api/notifications/feed', { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Notification feed cleared');
+                    loadLiveFeed();
+                } else {
+                    showToast(data.error || 'Failed to clear', 'error');
+                }
+            } catch (err) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        function updateResetCountdown() {
+            const now = new Date();
+            const wib = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+            let targetYear = wib.getUTCFullYear();
+            let targetMonth = wib.getUTCMonth();
+            if (wib.getUTCDate() >= 1 && wib.getUTCHours() >= 0) {
+                targetMonth++;
+                if (targetMonth > 11) { targetMonth = 0; targetYear++; }
+            }
+            const target = new Date(Date.UTC(targetYear, targetMonth, 1, 17, 0, 0));
+            const diff = target - now;
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins = Math.floor((diff % 3600000) / 60000);
+            const el = document.getElementById('reset-countdown');
+            if (!el) return;
+            const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            const targetLabel = monthNames[targetMonth] + ' 1, ' + targetYear;
+            if (days > 0) el.textContent = targetLabel + ' (' + days + 'd ' + hours + 'h)';
+            else if (hours > 0) el.textContent = targetLabel + ' (' + hours + 'h ' + mins + 'm)';
+            else el.textContent = targetLabel + ' (reset soon)';
+        }
+        updateResetCountdown();
+
+        function timeAgo(timestamp) {
+            const now = Date.now();
+            const diff = now - timestamp;
+            const seconds = Math.floor(diff / 1000);
+            if (seconds < 10) return 'just now';
+            if (seconds < 60) return seconds + 's ago';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return minutes + 'm ago';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + 'h ago';
+            const days = Math.floor(hours / 24);
+            return days + 'd ago';
+        }
+
+        // ==================== LOGOUT ====================
+        async function logout() {
+            try {
+                await fetch('/admin/api/logout', { method: 'POST' });
+            } catch (err) {
+                // ignore
+            }
+            window.location.href = '/admin/login';
+        }
+
+        // ==================== HELPERS ====================
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ==================== CURRENT USER ====================
+        let currentUser = '';
+        let currentRole = '';
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth using /admin/api/me (session check)
+            try {
+                const res = await fetch('/admin/api/me');
+                if (res.status === 401) {
+                    window.location.href = '/admin/login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    currentUser = data.user.username;
+                    currentRole = data.user.role;
+                    document.getElementById('user-greeting').textContent = `Logged in as ${data.user.username}`;
+                    
+                    // Restore last active tab FIRST (show correct tab UI immediately)
+                    const savedTab = localStorage.getItem('admin_active_tab');
+                    const validTabs = ['endpoints', 'keys', 'users', 'ips', 'settings', 'live'];
+                    const activeTab = (savedTab && validTabs.includes(savedTab)) ? savedTab : 'endpoints';
+                    switchTabUI(activeTab);
+
+                    // Load data for the active tab on refresh
+                    await switchTab(activeTab);
+
+                    // Now set init done flag so sidebar clicks will re-fetch
+                    window._dashboardInitDone = true;
+                } else {
+                    window.location.href = '/admin/login';
+                }
+            } catch (err) {
+                console.error('Auth check failed:', err);
+                window.location.href = '/admin/login';
+            }
+
+            // Version from configuration
+            try {
+                const cfg = await fetch('/configuration');
+                const cfgData = await cfg.json();
+                if (cfgData.releases?.[0]?.version) {
+                    const v = 'v' + cfgData.releases[0].version;
+                    document.getElementById('footerVer').textContent = v;
+                }
+            } catch {}
+        });
+    </script>
+</body>
+</html>

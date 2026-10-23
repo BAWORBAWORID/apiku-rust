@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 — Server Error | Zyyvor API</title>
+    <meta name="description" content="Something went wrong on our end. The server encountered an internal error.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://api.zyvor.my.id/">
+    <link rel="icon" href="/src/images/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/src/images/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <style>
+        /* Token disamakan dengan public/index.html (tema paper krem) */
+        :root {
+            --bg-paper: #f7f1e5;
+            --line-color: #e5d8c5;
+            --text-main: #2b2b2b;
+            --text-sub: #665f55;
+            --text-muted: #8c8275;
+            --accent-red: #8b2626;
+            --card-white: #faf8f5;
+            --card-yellow: #fceea7;
+            --border-color: #e0d5c1;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-paper);
+            background-image: linear-gradient(var(--line-color) 1px, transparent 1px);
+            background-size: 100% 28px;
+            color: var(--text-main);
+            font-family: var(--sans);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* tekstur titik halus, sama seperti halaman lain */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(43, 43, 43, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 3rem 2.5rem;
+            max-width: 520px;
+            width: 100%;
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(43, 43, 43, 0.06), 0 8px 24px rgba(43, 43, 43, 0.05);
+        }
+
+        .error-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-red);
+            background: rgba(139, 38, 38, 0.06);
+            border: 1px dashed rgba(139, 38, 38, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+        }
+
+        .error-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .error-number {
+            font-family: var(--sans);
+            font-size: clamp(5rem, 16vw, 8.5rem);
+            font-weight: 800;
+            line-height: 0.9;
+            color: rgba(139, 38, 38, 0.2);
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            user-select: none;
+        }
+
+        .server-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--text-sub);
+            background: var(--bg-paper);
+            border: 1px dashed var(--border-color);
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .server-tag .dot-red {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .error-title {
+            font-family: var(--sans);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .error-desc {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--accent-red);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #6d1d1d;
+        }
+
+        .btn-secondary {
+            background: var(--card-white);
+            color: var(--text-sub);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--card-yellow);
+            color: var(--text-main);
+            border-color: var(--text-main);
+        }
+
+        .meta-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .meta-info .time {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--text-sub);
+        }
+
+        .meta-info .error-id {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        .meta-info .support-link {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 0.5rem;
+        }
+
+        .meta-info .support-link a {
+            color: var(--accent-red);
+            text-decoration: none;
+        }
+
+        .meta-info .support-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-note {
+            margin-top: 2rem;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 2rem 1.25rem; }
+            .actions { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 240px; }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="error-badge">
+            <span class="dot"></span>
+            Error 500
+        </div>
+        <div class="error-number">500</div>
+        <div class="server-tag">
+            <span class="dot-red"></span>
+            atlantic-server
+        </div>
+        <h1 class="error-title">Server Error</h1>
+        <p class="error-desc">Terjadi kesalahan pada server. Tim teknis telah diberitahu dan sedang memperbaiki masalah ini.</p>
+        <div class="actions">
+            <button onclick="window.location.reload()" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                Coba Lagi
+            </button>
+            <a href="/" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Kembali
+            </a>
+        </div>
+        <div class="meta-info">
+            <div class="time"><span id="server-time">--:--:--</span> WIB</div>
+            <div class="error-id">Error ID: <span id="error-id">500-ATL-000000</span></div>
+            <div class="support-link">Butuh bantuan? <a href="mailto:support@api.zyvor.my.id">support@api.zyvor.my.id</a></div>
+        </div>
+        <div class="footer-note">&copy; 2026-2027 Zyyvor Api'S. All rights reserved. &mdash; v<span id="v"></span></div>
+    </div>
+
+    <script>
+        function updateServerTime() {
+            const now = new Date();
+            document.getElementById('server-time').textContent = now.toLocaleTimeString('id-ID', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+        updateServerTime();
+        setInterval(updateServerTime, 1000);
+
+        function generateErrorId() {
+            const chars = '0123456789ABCDEF';
+            let id = '500-ATL-';
+            for (let i = 0; i < 6; i++) id += chars[Math.floor(Math.random() * 16)];
+            document.getElementById('error-id').textContent = id;
+        }
+        generateErrorId();
+
+        (async function() {
+            try {
+                const r = await fetch('/configuration');
+                const c = await r.json();
+                if (c.releases?.[0]?.version) document.getElementById('v').textContent = c.releases[0].version;
+            } catch(e) {}
+        })();
+    </script>
+</body>
+</html>

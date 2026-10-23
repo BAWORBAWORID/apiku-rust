@@ -1,0 +1,28 @@
+{
+  "name": "Zyyvor Api'S — Free REST API Platform",
+  "short_name": "Zyyvor",
+  "description": "Free REST API platform with 400++ endpoints: AI chat, image processing, media downloaders, payment tools, games, and developer utilities. No API key required.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#3b82f6",
+  "lang": "en-US",
+  "orientation": "any",
+  "categories": ["developer tools", "api", "utilities", "programming"],
+  "icons": [
+    {
+      "src": "/src/images/logo.jpg",
+      "sizes": "1200x1200",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/images/logo.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

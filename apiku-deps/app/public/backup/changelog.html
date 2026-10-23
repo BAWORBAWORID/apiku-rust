@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlwaysCodex Api'S - Changelog</title>
+    <meta name="description" content="Release notes and changelog for AlwaysCodex API">
+    <meta name="keywords" content="Changelog, Release Notes, Updates, API Version">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="/src/images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/src/images/icon.png">
+    <link rel="shortcut icon" href="/src/images/icon.png">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#030712',
+                        surface: '#111827',
+                        border: '#1f2937',
+                        primary: { DEFAULT: '#6366f1', hover: '#4f46e5', dim: 'rgba(99, 102, 241, 0.1)', glow: 'rgba(99, 102, 241, 0.5)' },
+                        success: '#10b981', warning: '#f59e0b', error: '#ef4444', info: '#3b82f6',
+                        pink: '#ec4899', purple: '#8b5cf6', cyan: '#06b6d4'
+                    },
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-out forwards', 'slide-down': 'slideDown 0.2s ease-out forwards' },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        slideDown: { '0%': { opacity: '0', transform: 'translateY(-10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #030712; color: #f3f4f6; min-height: 100vh; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
+        .bg-grid { background-image: linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+        .glow { box-shadow: 0 0 60px rgba(99,102,241,0.15); }
+        .version-badge { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2)); border: 1px solid rgba(99,102,241,0.3); }
+    </style>
+</head>
+<body class="bg-grid">
+    <div class="min-h-screen max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-12" data-aos="fade-down">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-DEFAULT/10 border border-primary-DEFAULT/30 text-primary text-sm mb-4">
+                <i class="fas fa-code-branch"></i>
+                <span id="versionLabel">Loading...</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-3">
+                <span class="bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">Changelog</span>
+            </h1>
+            <p class="text-gray-400 text-lg">Track every update, improvement, and fix</p>
+        </div>
+
+        <div id="timeline" class="relative"></div>
+
+        <div id="loading" class="text-center py-20">
+            <div class="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-gray-400 mt-4">Loading changelog...</p>
+        </div>
+
+        <div id="error" class="hidden text-center py-20">
+            <i class="fas fa-exclamation-triangle text-4xl text-error mb-4"></i>
+            <p class="text-gray-400">Failed to load changelog</p>
+        </div>
+
+        <div class="text-center mt-12" data-aos="fade-up">
+            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-DEFAULT/10 border border-primary-DEFAULT/30 text-primary hover:bg-primary-DEFAULT/20 transition-all">
+                <i class="fas fa-arrow-left text-sm"></i>
+                Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true });
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function getIcon(type) {
+            const icons = {
+                added: { icon: 'fas fa-plus-circle', color: 'text-success' },
+                fixed: { icon: 'fas fa-bug', color: 'text-error' },
+                improved: { icon: 'fas fa-arrow-up', color: 'text-info' },
+                removed: { icon: 'fas fa-trash', color: 'text-warning' },
+                security: { icon: 'fas fa-shield-alt', color: 'text-pink' },
+                feature: { icon: 'fas fa-star', color: 'text-purple' }
+            };
+            for (const [key, val] of Object.entries(icons)) {
+                if (type.toLowerCase().includes(key)) return val;
+            }
+            return { icon: 'fas fa-code', color: 'text-primary' };
+        }
+
+        async function loadChangelog() {
+            try {
+                const res = await fetch('/configuration');
+                const config = await res.json();
+
+                document.getElementById('versionLabel').textContent = `v${config.release.version} — ${config.release.date || ''}`;
+
+                const items = config.announcements?.items || [];
+                const timeline = document.getElementById('timeline');
+                const loading = document.getElementById('loading');
+
+                loading.remove();
+
+                // ===== MAJOR RELEASE (paling atas, prominent) =====
+                const release = config.release;
+                if (release?.changelog?.length) {
+                    const div = document.createElement('div');
+                    div.className = 'relative pl-8 pb-10';
+                    div.setAttribute('data-aos', 'fade-up');
+
+                    div.innerHTML = `
+                        <div class="absolute -left-3.5 top-0 w-7 h-7 rounded-full bg-gradient-to-br from-purple-600 to-primary-DEFAULT border-2 border-purple-400 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.4)]">
+                            <i class="fas fa-tag text-xs text-white"></i>
+                        </div>
+                        <div class="bg-gradient-to-br from-surface/90 via-surface/80 to-purple-900/10 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30 hover:border-purple-400/60 transition-all shadow-[0_0_40px_rgba(99,102,241,0.1)]">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="px-3 py-1 rounded-full bg-gradient-to-r from-primary-DEFAULT to-purple-600 text-white text-xs font-black tracking-wider">NEW RELEASE</span>
+                                <div class="h-px flex-1 bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+                            </div>
+                            <div class="flex items-start justify-between gap-4 flex-wrap">
+                                <h3 class="text-lg font-black text-white tracking-tight flex items-center gap-2">
+                                    <i class="fas fa-rocket text-purple-400"></i>
+                                    Release v${release.version}
+                                </h3>
+                                <span class="text-xs text-gray-500 whitespace-nowrap font-mono">${formatDate(release.date)}</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1 mb-3">Major update with the following changes:</p>
+                            <ul class="space-y-2">
+                                ${release.changelog.map(item => `
+                                    <li class="flex items-start gap-3 text-sm text-gray-300 bg-white/[0.02] rounded-lg p-2.5 border border-white/5 hover:bg-white/[0.04] transition">
+                                        <span class="w-5 h-5 rounded-full bg-primary-dim border border-primary-DEFAULT/20 flex items-center justify-center shrink-0 mt-0.5">
+                                            <i class="fas fa-check text-[8px] text-primary-DEFAULT"></i>
+                                        </span>
+                                        <span>${item}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    timeline.appendChild(div);
+                }
+
+                // ===== REGULAR UPDATES (dibalik, terbaru di atas) =====
+                if (!items.length) {
+                    const emptyDiv = document.createElement('div');
+                    emptyDiv.className = 'text-center py-12 border border-dashed border-border rounded-xl bg-surface/30';
+                    emptyDiv.setAttribute('data-aos', 'fade-up');
+                    emptyDiv.innerHTML = '<p class="text-gray-500"><i class="fas fa-bell-slash text-2xl mb-2 block"></i>No updates yet.</p>';
+                    timeline.appendChild(emptyDiv);
+                } else {
+                    items.forEach((item, index) => {
+                        const div = document.createElement('div');
+                        div.className = 'relative pl-8 pb-8 border-l-2 border-primary-DEFAULT/20';
+                        div.setAttribute('data-aos', 'fade-up');
+                        div.setAttribute('data-aos-delay', ((index + 1) * 80).toString());
+
+                        const icon = getIcon(item.title);
+
+                        div.innerHTML = `
+                            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-surface border-2 border-primary flex items-center justify-center">
+                                <i class="${icon.icon} text-xs ${icon.color}"></i>
+                            </div>
+                            <div class="bg-surface/80 backdrop-blur-sm rounded-xl p-5 border border-border hover:border-primary-DEFAULT/40 transition-all glow">
+                                <div class="flex items-start justify-between gap-4 flex-wrap">
+                                    <h3 class="text-base font-semibold text-white">${item.title}</h3>
+                                    <span class="text-xs text-gray-500 whitespace-nowrap font-mono">${formatDate(item.date)}</span>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-2 leading-relaxed">${item.description}</p>
+                            </div>
+                        `;
+                        timeline.appendChild(div);
+                    });
+                }
+
+                AOS.refresh();
+
+            } catch (err) {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').classList.remove('hidden');
+            }
+        }
+
+        loadChangelog();
+    </script>
+</body>
+</html>

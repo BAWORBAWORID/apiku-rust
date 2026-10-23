@@ -1,0 +1,96 @@
+# Zyyvor API
+
+> Free REST API platform with 400++ endpoints for modern developers. No API key required.
+
+Zyyvor is a comprehensive REST API platform providing 400++ endpoints across categories including AI chat, image processing, media downloaders, payment tools, games, and developer utilities. Built on Node.js with Express, deployed on Cloudflare with 99.99% uptime.
+
+## Base URL
+
+All API endpoints are available at:
+
+    https://api.zyvor.my.id/api/
+
+## Authentication
+
+Most endpoints require no authentication. Premium endpoints require an API key via:
+- Header: `X-API-Key: your-key`
+- Query: `?apikey=your-key`
+- Bearer: `Authorization: Bearer your-key`
+
+## Rate Limits
+
+- 20,000 requests per day per IP address (free tier)
+- Premium endpoints have higher limits
+
+## API Categories
+
+### AI Chat (47 endpoints)
+AI chat with multiple models: GPT-4o, Gemini, DeepSeek, Claude, Qwen, Mistral, and more.
+- `/api/ai/gpt4o` - GPT-4o Mini chat
+- `/api/ai/gemini` - Google Gemini chat
+- `/api/ai/deepseek` - DeepSeek V3 chat
+- `/api/ai/claude-v2` - Claude Sonnet chat
+- `/api/ai/qwen` - Qwen V2 chat
+- `/api/ai/mistral` - Mistral AI chat
+
+### Image Processing (14 endpoints)
+- `/api/image/blur` - Gaussian blur
+- `/api/image/removebg` - Remove background
+- `/api/image/toanimev2` - Convert to anime style
+- `/api/image/upscaler` - Image upscaling
+
+### Media Downloaders (26 endpoints)
+Download from YouTube, TikTok, Instagram, Spotify, and more.
+- `/api/downloader/youtube2` - YouTube video download
+- `/api/downloader/tiktokv2` - TikTok video download
+- `/api/downloader/spotify` - Spotify music download
+- `/api/downloader/instagram` - Instagram media download
+
+### Tools (27 endpoints)
+Developer utilities including QR codes, DNS lookup, screenshots, and more.
+- `/api/tools/text2qr` - Text to QR code
+- `/api/tools/ssweb` - Website screenshot
+- `/api/tools/trackip` - Domain/IP intelligence: DNS records, IP trace, subdomain finder
+- `/api/tools/ocr` - Optical character recognition
+
+### Games (27 endpoints)
+Quiz and trivia games in Indonesian.
+- `/api/games/tebakgambar` - Guess the picture
+- `/api/games/family100` - Family 100 style quiz
+- `/api/games/math` - Math quiz
+
+### Search (20 endpoints)
+- `/api/search/wikipedia` - Wikipedia search
+- `/api/search/pinterest` - Pinterest search
+- `/api/search/spotify` - Spotify search
+
+### Payment (11 endpoints)
+QRIS payment, GoPay, and top-up services.
+- `/api/payment/qris-static` - Generate QRIS code
+- `/api/topup/ff` - Free Fire top-up
+
+## Response Format
+
+All responses use JSON format:
+
+```json
+{
+  "status": true,
+  "data": { ... }
+}
+```
+
+## Documentation
+
+Full interactive documentation with playground:
+
+    https://api.zyvor.my.id/docs
+
+## Contact
+
+- Telegram: @ZyyvorAPI
+- Email: contact@api.zyvor.my.id
+
+## License
+
+GPL-3.0

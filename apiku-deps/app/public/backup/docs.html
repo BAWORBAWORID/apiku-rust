@@ -1,0 +1,1908 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlwaysCodex Api'S | API Documentation</title>
+    
+    <!-- Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#030712',
+                        surface: '#111827',     
+                        border: '#1f2937',      
+                        input: '#1f2937',       
+                        
+                        primary: {
+                            DEFAULT: '#6366f1', 
+                            hover: '#4f46e5',
+                            dim: 'rgba(99, 102, 241, 0.1)',
+                            glow: 'rgba(99, 102, 241, 0.5)'
+                        },
+                        success: '#10b981',
+                        error: '#ef4444',
+                        warning: '#f59e0b',
+                        offline: '#6b7280'
+                    },
+                    animation: {
+                        'grid-flow': 'gridMove 20s linear infinite',
+                        'fade-in': 'fadeIn 0.2s ease-out forwards',
+                        'slide-down': 'slideDown 0.2s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-in-right': 'slideInRight 0.3s ease-out',
+                    },
+                    keyframes: {
+                        gridMove: {
+                            '0%': { backgroundPosition: '0 0' },
+                            '100%': { backgroundPosition: '40px 40px' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(5px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px) scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        },
+                        slideInRight: {
+                            'from': { transform: 'translateX(100%)', opacity: '0' },
+                            'to': { transform: 'translateX(0)', opacity: '1' },
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(99, 102, 241, 0.15)',
+                        'neon': '0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1)',
+                        'offline-glow': '0 0 15px rgba(107, 114, 128, 0.2)'
+                    }
+                },
+            },
+        };
+    </script>
+
+    <style>
+        /* Base Styles */
+        body {
+            background-color: #030712;
+            color: #cbd5e1;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .cyber-grid::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, #030712 90%);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; }
+
+        /* Glass Effect */
+        .glass-header {
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Category Cards */
+        .category-card {
+            background-color: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .category-card:hover { border-color: rgba(99, 102, 241, 0.3); }
+
+        /* Endpoint Cards */
+        .endpoint-card {
+            background-color: #0b0d12;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        .endpoint-card:hover { border-color: #4b5563; }
+        
+        .endpoint-card.offline-endpoint {
+            opacity: 0.8;
+            border-color: #374151;
+            background: linear-gradient(to right, #0b0d12, #0f0f14);
+        }
+        .endpoint-card.offline-endpoint:hover {
+            border-color: #6b7280;
+            box-shadow: 0 0 15px rgba(107, 114, 128, 0.1);
+        }
+
+        /* Method Badges */
+        .method-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            min-width: 60px;
+            text-align: center;
+        }
+        .m-get { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .m-post { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .m-put { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .m-delete { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        /* Tab Buttons */
+        .tab-btn {
+            position: relative;
+            color: #9ca3af;
+            padding-bottom: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .tab-btn:hover { color: #f3f4f6; }
+        .tab-btn.active { color: #6366f1; }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #6366f1;
+            box-shadow: 0 -2px 5px rgba(99, 102, 241, 0.5);
+        }
+
+        /* JSON Syntax Highlighting */
+        .json-key { color: #f472b6; }
+        .json-string { color: #a5f3fc; }
+        .json-number { color: #fcd34d; }
+        .json-boolean { color: #c084fc; }
+        .json-null { color: #9ca3af; }
+        
+        /* URL Display */
+        .url-display {
+            user-select: all;
+            cursor: pointer;
+        }
+        .url-display:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .status-online {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .status-offline {
+            background: rgba(107, 114, 128, 0.1);
+            color: #9ca3af;
+            border: 1px solid rgba(107, 114, 128, 0.2);
+        }
+
+        /* Execute Button */
+        .execute-btn {
+            background: #6366f1;
+            color: white;
+            transition: all 0.2s;
+        }
+        .execute-btn:hover:not(:disabled) {
+            background: #4f46e5;
+            transform: scale(0.95);
+        }
+        .execute-btn:disabled {
+            background: #374151;
+            color: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.5;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Offline Message */
+        .offline-message {
+            background: rgba(107, 114, 128, 0.05);
+            border: 1px dashed #4b5563;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Media Previews */
+        .media-preview {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid #374151;
+            background: #0f172a;
+        }
+        
+        .sticker-preview {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+        }
+        
+        .audio-player {
+            width: 100%;
+            background: #1f2937;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        /* Simple Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
+        }
+        
+        .footer-link {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: #8183f4;
+        }
+        
+        /* Notification */
+        #url-copy-notification {
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        /* HTTP Status Codes Table */
+        .status-codes-table {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px 12px;
+            font-size: 0.75rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #1f2937;
+        }
+        .status-code-item {
+            display: contents;
+        }
+        .status-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: #fbbf24;
+        }
+        .status-desc {
+            color: #9ca3af;
+        }
+        .code-200 { color: #10b981; }
+        .code-400 { color: #f87171; }
+        .code-405 { color: #fbbf24; }
+        .code-429 { color: #f97316; }
+        .code-500 { color: #ef4444; }
+
+        /* Code Block Styles */
+        .code-block {
+            background: #0a0c10;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .code-header {
+            background: #111827;
+            padding: 6px 12px;
+            border-bottom: 1px solid #1f2937;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-lang {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #6366f1;
+            text-transform: uppercase;
+        }
+        .code-content {
+            padding: 12px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            line-height: 1.5;
+            color: #d1d5db;
+        }
+        .copy-code-btn {
+            color: #9ca3af;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #1f2937;
+            transition: all 0.2s;
+        }
+        .copy-code-btn:hover {
+            background: #374151;
+            color: white;
+        }
+
+        /* Announcement Badge */
+        .announcement-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 2px solid #030712;
+        }
+
+        /* Announcement Modal */
+        .announcement-item {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+        .announcement-item:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+        .announcement-date {
+            font-size: 0.6rem;
+            color: #9ca3af;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .announcement-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 4px;
+        }
+        .announcement-desc {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        /* Announcement Modal Scroll */
+        #announcement-modal .flex-1 {
+            min-height: 0;
+            max-height: calc(80vh - 200px);
+        }
+
+        /* Rotate Animation */
+        .rotate-180-cw {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="font-sans min-h-screen pb-20 selection:bg-primary-DEFAULT selection:text-white">
+
+    <!-- Background Grid -->
+    <div class="cyber-grid animate-grid-flow"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header h-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+            
+            <!-- Left Side -->
+            <div class="flex items-center gap-4">
+                
+                <!-- Menu Dropdown -->
+                <div class="relative z-50">
+                    <button onclick="toggleNavMenu()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors focus:outline-none">
+                        <i class="fas fa-ellipsis-v text-lg"></i>
+                    </button>
+                    
+                    <div id="navMenu" class="hidden absolute top-full left-0 mt-3 w-48 bg-[#0b0d12] border border-border rounded-xl shadow-2xl overflow-hidden animate-slide-down origin-top-left">
+                        <div class="py-1">
+                            <a href="/" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-home w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Home</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/docs" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-book w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Documentation</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/support" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-headset w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Support</span>
+                            </a>
+                            <a href="/stats" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-chart-line w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Status</span>
+                            </a>
+                            <a href="/changelog" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-clock-rotate-left w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Changelog</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/request-report" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-bug w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Request</span>
+                            </a>
+                            <a href="/donasi" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-hand-holding-heart w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Donasi</span>
+                            </a>
+                       </div>
+                    </div>
+                </div>
+
+                <!-- Logo -->
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-8 h-8 rounded bg-gradient-to-br from-primary-DEFAULT to-purple-600 flex items-center justify-center text-white font-black shadow-lg shadow-primary-DEFAULT/30 group-hover:scale-110 transition-transform">
+                        AC
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-lg leading-none text-white tracking-tight">AlwaysCodex Api'S</span>
+                        <span class="text-[10px] text-primary-DEFAULT font-mono tracking-widest uppercase">API Documentation</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Right Side: System Status & Announcements -->
+            <div class="flex items-center gap-4">
+                <!-- Announcement Button -->
+                <div class="relative">
+                    <button onclick="toggleAnnouncementModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors focus:outline-none relative" id="announcementBtn">
+                        <i class="fas fa-bullhorn text-lg"></i>
+                        <span id="announcementBadge" class="announcement-badge hidden">0</span>
+                    </button>
+                </div>
+
+                <!-- System Status -->
+                <div id="systemStatus" class="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.1)]">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-green-500 hidden sm:block tracking-wide">SYSTEM ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Notification Modal (Original) -->
+    <div id="notification-docs" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 backdrop-blur-md bg-black/50">
+        <div class="bg-[#0b0d12] border border-primary-DEFAULT rounded-2xl p-6 max-w-md w-full shadow-[0_0_50px_rgba(99,102,241,0.2)] relative transform transition-all scale-100">
+            <div class="absolute -top-3 -left-3 bg-white text-black text-xs font-black px-3 py-1 uppercase transform -rotate-3 border-2 border-primary-DEFAULT">Notice</div>
+            
+            <h2 class="text-2xl font-black text-white mb-2 tracking-tight">System Message</h2>
+            <div class="bg-surface/50 border border-white/10 p-4 rounded-lg mb-6">
+                <p class="text-gray-300 text-sm leading-relaxed" id="notif-message">...</p>
+            </div>
+            
+            <div class="flex gap-3 justify-end">
+                <a id="notif-source" href="#" target="_blank" class="px-4 py-2 rounded-lg bg-surface border border-white/10 text-xs font-bold text-gray-400 hover:text-white hover:border-white/30 transition">VIEW SOURCE</a>
+                <button onclick="document.getElementById('notification-docs').style.display='none'" class="px-6 py-2 rounded-lg bg-primary-DEFAULT hover:bg-primary-hover text-white text-xs font-bold shadow-lg shadow-primary-DEFAULT/20 transition">OK, GOT IT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Modal (with Scroll) -->
+    <div id="announcement-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 backdrop-blur-md bg-black/50">
+        <div class="bg-[#0b0d12] border border-primary-DEFAULT rounded-2xl p-6 max-w-2xl w-full shadow-[0_0_50px_rgba(99,102,241,0.2)] relative transform transition-all scale-100 max-h-[80vh] overflow-hidden flex flex-col">
+            <div class="absolute -top-3 -left-3 bg-white text-black text-xs font-black px-3 py-1 uppercase transform -rotate-3 border-2 border-primary-DEFAULT">Announcements</div>
+            
+            <div class="flex items-center justify-between mb-4 flex-shrink-0">
+                <h2 class="text-2xl font-black text-white tracking-tight flex items-center gap-2">
+                    <i class="fas fa-bullhorn text-primary-DEFAULT"></i>
+                    Latest Updates
+                </h2>
+                <button onclick="toggleAnnouncementModal()" class="w-8 h-8 rounded-lg bg-surface border border-border hover:border-primary-DEFAULT text-gray-400 hover:text-white transition-colors flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="bg-surface/50 border border-white/10 p-4 rounded-lg mb-4 flex-shrink-0">
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    Stay updated with the latest changes and improvements to our API.
+                </p>
+            </div>
+            
+            <!-- Scrollable Announcement List -->
+            <div id="announcement-list" class="flex-1 overflow-y-auto custom-scrollbar space-y-3 pr-2 min-h-0">
+                <!-- Announcements will be inserted here dynamically -->
+                <div class="text-center text-gray-500 py-8">
+                    <i class="fas fa-circle-notch fa-spin text-2xl mb-2"></i>
+                    <p class="text-sm">Loading announcements...</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-end mt-4 pt-4 border-t border-border flex-shrink-0">
+                <button onclick="toggleAnnouncementModal()" class="px-6 py-2 rounded-lg bg-primary-DEFAULT hover:bg-primary-hover text-white text-xs font-bold shadow-lg shadow-primary-DEFAULT/20 transition">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+            
+    <!-- Main Content -->
+    <main class="pt-28 px-4 sm:px-6 max-w-5xl mx-auto">
+        
+        <!-- Hero & Search -->
+        <div class="text-center mb-12" data-aos="fade-down">
+            <h1 id="apiTitle" class="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 mb-4 tracking-tight">
+                API DOCUMENTATION
+            </h1>
+            <p id="apiDescription" class="text-gray-400 text-sm mb-8 max-w-lg mx-auto">Explore available endpoints and test them directly using the interactive console.</p>
+            
+            <div class="flex justify-center mb-6">
+                <div class="relative group w-full max-w-md">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary-DEFAULT to-purple-500 rounded-lg blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                    <select id="hostSelect" class="relative w-full bg-surface border border-border text-gray-300 py-3 px-4 pr-10 rounded-lg focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT/50 text-xs font-mono cursor-pointer shadow-lg transition-all">
+                        <option id="valueURL" value="" selected>Loading Host...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="relative max-w-2xl mx-auto group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-500 group-focus-within:text-primary-DEFAULT transition-colors"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="Search for endpoints (e.g., /download)..." 
+                    class="block w-full pl-11 pr-4 py-3.5 bg-surface/80 border border-border rounded-xl leading-5 text-gray-200 placeholder-gray-600 focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT/50 sm:text-sm transition-all shadow-lg hover:bg-surface">
+            </div>
+        </div>
+
+        <!-- API List -->
+        <div id="content" class="min-h-[400px]">
+            <div id="loading" class="flex flex-col items-center justify-center py-20">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-DEFAULT mb-4 shadow-glow"></div>
+                <div class="text-primary-DEFAULT font-mono text-xs animate-pulse">Initializing API Definition...</div>
+            </div>
+            
+            <div id="apiList" class="space-y-6"></div>
+
+            <div id="noResults" class="hidden text-center py-20">
+                <i class="fas fa-ghost text-4xl text-gray-700 mb-4"></i>
+                <p class="text-gray-500 font-medium">No endpoints found matching your search.</p>
+            </div>
+        </div>
+
+        <!-- Simple Footer -->
+        <div class="footer">
+            <i class="fas fa-code text-primary-DEFAULT text-xs mr-1"></i>
+            <span class="text-gray-500">Powered by</span>
+            <a href="#" target="#" class="footer-link">@zyvor</a>
+            <span class="text-gray-600 mx-1">•</span>
+            <span class="text-gray-500">v<span id="version-number">1.7.0</span></span>
+        </div>
+    </main>
+
+    <!-- Notification Container -->
+    <div id="url-copy-notification" class="fixed bottom-4 right-4 z-50"></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({ once: true, duration: 800, offset: 50 });
+        
+        // Global Variables
+        const responseCache = {};
+        let endpointsStatusData = {};
+        let announcementsData = { enabled: false, items: [] };
+        let cachedConfig = null;
+
+        // ==================== UTILITY FUNCTIONS ====================
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notif = document.getElementById('url-copy-notification');
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            notif.innerHTML = `
+                <div class="${bgColor} text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm animate-slide-in-right">
+                    <i class="fas ${icon}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                notif.innerHTML = '';
+            }, 2000);
+        }
+
+        // Select text in element
+        function selectText(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const range = document.createRange();
+                range.selectNodeContents(element);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+
+        // Copy text to clipboard
+        async function copyText(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.innerText.trim();
+            try {
+                await navigator.clipboard.writeText(text);
+                showNotification('Copied to clipboard!');
+                
+                // Visual feedback on button
+                const btn = el.nextElementSibling;
+                if (btn) {
+                    const icon = btn.querySelector('i');
+                    const originalClass = icon.className;
+                    icon.className = 'fas fa-check text-green-500';
+                    setTimeout(() => {
+                        icon.className = originalClass;
+                    }, 1500);
+                }
+            } catch(e) {
+                console.error("Copy failed", e);
+                showNotification('Failed to copy', 'error');
+            }
+        }
+
+        // Copy full URL with parameters
+        async function copyFullUrl(id) {
+            const urlText = document.getElementById(`url-text-${id}`);
+            if (!urlText) return;
+            
+            const text = urlText.innerText.trim();
+            try {
+                await navigator.clipboard.writeText(text);
+                showNotification('URL copied to clipboard!');
+                
+                const btn = urlText.nextElementSibling;
+                if (btn) {
+                    const icon = btn.querySelector('i');
+                    const originalClass = icon.className;
+                    icon.className = 'fas fa-check text-green-500';
+                    btn.classList.add('text-green-500');
+                    
+                    setTimeout(() => {
+                        icon.className = originalClass;
+                        btn.classList.remove('text-green-500');
+                    }, 1500);
+                }
+            } catch(e) {
+                console.error("Copy failed", e);
+                showNotification('Failed to copy URL', 'error');
+            }
+        }
+
+        // Update URL Display dynamically
+        function updateUrlDisplay(id, method, route) {
+            const host = document.getElementById('valueURL').value;
+            const form = document.getElementById(`form-${id}`);
+            const urlText = document.getElementById(`url-text-${id}`);
+            
+            if (!host || !form || !urlText) return;
+
+            let fullUrl = host + route;
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            
+            for (let [k, v] of formData.entries()) {
+                if (v && !(v instanceof File) && v.trim() !== '') {
+                    params.append(k, v);
+                }
+            }
+            
+            const queryString = params.toString();
+            if (queryString) {
+                fullUrl += '?' + queryString;
+            }
+
+            urlText.innerText = fullUrl;
+        }
+
+        // Show URL preview when tab opens
+        function showUrlPreview(id, method, route) {
+            const host = document.getElementById('valueURL').value;
+            const urlText = document.getElementById(`url-text-${id}`);
+            
+            if (!host || !urlText) return;
+            
+            let fullUrl = host + route;
+            const form = document.getElementById(`form-${id}`);
+            
+            if (form) {
+                const formData = new FormData(form);
+                const params = new URLSearchParams();
+                
+                for (let [k, v] of formData.entries()) {
+                    if (v && !(v instanceof File) && v.trim() !== '') {
+                        params.append(k, v);
+                    }
+                }
+                
+                const queryString = params.toString();
+                if (queryString) {
+                    fullUrl += '?' + queryString;
+                }
+            }
+            
+            urlText.innerText = fullUrl;
+        }
+
+        // ==================== MENU FUNCTIONS ====================
+
+        function toggleNavMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('navMenu');
+            const btn = document.querySelector('button[onclick="toggleNavMenu()"]');
+            if (menu && !menu.classList.contains('hidden')) {
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        // ==================== ANNOUNCEMENT FUNCTIONS ====================
+
+        function toggleAnnouncementModal() {
+            const modal = document.getElementById('announcement-modal');
+            modal.classList.toggle('hidden');
+            
+            // Mark announcements as read when opened
+            if (!modal.classList.contains('hidden') && announcementsData.enabled) {
+                const badge = document.getElementById('announcementBadge');
+                badge.classList.add('hidden');
+            }
+        }
+
+        function renderAnnouncements() {
+            const listContainer = document.getElementById('announcement-list');
+            const badge = document.getElementById('announcementBadge');
+            
+            if (!announcementsData.enabled || !announcementsData.items || announcementsData.items.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center text-gray-500 py-8 border border-dashed border-border rounded-lg">
+                        <i class="fas fa-bell-slash text-3xl mb-3 text-gray-600"></i>
+                        <p class="text-sm">No announcements at this time.</p>
+                    </div>
+                `;
+                badge.classList.add('hidden');
+                return;
+            }
+
+            // Show badge with count
+            badge.textContent = announcementsData.items.length;
+            badge.classList.remove('hidden');
+
+            // Render announcements
+            let html = '';
+            announcementsData.items.forEach(item => {
+                html += `
+                    <div class="announcement-item">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="announcement-title">${item.title || 'Update'}</h3>
+                            <span class="announcement-date">${item.date || ''}</span>
+                        </div>
+                        <p class="announcement-desc">${item.description || ''}</p>
+                    </div>
+                `;
+            });
+            
+            listContainer.innerHTML = html;
+        }
+
+        // ==================== TAB FUNCTIONS ====================
+
+        function toggleEndpoint(id) {
+            const body = document.getElementById(`ep-body-${id}`);
+            const arrow = document.getElementById(`ep-arrow-${id}`);
+            const isHidden = body.classList.contains('hidden');
+
+            document.querySelectorAll('[id^="ep-body-"]').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('[id^="ep-arrow-"]').forEach(el => el.classList.remove('rotate-180-cw'));
+
+            if (isHidden) {
+                body.classList.remove('hidden');
+                arrow.classList.add('rotate-180-cw');
+            }
+        }
+
+        function toggleCategory(catId) {
+            const list = document.getElementById(catId);
+            const chev = document.getElementById(`chevron-${catId}`);
+            
+            if (list.classList.contains('hidden')) {
+                list.classList.remove('hidden');
+                chev.classList.add('rotate-180-cw');
+                list.classList.add('animate-fade-in');
+            } else {
+                list.classList.add('hidden');
+                chev.classList.remove('rotate-180-cw');
+                list.classList.remove('animate-fade-in');
+            }
+        }
+
+        function switchTab(id, tab) {
+            document.getElementById(`tab-doc-${id}`).classList.add('hidden');
+            document.getElementById(`tab-try-${id}`).classList.add('hidden');
+            document.getElementById(`tab-code-${id}`).classList.add('hidden');
+            document.getElementById(`tab-${tab}-${id}`).classList.remove('hidden');
+
+            document.getElementById(`btn-doc-${id}`).classList.remove('active');
+            document.getElementById(`btn-try-${id}`).classList.remove('active');
+            document.getElementById(`btn-code-${id}`).classList.remove('active');
+            document.getElementById(`btn-${tab}-${id}`).classList.add('active');
+            
+            if (tab === 'try') {
+                const card = document.getElementById(`ep-card-${id}`);
+                const method = card.querySelector('.method-badge').textContent.trim();
+                const route = card.dataset.path;
+                showUrlPreview(id, method, route);
+            }
+        }
+
+        function toggleHeaders(id) {
+            const content = document.getElementById(`headers-content-${id}`);
+            const chevron = document.getElementById(`headers-chevron-${id}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                chevron.className = 'fas fa-chevron-up text-xs';
+            } else {
+                content.classList.add('hidden');
+                chevron.className = 'fas fa-chevron-down text-xs';
+            }
+        }
+
+        // ==================== CODE GENERATION FUNCTIONS ====================
+
+        function generateCurlCode(method, url, params, hasFile = false) {
+            let code = `curl -X ${method} "${url}"`;
+            
+            if (method === 'GET' && Object.keys(params).length > 0) {
+                // Params already in URL
+            } else if (method !== 'GET') {
+                if (hasFile) {
+                    // Form data with file
+                    for (let [key, value] of Object.entries(params)) {
+                        if (value instanceof File) {
+                            code += ` \\\n  -F "${key}=@${value.name}"`;
+                        } else if (value) {
+                            code += ` \\\n  -F "${key}=${value}"`;
+                        }
+                    }
+                } else {
+                    // JSON body
+                    const jsonBody = JSON.stringify(params, (key, value) => {
+                        if (value instanceof File) return undefined;
+                        return value;
+                    });
+                    if (jsonBody !== '{}') {
+                        code += ` \\\n  -H "Content-Type: application/json" \\\n  -d '${jsonBody}'`;
+                    }
+                }
+            }
+            
+            return code;
+        }
+
+        function generateNodeJsCode(method, url, params, hasFile = false) {
+            let code = `const fetch = require('node-fetch'); // npm install node-fetch\n\n`;
+            
+            if (method === 'GET') {
+                code += `fetch('${url}')\n  .then(res => res.json())\n  .then(json => console.log(json))\n  .catch(err => console.error(err));`;
+            } else {
+                if (hasFile) {
+                    code += `const FormData = require('form-data');\nconst fs = require('fs');\n\nconst form = new FormData();\n`;
+                    
+                    for (let [key, value] of Object.entries(params)) {
+                        if (value instanceof File) {
+                            code += `form.append('${key}', fs.createReadStream('${value.name}'));\n`;
+                        } else if (value) {
+                            code += `form.append('${key}', '${value}');\n`;
+                        }
+                    }
+                    
+                    code += `\nfetch('${url}', {\n  method: '${method}',\n  body: form,\n  headers: form.getHeaders()\n})\n  .then(res => res.json())\n  .then(json => console.log(json))\n  .catch(err => console.error(err));`;
+                } else {
+                    const jsonBody = JSON.stringify(params, (key, value) => {
+                        if (value instanceof File) return undefined;
+                        return value;
+                    });
+                    
+                    code += `fetch('${url}', {\n  method: '${method}',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify(${jsonBody})\n})\n  .then(res => res.json())\n  .then(json => console.log(json))\n  .catch(err => console.error(err));`;
+                }
+            }
+            
+            return code;
+        }
+
+        function generatePhpCode(method, url, params, hasFile = false) {
+            let code = `<?php\n\n`;
+            
+            if (method === 'GET') {
+                code += `$ch = curl_init('${url}');\n`;
+                code += `curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n`;
+                code += `$response = curl_exec($ch);\n`;
+                code += `curl_close($ch);\n\n`;
+                code += `$data = json_decode($response, true);\n`;
+                code += `print_r($data);\n`;
+            } else {
+                code += `$ch = curl_init('${url}');\n`;
+                code += `curl_setopt($ch, CURLOPT_CUSTOMREQUEST, '${method}');\n`;
+                code += `curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n`;
+                
+                if (hasFile) {
+                    code += `\n// For file uploads, use CURLFile\n`;
+                    code += `$postFields = [];\n`;
+                    
+                    for (let [key, value] of Object.entries(params)) {
+                        if (value instanceof File) {
+                            code += `$postFields['${key}'] = new CURLFile('${value.name}');\n`;
+                        } else if (value) {
+                            code += `$postFields['${key}'] = '${value}';\n`;
+                        }
+                    }
+                    
+                    code += `\ncurl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);\n`;
+                } else {
+                    const jsonBody = JSON.stringify(params, (key, value) => {
+                        if (value instanceof File) return undefined;
+                        return value;
+                    });
+                    
+                    code += `curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);\n`;
+                    code += `curl_setopt($ch, CURLOPT_POSTFIELDS, '${jsonBody}');\n`;
+                }
+                
+                code += `\n$response = curl_exec($ch);\n`;
+                code += `curl_close($ch);\n\n`;
+                code += `$data = json_decode($response, true);\n`;
+                code += `print_r($data);\n`;
+            }
+            
+            code += `\n?>`;
+            return code;
+        }
+
+        function generatePythonCode(method, url, params, hasFile = false) {
+            let code = `import requests\n\n`;
+            
+            if (method === 'GET') {
+                code += `response = requests.get('${url}')\n`;
+            } else {
+                if (hasFile) {
+                    code += `files = {\n`;
+                    for (let [key, value] of Object.entries(params)) {
+                        if (value instanceof File) {
+                            code += `    '${key}': open('${value.name}', 'rb'),\n`;
+                        }
+                    }
+                    code += `}\n\n`;
+                    
+                    code += `data = {\n`;
+                    for (let [key, value] of Object.entries(params)) {
+                        if (!(value instanceof File) && value) {
+                            code += `    '${key}': '${value}',\n`;
+                        }
+                    }
+                    code += `}\n\n`;
+                    
+                    code += `response = requests.${method.toLowerCase()}('${url}', files=files, data=data)\n`;
+                } else {
+                    const jsonBody = JSON.stringify(params, (key, value) => {
+                        if (value instanceof File) return undefined;
+                        return value;
+                    });
+                    
+                    code += `headers = {'Content-Type': 'application/json'}\n`;
+                    code += `response = requests.${method.toLowerCase()}('${url}', headers=headers, json=${jsonBody})\n`;
+                }
+            }
+            
+            code += `\nif response.status_code == 200:\n    print(response.json())\nelse:\n    print(f"Error: {response.status_code}")\n    print(response.text)`;
+            
+            return code;
+        }
+
+        async function copyCode(button, codeId) {
+            const codeEl = document.getElementById(codeId);
+            if (!codeEl) return;
+            
+            const text = codeEl.textContent;
+            try {
+                await navigator.clipboard.writeText(text);
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.classList.add('text-green-500');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('text-green-500');
+                }, 1500);
+                showNotification('Code copied to clipboard!');
+            } catch(e) {
+                console.error("Copy failed", e);
+                showNotification('Failed to copy code', 'error');
+            }
+        }
+
+        // ==================== API REQUEST FUNCTIONS ====================
+
+        async function executeRequest(e, id, method, route) {
+            e.preventDefault();
+            
+            const card = document.getElementById(`ep-card-${id}`);
+            const status = card?.dataset?.status;
+            
+            if (status === 'offline') {
+                const output = document.getElementById(`output-${id}`);
+                const statusBadge = document.getElementById(`status-${id}`);
+                const respBox = document.getElementById(`resp-box-${id}`);
+                
+                respBox.classList.remove('hidden');
+                output.innerHTML = `
+                    <div class="p-4 bg-red-900/20 text-red-400 rounded border border-red-900/50 flex items-center gap-3">
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                        <div>
+                            <strong class="block text-sm">Endpoint Offline</strong>
+                            <span class="text-xs">This endpoint is currently marked as OFFLINE and cannot be used.</span>
+                        </div>
+                    </div>`;
+                statusBadge.textContent = 'OFFLINE';
+                statusBadge.className = 'bg-gray-600 text-white px-2 py-0.5 rounded border border-gray-500 font-bold';
+                return;
+            }
+
+            const form = e.target;
+            const respBox = document.getElementById(`resp-box-${id}`);
+            const output = document.getElementById(`output-${id}`);
+            const statusBadge = document.getElementById(`status-${id}`);
+            const headersBox = document.getElementById(`resp-headers-${id}`);
+            const headersContent = document.getElementById(`headers-content-${id}`);
+            
+            respBox.classList.remove('hidden');
+            output.innerHTML = '<div class="flex items-center gap-2 text-primary-DEFAULT py-2"><i class="fas fa-circle-notch fa-spin"></i> Sending Request...</div>';
+            statusBadge.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-gray-800 border border-gray-700 text-gray-300';
+            statusBadge.textContent = 'PENDING';
+            
+            if (headersBox) {
+                headersBox.classList.remove('hidden');
+                headersContent.innerHTML = '<div class="text-xs text-gray-500 italic text-center py-4">Loading headers...</div>';
+            }
+
+            const host = document.getElementById('valueURL').value;
+            let url = host + route;
+            const headers = {};
+            let body = null;
+            
+            const formData = new FormData(form);
+            let hasFile = false;
+            for(let p of formData.entries()) if(p[1] instanceof File && p[1].name) hasFile = true;
+
+            if (method === 'GET') {
+                const params = new URLSearchParams();
+                for (let [k,v] of formData.entries()) if(v && !(v instanceof File)) params.append(k,v);
+                if(params.toString()) url += '?' + params.toString();
+            } else {
+                if(hasFile) {
+                    body = formData;
+                } else {
+                    const json = {};
+                    formData.forEach((v,k) => { if(v) json[k] = v });
+                    if(Object.keys(json).length > 0) {
+                        body = JSON.stringify(json);
+                        headers['Content-Type'] = 'application/json';
+                    }
+                }
+            }
+
+            try {
+                const start = performance.now();
+                const res = await fetch(url, { method, headers, body });
+                const time = (performance.now() - start).toFixed(0);
+                
+                const isOk = res.ok;
+                statusBadge.textContent = `${res.status} ${res.statusText} • ${time}ms`;
+                statusBadge.className = `text-[10px] font-bold px-2 py-0.5 rounded border ${isOk ? 'bg-green-500/10 text-green-500 border-green-500/30' : 'bg-red-500/10 text-red-500 border-red-500/30'}`;
+
+                // Display Response Headers
+                if (headersContent) {
+                    let headersHtml = '';
+                    res.headers.forEach((value, key) => {
+                        headersHtml += `
+                            <div class="grid grid-cols-12 gap-2 py-2 border-b border-border/50 hover:bg-white/5 transition px-1 text-xs">
+                                <div class="col-span-4 font-mono font-bold text-primary-DEFAULT truncate header-key" title="${key}">${key}</div>
+                                <div class="col-span-8 font-mono text-gray-300 truncate header-value" title="${value}">${value}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    if (res.headers.size === 0) {
+                        headersHtml = `<div class="text-xs text-gray-500 italic text-center py-4">No headers received</div>`;
+                    }
+                    
+                    headersContent.innerHTML = headersHtml;
+                }
+
+                const contentType = res.headers.get('content-type') || '';
+                responseCache[id] = '';
+
+                // Handle different response types
+                if (contentType.includes('application/json')) {
+                    const data = await res.json();
+                    responseCache[id] = JSON.stringify(data, null, 2);
+                    output.innerHTML = `<pre>${syntaxHighlight(data)}</pre>`;
+                    document.getElementById(`copy-txt-${id}`).textContent = 'Copy JSON';
+                }
+                else if (contentType.includes('image/')) {
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    responseCache[id] = `Image Data - ${contentType}`;
+                    
+                    let imageHtml = `
+                        <div class="text-center p-4">
+                            <img src="${blobUrl}" class="media-preview mb-3" alt="Response Image" />
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <a href="${blobUrl}" download="image_${Date.now()}.${getFileExtension(contentType)}" class="text-xs bg-primary-DEFAULT hover:bg-primary-hover text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                                    <i class="fas fa-download"></i> Download Image
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Type: ${contentType} • Size: ${formatBytes(blob.size)}</p>
+                        </div>`;
+                    
+                    output.innerHTML = imageHtml;
+                }
+                else if (contentType.includes('video/')) {
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    responseCache[id] = `Video Data - ${contentType}`;
+                    
+                    let videoHtml = `
+                        <div class="text-center p-4">
+                            <video controls class="media-preview mb-3">
+                                <source src="${blobUrl}" type="${contentType}">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <a href="${blobUrl}" download="video_${Date.now()}.${getFileExtension(contentType)}" class="text-xs bg-primary-DEFAULT hover:bg-primary-hover text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                                    <i class="fas fa-download"></i> Download Video
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Type: ${contentType} • Size: ${formatBytes(blob.size)}</p>
+                        </div>`;
+                    
+                    output.innerHTML = videoHtml;
+                }
+                else if (contentType.includes('audio/')) {
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    responseCache[id] = `Audio Data - ${contentType}`;
+                    
+                    let audioHtml = `
+                        <div class="text-center p-4">
+                            <audio controls class="audio-player mb-3">
+                                <source src="${blobUrl}" type="${contentType}">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <a href="${blobUrl}" download="audio_${Date.now()}.${getFileExtension(contentType)}" class="text-xs bg-primary-DEFAULT hover:bg-primary-hover text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                                    <i class="fas fa-download"></i> Download Audio
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Type: ${contentType} • Size: ${formatBytes(blob.size)}</p>
+                        </div>`;
+                    
+                    output.innerHTML = audioHtml;
+                }
+                else if (contentType.includes('image/gif') || contentType.includes('image/webp')) {
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    responseCache[id] = `Sticker Data - ${contentType}`;
+                    
+                    let stickerHtml = `
+                        <div class="text-center p-4">
+                            <img src="${blobUrl}" class="sticker-preview mb-3" alt="Sticker" />
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <a href="${blobUrl}" download="sticker_${Date.now()}.${getFileExtension(contentType)}" class="text-xs bg-primary-DEFAULT hover:bg-primary-hover text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                                    <i class="fas fa-download"></i> Download Sticker
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Type: ${contentType} • Size: ${formatBytes(blob.size)}</p>
+                        </div>`;
+                    
+                    output.innerHTML = stickerHtml;
+                }
+                else {
+                    const text = await res.text();
+                    
+                    try {
+                        if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
+                            const jsonData = JSON.parse(text);
+                            responseCache[id] = JSON.stringify(jsonData, null, 2);
+                            output.innerHTML = `<pre>${syntaxHighlight(jsonData)}</pre>`;
+                            document.getElementById(`copy-txt-${id}`).textContent = 'Copy JSON';
+                            document.getElementById(`copy-txt-${id}`).style.display = 'inline-flex';
+                        } else {
+                            responseCache[id] = text;
+                            output.innerHTML = `<pre class="whitespace-pre-wrap text-gray-300">${escapeHtml(text)}</pre>`;
+                            document.getElementById(`copy-txt-${id}`).textContent = 'Copy Text';
+                            document.getElementById(`copy-txt-${id}`).style.display = 'inline-flex';
+                        }
+                    } catch {
+                        responseCache[id] = text;
+                        output.innerHTML = `<pre class="whitespace-pre-wrap text-gray-300">${escapeHtml(text)}</pre>`;
+                        document.getElementById(`copy-txt-${id}`).textContent = 'Copy Text';
+                        document.getElementById(`copy-txt-${id}`).style.display = 'inline-flex';
+                    }
+                }
+            } catch (err) {
+                statusBadge.textContent = 'NETWORK ERROR';
+                statusBadge.className = 'bg-red-600 text-white px-2 py-0.5 rounded border border-red-400 font-bold';
+                output.innerHTML = `<div class="p-3 bg-red-900/20 text-red-400 rounded border border-red-900/50 flex gap-2 items-center"><i class="fas fa-wifi"></i> ${err.message}</div>`;
+                document.getElementById(`copy-txt-${id}`).style.display = 'inline-flex';
+            }
+        }
+
+        async function copyResponse(id) {
+            if (!responseCache[id]) return;
+            try {
+                await navigator.clipboard.writeText(responseCache[id]);
+                const span = document.getElementById(`copy-txt-${id}`);
+                const original = span.innerText;
+                span.innerText = 'Copied!';
+                span.classList.add('text-green-500', 'font-bold');
+                setTimeout(() => {
+                    span.innerText = original;
+                    span.classList.remove('text-green-500', 'font-bold');
+                }, 1500);
+            } catch(e) {
+                console.error('Copy failed:', e);
+                showNotification('Failed to copy response', 'error');
+            }
+        }
+
+        // ==================== HELPER FUNCTIONS ====================
+
+        function getFileExtension(contentType) {
+            if (contentType.includes('image/jpeg')) return 'jpg';
+            if (contentType.includes('image/png')) return 'png';
+            if (contentType.includes('image/gif')) return 'gif';
+            if (contentType.includes('image/webp')) return 'webp';
+            if (contentType.includes('image/svg+xml')) return 'svg';
+            if (contentType.includes('video/mp4')) return 'mp4';
+            if (contentType.includes('video/webm')) return 'webm';
+            if (contentType.includes('audio/mpeg')) return 'mp3';
+            if (contentType.includes('audio/wav')) return 'wav';
+            return 'file';
+        }
+
+        function syntaxHighlight(json) {
+            if (typeof json != 'string') json = JSON.stringify(json, undefined, 4);
+            json = escapeHtml(json);
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        // ==================== INITIALIZATION ====================
+
+        async function initConfiguration() {
+            try {
+                const res = await fetch('/configuration');
+                const config = await res.json();
+                cachedConfig = config;
+
+                // Update footer version
+                if (config.releases?.[0]?.version) {
+                    document.getElementById('version-number').textContent = config.releases[0].version;
+                }
+
+                // Handle notifications
+                if (config.notifications?.enabled) {
+                    const modal = document.getElementById('notification-docs');
+                    const title = modal.querySelector('h2');
+                    const message = document.getElementById('notif-message');
+                    const sourceBtn = document.getElementById('notif-source');
+
+                    title.innerHTML = config.notifications.title;
+                    message.innerHTML = config.notifications.message;
+                    
+                    if(config.notifications.sourceCodeText) sourceBtn.textContent = config.notifications.sourceCodeText;
+                    if(config.notifications.sourceCodeUrl) sourceBtn.href = config.notifications.sourceCodeUrl;
+
+                    setTimeout(() => {
+                        modal.style.display = 'flex';
+                    }, 500);
+                }
+
+                // Handle announcements
+                if (config.announcements) {
+                    announcementsData = config.announcements;
+                    renderAnnouncements();
+                }
+            } catch (e) {
+                console.error("Config load failed", e);
+                document.getElementById('announcement-list').innerHTML = `
+                    <div class="text-center text-gray-500 py-8 border border-dashed border-border rounded-lg">
+                        <i class="fas fa-bell-slash text-3xl mb-3 text-gray-600"></i>
+                        <p class="text-sm">No announcements available.</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function initMain() {
+            try {
+                // Use cached config from initConfiguration
+                const config = cachedConfig;
+                if (config) {
+                    if (config.website?.title) {
+                        document.title = config.website.title;
+                    }
+                    if (config.endpointsStatus) {
+                        endpointsStatusData = config.endpointsStatus;
+                    }
+                    if (config.website) {
+                        if (config.website.title) {
+                            document.getElementById('apiTitle').innerHTML = config.website.title;
+                        }
+                        if (config.website.description) {
+                            document.getElementById('apiDescription').innerHTML = config.website.description;
+                        }
+                    }
+                }
+
+                // Then fetch openapi.json
+                const res = await fetch("/openapi.json"); 
+                if (!res.ok) throw new Error("Connection failed");
+                const apiData = await res.json();
+                if (!apiData || !apiData.endpoints) throw new Error("Invalid format");
+
+                const hostSelect = document.getElementById('valueURL');
+                const baseUrl = apiData.baseURL || window.location.origin;
+                hostSelect.value = baseUrl;
+                hostSelect.innerHTML = `<option value="${baseUrl}">${baseUrl} (Base URL)</option>`;
+
+                renderApiList(apiData.endpoints, baseUrl);
+            } catch (e) {
+                console.error(e);
+                document.getElementById('loading').innerHTML = `
+                    <div class="text-red-400 bg-red-900/10 px-6 py-4 rounded-lg border border-red-900/50 backdrop-blur-sm text-center">
+                        <i class="fas fa-exclamation-triangle mb-2 text-xl"></i><br>
+                        <span class="font-bold">Error Loading API</span><br>
+                        <span class="text-xs font-mono opacity-80">${e.message}</span>
+                    </div>`;
+            }
+        }
+
+        function renderApiList(endpoints, currentBaseUrl) {
+            const listContainer = document.getElementById('apiList');
+            document.getElementById('loading').style.display = 'none';
+            listContainer.innerHTML = '';
+
+            const categories = {};
+            endpoints.forEach(ep => {
+                if (!categories[ep.category]) categories[ep.category] = [];
+                categories[ep.category].push(ep);
+            });
+
+            let globalIndex = 0;
+
+            for (const [catName, eps] of Object.entries(categories)) {
+                const catId = `cat-${globalIndex}`;
+                const catGroup = document.createElement('div');
+                catGroup.className = 'category-card overflow-hidden mb-8 shadow-lg'; 
+                
+                let html = `
+                    <div class="p-5 cursor-pointer flex items-center justify-between hover:bg-white/5 transition border-b border-transparent hover:border-border" onclick="toggleCategory('${catId}')">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-primary-dim flex items-center justify-center shrink-0 border border-primary-DEFAULT/20 shadow-neon">
+                                <i class="fas fa-layer-group text-primary-DEFAULT"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-white leading-tight capitalize tracking-tight">${catName}</h2>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">
+                                    <span class="text-primary-DEFAULT">${eps.length}</span> ENDPOINTS
+                                </p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-surface border border-border flex items-center justify-center text-gray-500 transition-transform duration-300" id="chevron-${catId}">
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                    <div id="${catId}" class="hidden border-t border-border bg-[#050609]/50 p-4 space-y-3">
+                `;
+
+                eps.forEach((ep) => {
+                    globalIndex++;
+                    const id = globalIndex;
+                    const method = ep.methods[0];
+                    const methodClass = `m-${method.toLowerCase()}`;
+                    const fullUrlDisplay = currentBaseUrl + ep.route;
+                    
+                    const status = endpointsStatusData[ep.route] || 'online';
+                    const isOffline = status === 'offline';
+                    
+                    const statusBadge = status === 'online' 
+                        ? '<span class="status-badge status-online"><i class="fas fa-circle text-[6px] mr-1 align-middle"></i>ONLINE</span>'
+                        : status === 'offline'
+                        ? '<span class="status-badge status-offline"><i class="fas fa-circle text-[6px] mr-1 align-middle"></i>OFFLINE</span>'
+                        : '';
+
+                    const offlineCardClass = isOffline ? 'offline-endpoint' : '';
+
+                    // Generate Parameters
+                    let formParams = '';
+                    let docParamsTable = '';
+                    
+                    if (ep.paramsSchema && Object.keys(ep.paramsSchema).length > 0) {
+                        for (const [key, schema] of Object.entries(ep.paramsSchema)) {
+                            const isReq = schema.required;
+                            const reqBadge = isReq ? '<span class="text-error ml-1" title="Required">*</span>' : '';
+                            const defVal = schema.default || '';
+                            const type = schema.type || 'string';
+
+                            docParamsTable += `
+                                <div class="grid grid-cols-12 gap-2 py-3 border-b border-border last:border-0 text-sm hover:bg-white/5 transition px-2">
+                                    <div class="col-span-4 sm:col-span-3 font-mono font-bold text-white break-all flex items-center">${key}${reqBadge}</div>
+                                    <div class="col-span-2"><span class="text-[10px] font-mono text-primary-DEFAULT bg-primary-dim border border-primary-DEFAULT/20 rounded px-1.5 py-0.5 uppercase">${schema.enum ? 'enum' : type}</span></div>
+                                    <div class="col-span-6 sm:col-span-7 text-gray-400 text-xs leading-relaxed flex items-center">${schema.description || '-'}</div>
+                                </div>`;
+
+                            let inputHtml = '';
+                            const commonClasses = "w-full bg-surface border border-border text-gray-200 text-xs rounded-lg p-2.5 focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT/50 outline-none placeholder-gray-600 transition shadow-sm font-mono";
+                            
+                            if (type === 'file') {
+                                inputHtml = `<input type="file" name="${key}" ${isReq ? 'required' : ''} class="${commonClasses} file:bg-primary-DEFAULT file:text-white file:border-0 file:rounded file:text-xs file:px-2 file:py-1 file:mr-2 cursor-pointer hover:file:bg-primary-hover" onchange="updateUrlDisplay(${id}, '${method}', '${ep.route}')">`;
+                            } else if (schema.enum) {
+                                let opts = schema.enum.map(o => `<option value="${o}" ${o==defVal?'selected':''}>${o}</option>`).join('');
+                                inputHtml = `<select name="${key}" class="${commonClasses}" onchange="updateUrlDisplay(${id}, '${method}', '${ep.route}')">${opts}</select>`;
+                            } else {
+                                inputHtml = `<input type="text" name="${key}" value="${defVal}" placeholder="value..." ${isReq ? 'required' : ''} class="${commonClasses}" oninput="updateUrlDisplay(${id}, '${method}', '${ep.route}')">`;
+                            }
+
+                            formParams += `
+                                <div class="mb-4">
+                                    <label class="block text-[10px] font-bold text-gray-400 mb-1.5 uppercase tracking-wide">${key}${reqBadge}</label>
+                                    ${inputHtml}
+                                    ${schema.description ? `<p class="mt-1 text-[10px] text-gray-500 italic truncate pl-1">${schema.description}</p>` : ''}
+                                </div>
+                            `;
+                        }
+                    } else {
+                        docParamsTable = `<div class="py-4 text-center text-xs text-gray-500 italic border border-dashed border-border rounded-lg bg-surface/30">No parameters required.</div>`;
+                        formParams = `<div class="p-4 rounded-lg border border-dashed border-border bg-surface/30 text-center text-xs text-gray-500">No parameters required. Click Send.</div>`;
+                    }
+
+                    // HTTP Status Codes Table
+                    const statusCodesTable = `
+                        <div class="mt-6">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="h-1.5 w-1.5 rounded-full bg-warning shadow-[0_0_5px_#f59e0b]"></div>
+                                <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">HTTP Status Codes</span>
+                            </div>
+                            <div class="status-codes-table">
+                                <div class="status-code-item">
+                                    <span class="status-code code-200">✅ 200</span>
+                                    <span class="status-desc">OK - Request successful</span>
+                                </div>
+                                <div class="status-code-item">
+                                    <span class="status-code code-400">🔴 400</span>
+                                    <span class="status-desc">Bad Request - Invalid parameters or missing required fields</span>
+                                </div>
+                                <div class="status-code-item">
+                                    <span class="status-code code-405">🔴 405</span>
+                                    <span class="status-desc">Method Not Allowed - HTTP method not supported</span>
+                                </div>
+                                <div class="status-code-item">
+                                    <span class="status-code code-429">🔴 429</span>
+                                    <span class="status-desc">Too Many Requests - Rate limit exceeded</span>
+                                </div>
+                                <div class="status-code-item">
+                                    <span class="status-code code-500">🔴 500</span>
+                                    <span class="status-desc">Internal Server Error - Server encountered an error</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // URL Block with Copy Functionality
+                    const urlBlock = `
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Request URL</label>
+                                <span class="text-[8px] text-gray-500">(Click URL to select all)</span>
+                            </div>
+                            <div class="relative flex items-center bg-input border border-border rounded-lg overflow-hidden group hover:border-gray-600 transition-colors">
+                                <div class="px-3 py-2.5 bg-gray-800/50 border-r border-border text-[10px] font-mono font-bold ${methodClass} bg-opacity-10 border-opacity-20 flex-shrink-0">
+                                    ${method}
+                                </div>
+                                <div class="flex-1 px-3 py-2.5 font-mono text-xs text-gray-300 truncate select-all whitespace-nowrap overflow-x-auto custom-scrollbar url-display" 
+                                     id="url-text-${id}" 
+                                     onclick="selectText('url-text-${id}')"
+                                     title="Click to select all">
+                                    ${fullUrlDisplay}
+                                </div>
+                                <button onclick="copyFullUrl(${id})" 
+                                        class="px-3 py-2 text-gray-500 hover:text-white hover:bg-primary-DEFAULT/20 transition-colors border-l border-border h-full flex-shrink-0 group relative" 
+                                        title="Copy full URL with parameters">
+                                    <i class="far fa-copy"></i>
+                                    <span class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-[8px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        Copy URL
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="mt-1 text-[8px] text-gray-600 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i>
+                                <span>URL updates automatically as you type</span>
+                            </div>
+                        </div>
+                    `;
+
+                    const offlineMessage = isOffline ? `
+                        <div class="offline-message flex items-center gap-2 mb-4">
+                            <i class="fas fa-exclamation-triangle text-warning animate-pulse-slow"></i>
+                            <span>This endpoint is currently <strong class="text-offline">OFFLINE</strong>. You cannot send requests to it at this time.</span>
+                        </div>
+                    ` : '';
+
+                    const executeBtnDisabled = isOffline ? 'disabled' : '';
+
+                    html += `
+                        <div class="endpoint-card ${offlineCardClass} group" id="ep-card-${id}" data-path="${ep.route}" data-name="${ep.name}" data-status="${status}">
+                            <div class="p-3 sm:p-4 cursor-pointer flex items-center justify-between" onclick="toggleEndpoint(${id})">
+                                <div class="flex items-center gap-3 overflow-hidden">
+                                    <span class="method-badge ${methodClass}">${method}</span>
+                                    <div class="flex flex-col min-w-0">
+                                        <span class="text-sm text-gray-200 font-bold truncate group-hover:text-primary-DEFAULT transition">
+                                            ${ep.name}
+                                            ${statusBadge}
+                                        </span>
+                                        <code class="text-[10px] sm:text-xs text-gray-500 font-mono truncate">${ep.route}</code>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-down text-xs text-gray-600 transition-transform duration-300 group-hover:text-gray-300" id="ep-arrow-${id}"></i>
+                            </div>
+
+                            <div id="ep-body-${id}" class="hidden border-t border-border bg-[#030407]">
+                                <div class="flex px-4 border-b border-border bg-surface/20">
+                                    <button class="tab-btn active mr-6 pt-4" onclick="switchTab(${id}, 'doc')" id="btn-doc-${id}">
+                                        <i class="far fa-file-alt mr-1"></i> Docs
+                                    </button>
+                                    <button class="tab-btn mr-6 pt-4" onclick="switchTab(${id}, 'try')" id="btn-try-${id}">
+                                        <i class="fas fa-terminal mr-1"></i> Try It
+                                    </button>
+                                    <button class="tab-btn pt-4" onclick="switchTab(${id}, 'code')" id="btn-code-${id}">
+                                        <i class="fas fa-code mr-1"></i> Code
+                                    </button>
+                                </div>
+
+                                <div id="tab-doc-${id}" class="p-5 animate-fade-in">
+                                    <div class="text-sm text-gray-400 mb-6 leading-relaxed border-l-2 border-primary-DEFAULT pl-3 bg-primary-dim/20 py-2 rounded-r">
+                                        ${ep.description || 'Executes the request to this endpoint based on the parameters provided below.'}
+                                    </div>
+
+                                    <div class="mb-6">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="h-1.5 w-1.5 rounded-full bg-primary-DEFAULT shadow-[0_0_5px_#6366f1]"></div>
+                                            <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Request Parameters</span>
+                                        </div>
+                                        <div class="bg-surface rounded-xl border border-border p-4">
+                                            ${docParamsTable}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="h-1.5 w-1.5 rounded-full bg-green-500 shadow-[0_0_5px_#10b981]"></div>
+                                            <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Example Response</span>
+                                        </div>
+                                        <div class="mb-3 border border-success/20 bg-success/5 rounded-lg overflow-hidden">
+                                            <div class="px-3 py-2 border-b border-success/10 flex items-center gap-2 bg-success/5">
+                                                <span class="text-[10px] font-bold bg-success/20 text-success px-1.5 py-0.5 rounded border border-success/20">200</span>
+                                                <span class="text-[10px] font-bold text-success uppercase tracking-wide">Success</span>
+                                            </div>
+                                            <div class="p-3 bg-[#020202]">
+                                                <pre class="text-[10px] font-mono text-gray-500">{\n  "status": <span class="json-boolean">true</span>,\n  "data": { ... }\n}</pre>
+                                            </div>
+                                        </div>
+                                        ${statusCodesTable}
+                                    </div>
+                                </div>
+
+                                <div id="tab-try-${id}" class="hidden p-5 animate-fade-in">
+                                    ${urlBlock}
+                                    ${offlineMessage}
+
+                                    <form id="form-${id}" onsubmit="executeRequest(event, ${id}, '${method}', '${ep.route}')">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-6">
+                                            ${formParams}
+                                        </div>
+                                        <div class="flex justify-end pt-2 border-t border-border">
+                                            <button type="submit" ${executeBtnDisabled} class="execute-btn text-xs font-bold py-2.5 px-6 rounded-lg transition shadow-glow flex items-center gap-2 active:scale-95 transform" id="execute-btn-${id}">
+                                                <span>${isOffline ? 'OFFLINE' : 'EXECUTE'}</span>
+                                                <i class="fas ${isOffline ? 'fa-ban' : 'fa-paper-plane'}"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <div id="resp-headers-${id}" class="hidden mt-6 border border-border rounded-lg overflow-hidden">
+                                        <div class="px-4 py-3 border-b border-border bg-surface flex items-center justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-server text-xs text-primary-DEFAULT"></i>
+                                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Response Headers</span>
+                                            </div>
+                                            <button onclick="toggleHeaders(${id})" class="text-gray-500 hover:text-white text-xs transition flex items-center gap-1">
+                                                <i class="fas fa-chevron-up text-xs" id="headers-chevron-${id}"></i>
+                                                <span class="text-[10px] font-mono">Collapse</span>
+                                            </button>
+                                        </div>
+                                        <div id="headers-content-${id}" class="p-4 bg-[#020202] max-h-[200px] overflow-y-auto custom-scrollbar">
+                                            <div class="space-y-2">
+                                                <div class="text-xs text-gray-500 italic text-center py-4">Headers will appear here after request...</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="resp-box-${id}" class="hidden mt-6 pt-2">
+                                        <div class="flex items-center justify-between mb-2 bg-surface border border-border rounded-t-lg px-3 py-2">
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status:</span>
+                                                <span id="status-${id}" class="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-800 border border-gray-700 text-gray-300">Ready</span>
+                                            </div>
+                                            <button onclick="copyResponse(${id})" class="text-[10px] text-gray-400 hover:text-white transition flex items-center gap-1.5 hover:bg-gray-700 px-2 py-1 rounded">
+                                                <i class="far fa-copy"></i> <span id="copy-txt-${id}">Copy JSON</span>
+                                            </button>
+                                        </div>
+                                        <div class="bg-[#020202] rounded-b-lg border-x border-b border-border p-4 overflow-x-auto max-h-[400px] custom-scrollbar relative">
+                                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-DEFAULT to-transparent opacity-20"></div>
+                                            <div id="output-${id}" class="text-xs font-mono text-gray-300">Waiting for request...</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="tab-code-${id}" class="hidden p-5 animate-fade-in">
+                                    <div class="mb-4">
+                                        <div class="flex items-center gap-2 mb-3">
+                                            <div class="h-1.5 w-1.5 rounded-full bg-primary-DEFAULT shadow-[0_0_5px_#6366f1]"></div>
+                                            <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Code Examples</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400 mb-4">Use these code snippets to call this endpoint in your application.</p>
+                                    </div>
+
+                                    <!-- cURL -->
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span class="code-lang">cURL</span>
+                                            <button class="copy-code-btn" onclick="copyCode(this, 'curl-code-${id}')">Copy</button>
+                                        </div>
+                                        <div class="code-content" id="curl-code-${id}">
+curl -X ${method} "${currentBaseUrl + ep.route}" \\
+    -H "Content-Type: application/json" \\
+    -d '${JSON.stringify(ep.paramsSchema ? Object.fromEntries(Object.entries(ep.paramsSchema).map(([k,v]) => [k, v.default || ""])) : {})}'
+                                        </div>
+                                    </div>
+
+                                    <!-- Node.js -->
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span class="code-lang">Node.js</span>
+                                            <button class="copy-code-btn" onclick="copyCode(this, 'node-code-${id}')">Copy</button>
+                                        </div>
+                                        <div class="code-content" id="node-code-${id}">
+const fetch = require('node-fetch');
+
+const url = '${currentBaseUrl + ep.route}';
+const options = {
+  method: '${method}',
+  headers: {
+    'Content-Type': 'application/json'
+  }${method !== 'GET' ? `,
+  body: JSON.stringify(${JSON.stringify(ep.paramsSchema ? Object.fromEntries(Object.entries(ep.paramsSchema).map(([k,v]) => [k, v.default || ""])) : {})})` : ''}
+};
+
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+                                        </div>
+                                    </div>
+
+                                    <!-- PHP -->
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span class="code-lang">PHP</span>
+                                            <button class="copy-code-btn" onclick="copyCode(this, 'php-code-${id}')">Copy</button>
+                                        </div>
+                                        <div class="code-content" id="php-code-${id}">
+&lt;?php
+$ch = curl_init('${currentBaseUrl + ep.route}');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, '${method}');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+${method !== 'GET' ? `curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(${JSON.stringify(ep.paramsSchema ? Object.fromEntries(Object.entries(ep.paramsSchema).map(([k,v]) => [k, v.default || ""])) : {})}));` : ''}
+$response = curl_exec($ch);
+curl_close($ch);
+
+$data = json_decode($response, true);
+print_r($data);
+?&gt;
+                                        </div>
+                                    </div>
+
+                                    <!-- Python -->
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span class="code-lang">Python</span>
+                                            <button class="copy-code-btn" onclick="copyCode(this, 'python-code-${id}')">Copy</button>
+                                        </div>
+                                        <div class="code-content" id="python-code-${id}">
+import requests
+import json
+
+url = '${currentBaseUrl + ep.route}'
+${method !== 'GET' ? `data = ${JSON.stringify(ep.paramsSchema ? Object.fromEntries(Object.entries(ep.paramsSchema).map(([k,v]) => [k, v.default || ""])) : {})}
+headers = {'Content-Type': 'application/json'}
+response = requests.${method.toLowerCase()}(url, headers=headers, json=data)` : `response = requests.get(url)`}
+
+if response.status_code == 200:
+    print(response.json())
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)
+                                        </div>
+                                    </div>
+
+                                    <!-- HTTP Status Codes -->
+                                    ${statusCodesTable}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+                catGroup.innerHTML = html;
+                listContainer.appendChild(catGroup);
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.endpoint-card');
+            let totalVisible = 0;
+
+            cards.forEach(card => {
+                const txt = (card.dataset.name + ' ' + card.dataset.path).toLowerCase();
+                if (txt.includes(val)) {
+                    card.style.display = 'block';
+                    totalVisible++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.querySelectorAll('.category-card').forEach(cat => {
+                const visibleChild = cat.querySelectorAll('.endpoint-card[style="display: block;"]').length > 0;
+                cat.style.display = visibleChild ? 'block' : 'none';
+                
+                if (val.length > 0 && visibleChild) {
+                    const list = cat.querySelector('div[id^="cat-"]');
+                    const chev = cat.querySelector('div[id^="chevron-"]');
+                    if (list && list.classList.contains('hidden')) {
+                        list.classList.remove('hidden'); 
+                        chev.classList.add('rotate-180-cw');
+                    }
+                }
+            });
+
+            document.getElementById('noResults').classList.toggle('hidden', totalVisible > 0);
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', async () => {
+            await initConfiguration();
+            initMain();
+        });
+    </script>
+</body>
+</html>

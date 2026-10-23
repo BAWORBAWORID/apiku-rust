@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="generator" content="Zyyvor Api'S Platform">
+    <title>Donasi | Zyyvor Api</title>
+    <meta name="description" content="Dukung pengembangan Zyyvor REST API melalui donasi QRIS. Setiap dukungan membantu menjaga server tetap online dan expand fitur baru.">
+    <meta name="keywords" content="donasi, donatur, qris, zyyvor, rest api, support server" />
+    <meta name="author" content="Zyyvor">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#f7f1e5">
+    <link rel="icon" type="image/x-icon" href="/src/images/logo.ico">
+    <link rel="apple-touch-icon" href="/src/images/logo.jpg">
+    <link rel="canonical" href="https://api.zyvor.my.id/donasi">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://api.zyvor.my.id/donasi">
+    <meta property="og:title" content="Donasi — Zyyvor Api">
+    <meta property="og:description" content="Dukung pengembangan Zyyvor REST API melalui donasi QRIS.">
+    <meta property="og:image" content="https://api.zyvor.my.id/src/images/logo.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:site_name" content="Zyyvor Api">
+    <meta property="og:locale" content="id_ID">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ZyyvorAPI">
+    <meta name="twitter:creator" content="@ZyyvorAPI">
+    <meta name="twitter:title" content="Donasi — Zyyvor Api">
+    <meta name="twitter:description" content="Dukung pengembangan Zyyvor REST API melalui donasi QRIS.">
+    <meta name="twitter:image" content="https://api.zyvor.my.id/src/images/logo.jpg">
+    <meta name="twitter:image:alt" content="Donasi — Zyyvor Api">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SiteNavigationElement",
+                "@id": "https://api.zyvor.my.id/#navigation",
+                "name": "Main Navigation",
+                "url": "https://api.zyvor.my.id",
+                "hasPart": [
+                    {"@type": "SiteNavigationElement", "name": "Home", "url": "https://api.zyvor.my.id/"},
+                    {"@type": "SiteNavigationElement", "name": "Documentation", "url": "https://api.zyvor.my.id/docs"},
+                    {"@type": "SiteNavigationElement", "name": "Donasi", "url": "https://api.zyvor.my.id/donasi"},
+                    {"@type": "SiteNavigationElement", "name": "Support", "url": "https://api.zyvor.my.id/support"},
+                    {"@type": "SiteNavigationElement", "name": "Status", "url": "https://api.zyvor.my.id/stats"},
+                    {"@type": "SiteNavigationElement", "name": "Changelog", "url": "https://api.zyvor.my.id/changelog"},
+                    {"@type": "SiteNavigationElement", "name": "Request", "url": "https://api.zyvor.my.id/request-report"}
+                ]
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://api.zyvor.my.id/donasi#webpage",
+                "name": "Donasi — Zyyvor Api",
+                "description": "Dukung pengembangan Zyyvor REST API melalui donasi QRIS.",
+                "url": "https://api.zyvor.my.id/donasi",
+                "isPartOf": { "@id": "https://api.zyvor.my.id/#website" }
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://api.zyvor.my.id/#organization",
+                "name": "Zyyvor Api",
+                "url": "https://api.zyvor.my.id",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://api.zyvor.my.id/src/images/logo.jpg",
+                    "width": 1200,
+                    "height": 630
+                },
+                "sameAs": [
+                    "https://t.me/ZyyvorAPI",
+                    ""
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": "https://api.zyvor.my.id/donasi#breadcrumb",
+                "itemListElement": [
+                    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://api.zyvor.my.id" },
+                    { "@type": "ListItem", "position": 2, "name": "Donasi", "item": "https://api.zyvor.my.id/donasi" }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['"Caveat"', 'cursive'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        background: '#f7f1e5',
+                        surface: '#faf8f5',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-paper: #f7f1e5;
+            --line-color: #e5d8c5;
+            --text-main: #2b2b2b;
+            --text-sub: #665f55;
+            --text-muted: #8c8275;
+            --accent-red: #8b2626;
+            --card-white: #faf8f5;
+            --card-yellow: #fceea7;
+            --card-blue: #dcebf0;
+            --card-pink: #f9dbdb;
+            --tape-color: #d1b48c;
+            --border-color: #e0d5c1;
+            --success: #2e7d32;
+            --error: #c62828;
+            --warning: #f57c00;
+        }
+
+        body {
+            background-color: var(--bg-paper);
+            background-image: linear-gradient(var(--line-color) 1px, transparent 1px);
+            background-size: 100% 28px;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .dot-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+
+        .glass-nav {
+            background: rgba(247, 241, 229, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .paper-card {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.03);
+            position: relative;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 22px;
+            background: rgba(209, 180, 140, 0.4);
+            border: 1px dashed rgba(0,0,0,0.1);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .form-field {
+            width: 100%;
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.2s;
+            outline: none;
+            font-weight: 500;
+        }
+        .form-field:focus {
+            border-color: var(--accent-red);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(139,38,38,0.08);
+        }
+        .form-field::placeholder { color: var(--text-muted); }
+        .form-field:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .amount-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 10px;
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+        .amount-option:hover {
+            border-color: var(--text-main);
+            background: var(--card-yellow);
+            color: var(--text-main);
+        }
+        .amount-option.selected {
+            border-color: var(--accent-red);
+            background: var(--card-pink);
+            color: var(--accent-red);
+        }
+
+        .btn-submit {
+            background: var(--text-main);
+            color: #ffffff;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 14px 28px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn-submit:hover:not(:disabled) {
+            background: #000000;
+            transform: translateY(-1px);
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-ghost {
+            background: var(--card-white);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 18px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-ghost:hover {
+            background: var(--card-yellow);
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        .qr-shell {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            display: inline-block;
+            line-height: 0;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.04);
+        }
+        .qr-shell img { display: block; width: 240px; height: 240px; border-radius: 4px; }
+
+        .stat-card {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.02);
+            transition: all 0.2s;
+        }
+        .stat-card:hover {
+            border-color: var(--text-main);
+            background: var(--card-yellow);
+        }
+
+        .error-box {
+            background: var(--card-pink);
+            border: 1px solid var(--accent-red);
+            border-radius: 6px;
+            padding: 14px 18px;
+        }
+        .ok-box {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            border-radius: 6px;
+            padding: 14px 18px;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-paper); }
+        ::-webkit-scrollbar-thumb { background: var(--tape-color); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="dot-grid"></div>
+
+    <nav class="fixed top-0 w-full z-50 glass-nav h-16" aria-label="Main navigation">
+        <div class="max-w-4xl mx-auto px-6 h-full flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="relative z-50">
+                    <button onclick="toggleNavMenu()" class="w-9 h-9 flex items-center justify-center rounded-lg border border-[#e0d5c1] bg-[#faf8f5] text-[#665f55] hover:bg-[#fceea7] hover:text-[#2b2b2b] transition-colors" aria-label="Menu">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <div id="navMenu" class="hidden absolute left-0 top-11 w-52 bg-[#faf8f5] border border-[#e0d5c1] rounded-lg p-2 shadow-xl">
+                        <a href="/" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#665f55] hover:bg-[#fceea7] hover:text-[#8b2626] rounded-md transition-colors"><i class="fas fa-home w-4"></i>Home</a>
+                        <a href="/docs" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#665f55] hover:bg-[#fceea7] hover:text-[#8b2626] rounded-md transition-colors"><i class="fas fa-book w-4"></i>Documentation</a>
+                        <a href="/donasi" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-[#8b2626] bg-[#f9dbdb] rounded-md transition-colors"><i class="fas fa-heart w-4"></i>Donasi</a>
+                        <a href="/support" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#665f55] hover:bg-[#fceea7] hover:text-[#8b2626] rounded-md transition-colors"><i class="fas fa-headset w-4"></i>Support</a>
+                        <a href="/stats" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#665f55] hover:bg-[#fceea7] hover:text-[#8b2626] rounded-md transition-colors"><i class="fas fa-chart-line w-4"></i>Status</a>
+                        <a href="/changelog" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#665f55] hover:bg-[#fceea7] hover:text-[#8b2626] rounded-md transition-colors"><i class="fas fa-clock-rotate-left w-4"></i>Changelog</a>
+                        <div class="h-px border-b border-dashed border-[#e0d5c1] my-2"></div>
+                        <a href="/request-report" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#665f55] hover:bg-[#fceea7] hover:text-[#8b2626] rounded-md transition-colors"><i class="fas fa-bug w-4"></i>Request</a>
+                        <a href="/admin/login" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-[#665f55] hover:bg-[#fceea7] hover:text-[#8b2626] rounded-md transition-colors"><i class="fas fa-shield-alt w-4"></i>Admin</a>
+                    </div>
+                </div>
+                <a href="/" class="flex items-center gap-3 group">
+                    <img src="/src/images/logo.jpg" alt="Zyyvor" class="w-9 h-9 rounded-full border border-[#2b2b2b] object-cover" onerror="this.style.display='none'">
+                    <div>
+                        <div class="font-display font-bold text-[#2b2b2b] text-xl leading-none">Zyyvor Api'S</div>
+                        <div class="text-[9px] text-[#665f55] font-mono tracking-wider uppercase mt-0.5">Donasi & Support</div>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="/docs" class="hidden sm:inline-flex btn-ghost">Documentation</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 pt-28 pb-12">
+
+        <!-- Header -->
+        <div class="text-center mb-10 animate-fade-in">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#e0d5c1] bg-[#faf8f5] text-[11px] font-mono font-bold text-[#8b2626] mb-4 shadow-sm">
+                <i class="fas fa-heart text-[10px] text-[#8b2626]"></i> SUPPORT THE PROJECT ✦
+            </div>
+            <h1 class="font-display font-bold text-4xl sm:text-6xl text-[#2b2b2b] tracking-tight mb-2">Dukung <span class="text-[#8b2626]">Pengembangan</span> ✏️</h1>
+            <p class="text-sm text-[#665f55] max-w-xl mx-auto leading-relaxed font-medium">
+                Zyyvor REST API dijalankan tanpa iklan. Donasi Anda membantu menutupi biaya server,
+                bandwidth, dan waktu pengembangan endpoint baru.
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-4 mb-10 animate-slide-up">
+            <div class="stat-card text-center">
+                <div class="font-mono text-xl font-bold text-[#2b2b2b]" id="statTotal">0</div>
+                <div class="text-[10px] text-[#665f55] font-mono uppercase tracking-widest font-bold mt-1">Donasi Berhasil</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="font-mono text-xl font-bold text-[#2b2b2b]" id="statDonor">0</div>
+                <div class="text-[10px] text-[#665f55] font-mono uppercase tracking-widest font-bold mt-1">Donatur</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="font-mono text-xl font-bold text-[#8b2626]" id="statAmount">Rp0</div>
+                <div class="text-[10px] text-[#665f55] font-mono uppercase tracking-widest font-bold mt-1">Terkumpul</div>
+            </div>
+        </div>
+
+        <!-- FORM STATE -->
+        <div id="formState" class="animate-slide-up">
+            <form id="donateForm" class="paper-card p-6 sm:p-8">
+
+                <!-- Amount presets -->
+                <div class="mb-6">
+                    <label class="block text-[11px] font-mono font-bold text-[#665f55] uppercase tracking-[0.15em] mb-3">Pilih Nominal</label>
+                    <div class="grid grid-cols-3 sm:grid-cols-5 gap-2" id="amountPresets">
+                        <div class="amount-option" data-value="10000">10K</div>
+                        <div class="amount-option" data-value="20000">20K</div>
+                        <div class="amount-option" data-value="50000">50K</div>
+                        <div class="amount-option" data-value="100000">100K</div>
+                        <div class="amount-option" data-value="250000">250K</div>
+                    </div>
+                </div>
+
+                <!-- Custom amount -->
+                <div class="mb-6">
+                    <label class="block text-[11px] font-mono font-bold text-[#665f55] uppercase tracking-[0.15em] mb-2" for="amount">Nominal (Rp)</label>
+                    <input type="number" name="amount" id="amount" class="form-field font-mono" placeholder="10000" min="10000" max="10000000" step="1000" value="20000" required>
+                    <div class="flex justify-between mt-2">
+                        <span class="text-[11px] font-mono text-[#8c8275]">Min. 10.000</span>
+                        <span class="text-[11px] font-mono text-[#8c8275]">Max. 10.000.000</span>
+                    </div>
+                </div>
+
+                <!-- Name -->
+                <div class="mb-6">
+                    <label class="block text-[11px] font-mono font-bold text-[#665f55] uppercase tracking-[0.15em] mb-2" for="name">Nama Donatur <span class="text-[#8c8275] normal-case font-normal">(opsional)</span></label>
+                    <input type="text" name="name" id="name" class="form-field" placeholder="Anonim" maxlength="60">
+                    <div class="flex justify-end mt-1">
+                        <span class="text-[11px] font-mono text-[#8c8275]" id="nameCount">0 / 60</span>
+                    </div>
+                </div>
+
+                <!-- Message -->
+                <div class="mb-6">
+                    <label class="block text-[11px] font-mono font-bold text-[#665f55] uppercase tracking-[0.15em] mb-2" for="message">Pesan / Harapan <span class="text-[#8c8275] normal-case font-normal">(opsional)</span></label>
+                    <textarea name="message" id="message" class="form-field" rows="3" placeholder="Tulis pesan dukungan Anda..." maxlength="200"></textarea>
+                    <div class="flex justify-end mt-1">
+                        <span class="text-[11px] font-mono text-[#8c8275]" id="msgCount">0 / 200</span>
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <div id="errorBox" class="error-box hidden mb-6 flex items-start gap-3">
+                    <i class="fas fa-exclamation-circle text-[#c62828] mt-0.5"></i>
+                    <div>
+                        <div class="text-sm font-bold text-[#c62828] mb-1">Gagal Membuat Donasi</div>
+                        <p class="text-sm text-[#c62828]/90 font-medium" id="errorMessage">Terjadi kesalahan. Coba lagi.</p>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-submit flex items-center justify-center gap-3">
+                    <i class="fas fa-qrcode text-xs" id="btnIcon"></i>
+                    <span id="btnText">Buat QRIS</span>
+                    <i class="fas fa-circle-notch fa-spin hidden" id="btnSpinner"></i>
+                </button>
+
+                <p class="text-center text-[11px] text-[#8c8275] mt-5 font-mono leading-relaxed">
+                    Pembayaran diproses via QRIS. Donasi bersifat sukarela dan tidak memberi akses endpoint premium.
+                </p>
+            </form>
+        </div>
+
+        <!-- PAYMENT STATE -->
+        <div id="payState" class="hidden animate-fade-in">
+            <div class="paper-card p-6 sm:p-8 text-center">
+                <div class="flex items-center justify-center gap-2 mb-1">
+                    <span class="w-2 h-2 rounded-full bg-[#f57c00] animate-pulse"></span>
+                    <span class="text-[11px] font-mono text-[#f57c00] font-bold uppercase tracking-[0.2em]" id="statusLabel">MENUNGGU PEMBAYARAN</span>
+                </div>
+                <p class="text-sm text-[#665f55] font-semibold mb-6" id="amountSummary">Rp0</p>
+
+                <div class="qr-shell mb-5">
+                    <img id="qrImage" alt="QRIS Donasi" src="" width="240" height="240">
+                </div>
+
+                <div class="flex items-center justify-center gap-2 mb-6">
+                    <i class="fas fa-clock text-xs text-[#8c8275]"></i>
+                    <span class="text-[11px] font-mono font-bold text-[#665f55]" id="countdown">QRIS berlaku 3:00</span>
+                </div>
+
+                <div class="ok-box mb-6 text-left">
+                    <div class="text-[11px] font-mono text-[#2e7d32] font-bold uppercase tracking-widest mb-1">ID Invoice</div>
+                    <div class="text-sm font-mono font-bold text-[#2b2b2b] break-all" id="invoiceId">-</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-6 text-left">
+                    <div class="bg-[#faf8f5] border border-[#e0d5c1] rounded-md p-3">
+                        <div class="text-[10px] font-mono text-[#8c8275] font-bold uppercase tracking-widest mb-1">Nominal</div>
+                        <div class="font-mono text-sm font-bold text-[#2b2b2b]" id="paidAmount">-</div>
+                    </div>
+                    <div class="bg-[#faf8f5] border border-[#e0d5c1] rounded-md p-3">
+                        <div class="text-[10px] font-mono text-[#8c8275] font-bold uppercase tracking-widest mb-1">Total</div>
+                        <div class="font-mono text-sm font-bold text-[#8b2626]" id="totalAmount">-</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a id="payLink" href="#" target="_blank" rel="noopener" class="btn-submit flex items-center justify-center gap-2 !py-3 flex-1">
+                        <i class="fas fa-external-link-alt text-xs"></i> Buka Pembayaran
+                    </a>
+                    <button id="resetBtn" class="btn-ghost flex items-center justify-center gap-2 flex-1">
+                        <i class="fas fa-rotate text-xs"></i> Donasi Lagi
+                    </button>
+                </div>
+
+                <p class="text-[11px] text-[#8c8275] mt-5 font-mono">
+                    Halaman ini memeriksa status otomatis. Jangan tutup QRIS jika belum dibayar.
+                </p>
+            </div>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div id="successState" class="hidden">
+            <div class="paper-card p-8 text-center">
+                <div class="w-16 h-16 rounded-full bg-[#e8f5e9] border border-[#a5d6a7] flex items-center justify-center mx-auto mb-5">
+                    <i class="fas fa-check text-2xl text-[#2e7d32]"></i>
+                </div>
+                <h2 class="font-display font-bold text-3xl text-[#2b2b2b] mb-2">Terima Kasih! ✦</h2>
+                <p class="text-sm text-[#665f55] font-medium mb-6 max-w-sm mx-auto leading-relaxed">
+                    Donasi Anda <span class="text-[#8b2626] font-bold" id="thanksAmount">Rp0</span> telah kami terima.
+                    Dukungan Anda sangat berarti bagi kelangsungan proyek ini.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="/" class="btn-ghost flex items-center justify-center gap-2"><i class="fas fa-home text-xs"></i> Beranda</a>
+                    <a href="/docs" class="btn-ghost flex items-center justify-center gap-2"><i class="fas fa-book text-xs"></i> Dokumentasi</a>
+                </div>
+            </div>
+        </div>
+
+        <div role="contentinfo" aria-label="Site footer" class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 text-[11px] text-[#8b2626] font-mono italic border-t border-dashed border-[#e0d5c1] pt-6 pb-2">
+            <div>&copy; 2026-2027 Zyyvor Api'S. All rights reserved.<span id="footerYear" style="display:none"></span></div>
+            <div class="flex gap-4 not-italic font-semibold text-[#665f55]">
+                <span>Version: <span id="api-version" class="text-[#2b2b2b] font-bold"></span></span>
+                <span>Status: <span class="text-[#2e7d32] font-bold">Online</span></span>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+        const MIN_AMOUNT = 10000;
+        const MAX_AMOUNT = 10000000;
+        const POLL_MS = 5000;
+
+        let currentId = null;
+        let pollTimer = null;
+        let countdownTimer = null;
+        let expiredAt = null;
+
+        const rp = (n) => 'Rp' + Number(n || 0).toLocaleString('id-ID');
+        const $ = (id) => document.getElementById(id);
+
+        function toggleNavMenu() {
+            $('navMenu').classList.toggle('hidden');
+        }
+        window.addEventListener('click', (e) => {
+            const menu = $('navMenu');
+            const btn = document.querySelector('button[onclick="toggleNavMenu()"]');
+            if (menu && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
+                menu.addEventListener('click', () => menu.classList.add('hidden'), { once: true });
+            }
+        });
+
+        // ---- version
+        fetch('/configuration')
+            .then(r => r.json())
+            .then(cfg => { if (cfg.releases?.[0]?.version) $('api-version').textContent = cfg.releases[0].version; })
+            .catch(() => {});
+
+        // ---- stats (hanya donasi yang benar-benar berhasil)
+        fetch('/api/donasi/summary')
+            .then(r => r.json())
+            .then(d => {
+                const s = d?.data || d;
+                $('statTotal').textContent = s.total ?? 0;
+                $('statDonor').textContent = s.donorCount ?? 0;
+                $('statAmount').textContent = rp(s.totalPaid);
+            })
+            .catch(() => { $('statTotal').textContent = '0'; $('statDonor').textContent = '0'; $('statAmount').textContent = 'Rp0'; });
+
+        // ---- amount presets
+        document.querySelectorAll('.amount-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.amount-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                $('amount').value = opt.dataset.value;
+            });
+        });
+        $('amount').addEventListener('input', () => {
+            document.querySelectorAll('.amount-option').forEach(o => o.classList.remove('selected'));
+        });
+
+        // ---- counters
+        $('name').addEventListener('input', function () {
+            $('nameCount').textContent = this.value.length + ' / 60';
+        });
+        $('message').addEventListener('input', function () {
+            $('msgCount').textContent = this.value.length + ' / 200';
+        });
+
+        function showError(msg) {
+            $('errorMessage').textContent = msg;
+            $('errorBox').classList.remove('hidden');
+        }
+        function hideError() { $('errorBox').classList.add('hidden'); }
+
+        function setLoading(on) {
+            $('submitBtn').disabled = on;
+            $('btnText').textContent = on ? 'Memproses...' : 'Buat QRIS';
+            $('btnIcon').classList.toggle('hidden', on);
+            $('btnSpinner').classList.toggle('hidden', !on);
+        }
+
+        // ---- create donation
+        $('donateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+
+            const amount = parseInt($('amount').value, 10);
+            if (!amount || Number.isNaN(amount)) return showError('Nominal tidak valid.');
+            if (amount < MIN_AMOUNT) return showError('Nominal minimal ' + rp(MIN_AMOUNT) + '.');
+            if (amount > MAX_AMOUNT) return showError('Nominal maksimal ' + rp(MAX_AMOUNT) + '.');
+
+            setLoading(true);
+            try {
+                const res = await fetch('/api/donasi', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount,
+                        name: $('name').value.trim() || 'Anonim',
+                        message: $('message').value.trim()
+                    })
+                });
+                const json = await res.json();
+                const rec = json?.data || json?.result || json;
+
+                if (!res.ok || !rec?.id) {
+                    return showError(rec?.message || json?.message || 'Gagal membuat donasi. Coba lagi.');
+                }
+
+                showPayment(rec);
+            } catch (err) {
+                showError('Gagal terhubung ke server. Periksa koneksi Anda.');
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function showPayment(rec) {
+            currentId = rec.id;
+            expiredAt = rec.expiredAt ? new Date(rec.expiredAt).getTime() : Date.now() + 3 * 60e3;
+
+            $('formState').classList.add('hidden');
+            $('payState').classList.remove('hidden');
+
+            $('invoiceId').textContent = rec.id;
+            $('paidAmount').textContent = rp(rec.amount);
+            $('totalAmount').textContent = rp(rec.totalAmount);
+            $('amountSummary').textContent = 'Total ' + rp(rec.totalAmount) + ' untuk ' + rec.name;
+            $('payLink').href = rec.paymentUrl || '#';
+
+            $('qrImage').src = '/api/donasi/qr/' + encodeURIComponent(rec.id) + '.png';
+
+            runCountdown();
+            pollStatus();
+            clearInterval(pollTimer);
+            pollTimer = setInterval(pollStatus, POLL_MS);
+        }
+
+        function runCountdown() {
+            clearInterval(countdownTimer);
+            const tick = () => {
+                const left = Math.max(0, expiredAt - Date.now());
+                const m = Math.floor(left / 60000);
+                const s = Math.floor((left % 60000) / 1000);
+                $('countdown').textContent = left > 0
+                    ? 'QRIS berlaku ' + m + ':' + String(s).padStart(2, '0')
+                    : 'QRIS kedaluwarsa — silakan buat ulang';
+                if (left <= 0) {
+                    clearInterval(countdownTimer);
+                    stopPolling();
+                    $('statusLabel').textContent = 'QRIS KEDALUWARSA';
+                }
+            };
+            tick();
+            countdownTimer = setInterval(tick, 1000);
+        }
+
+        function stopPolling() {
+            clearInterval(pollTimer);
+            pollTimer = null;
+        }
+
+        async function pollStatus() {
+            if (!currentId) return;
+            try {
+                const res = await fetch('/api/donasi/status?id=' + encodeURIComponent(currentId));
+                const json = await res.json();
+                const rec = json?.data || json?.result || json;
+                if (!rec || !rec.status) return;
+
+                if (rec.status === 'paid') {
+                    stopPolling();
+                    clearInterval(countdownTimer);
+                    $('thanksAmount').textContent = rp(rec.totalAmount || rec.amount);
+                    $('payState').classList.add('hidden');
+                    $('successState').classList.remove('hidden');
+                } else if (rec.status === 'expired') {
+                    stopPolling();
+                    $('statusLabel').textContent = 'QRIS KEDALUWARSA';
+                }
+            } catch (e) { /* diamkan, coba lagi di tick berikutnya */ }
+        }
+
+        $('resetBtn').addEventListener('click', () => {
+            stopPolling();
+            clearInterval(countdownTimer);
+            currentId = null;
+            $('qrImage').src = '';
+            $('payState').classList.add('hidden');
+            $('formState').classList.remove('hidden');
+            $('statusLabel').textContent = 'MENUNGGU PEMBAYARAN';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "mvk7e33cmfq1",
+    "type": "stats",
+    "ip": null,
+    "hostname": null,
+    "path": null,
+    "method": null,
+    "message": "Daily stats report",
+    "timestamp": 1792713600000,
+    "timeFormatted": "23/10/2026 07:00:00",
+    "details": null,
+    "violations": null,
+    "violationLimit": null,
+    "count": null,
+    "maxReq": null
+  },
+  {
+    "id": "mviuazg86mb3",
+    "type": "vip",
+    "ip": "103.170.32.48",
+    "hostname": null,
+    "path": "/api/fun/reach-ch-vip",
+    "method": "POST",
+    "message": "Notification: vip",
+    "timestamp": 1792631154163,
+    "timeFormatted": "22/10/2026 08:05:54",
+    "details": "{\n  \"status\": false,\n  \"time\": \"198ms\",\n  \"error\": \"Limit harian API (50x reaksi) untuk API Key ini telah habis. Kuota akan direset besok hari.\"\n}",
+    "violations": null,
+    "violationLimit": null,
+    "count": null,
+    "maxReq": null
+  }
+]

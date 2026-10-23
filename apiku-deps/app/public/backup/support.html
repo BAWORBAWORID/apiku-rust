@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlwaysCodex Api'S - Support & Contributors</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Support and acknowledgments for contributors who helped build Codex Api'S">
+    <meta name="keywords" content="Support, Contributors, Acknowledgments, Codex API, Thanks">
+    <meta name="author" content="Codex">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://api.vgxteam.xyz/support">
+    <meta property="og:title" content="Support & Contributors - Codex Api'S">
+    <meta property="og:description" content="Acknowledging the amazing people who helped build and inspire Codex Api'S">
+    <meta property="og:image" content="https://api.vgxteam.xyz/api/preview-image">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://api.vgxteam.xyz/support">
+    <meta name="twitter:title" content="Support & Contributors - Codex Api'S">
+    <meta name="twitter:description" content="Acknowledging the amazing people who helped build and inspire Codex Api'S">
+    <meta name="twitter:image" content="https://api.vgxteam.xyz/api/preview-image">
+    
+    <!-- Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="/src/images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/src/images/icon.png">
+    <link rel="shortcut icon" href="/src/images/icon.png">
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#030712',
+                        surface: '#111827',     
+                        border: '#1f2937',      
+                        
+                        primary: {
+                            DEFAULT: '#6366f1', 
+                            hover: '#4f46e5',
+                            dim: 'rgba(99, 102, 241, 0.1)',
+                            glow: 'rgba(99, 102, 241, 0.5)'
+                        },
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#ef4444',
+                        info: '#3b82f6',
+                        pink: '#ec4899',
+                        purple: '#8b5cf6',
+                        cyan: '#06b6d4'
+                    },
+                    animation: {
+                        'grid-flow': 'gridMove 20s linear infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-down': 'slideDown 0.2s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        gridMove: {
+                            '0%': { backgroundPosition: '0 0' },
+                            '100%': { backgroundPosition: '40px 40px' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px) scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            background-color: #030712;
+            color: #cbd5e1;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Background Animation --- */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .cyber-grid::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, #030712 90%);
+        }
+
+        /* --- Components --- */
+        .glass-header {
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-card {
+            background-color: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .profile-card {
+            background-color: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-card:hover {
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+            transform: translateY(-5px);
+        }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: 0.5s;
+        }
+        .profile-card:hover::before {
+            left: 100%;
+        }
+
+        /* --- Custom Scrollbar --- */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(31, 41, 55, 0.3);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+
+        /* --- Gradient Text --- */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        /* --- Avatar Border Animation --- */
+        @keyframes avatar-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+        }
+        .avatar-glow {
+            animation: avatar-glow 3s ease-in-out infinite;
+        }
+
+        /* --- Role Badge --- */
+        .role-badge {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+
+<body class="font-sans min-h-screen pb-10 flex flex-col">
+
+    <!-- Background -->
+    <div class="cyber-grid animate-grid-flow"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header h-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+            
+            <!-- Left: Menu & Logo -->
+            <div class="flex items-center gap-4">
+                <!-- 3 Dots Menu -->
+                <div class="relative z-50">
+                    <button onclick="toggleNavMenu()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors focus:outline-none">
+                        <i class="fas fa-ellipsis-v text-lg"></i>
+                    </button>
+                    <!-- Dropdown -->
+                    <div id="navMenu" class="hidden absolute top-full left-0 mt-3 w-48 bg-[#0b0d12] border border-border rounded-xl shadow-2xl overflow-hidden animate-slide-down origin-top-left">
+                        <div class="py-1">
+                            <a href="/" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-home w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Home</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/docs" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-book w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Documentation</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/support" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-headset w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Support</span>
+                            </a>
+                            <a href="/stats" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-chart-line w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Status</span>
+                            </a>
+                            <a href="/changelog" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-clock-rotate-left w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Changelog</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/request-report" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-bug w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Request</span>
+                            </a>
+                            <a href="/donasi" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-hand-holding-heart w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Donasi</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-8 h-8 rounded bg-gradient-to-br from-primary-DEFAULT to-purple-600 flex items-center justify-center text-white font-black shadow-lg shadow-primary-DEFAULT/30 group-hover:scale-110 transition-transform">
+                        AC
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-lg leading-none text-white tracking-tight">AlwaysCodex Api'S</span>
+                        <span class="text-[10px] text-primary-DEFAULT font-mono tracking-widest uppercase">Support & Contributors</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Right: Status Badge -->
+            <div class="flex items-center gap-4">
+                <a href="/stats" class="flex items-center gap-2 px-3 py-1 rounded-full bg-primary-DEFAULT/10 border border-primary-DEFAULT/20 text-primary-DEFAULT hover:bg-primary-DEFAULT/20 transition-colors group">
+                    <i class="fas fa-chart-line text-xs"></i>
+                    <span class="text-[10px] font-bold hidden sm:block tracking-wide">View Stats</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-4 sm:px-6 max-w-7xl mx-auto w-full flex-grow" data-aos="fade-up">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary-DEFAULT via-purple to-cyan mb-4 tracking-tight">
+                <i class="fas fa-heart mr-3"></i>Our Amazing Team
+            </h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto font-mono">
+                The brilliant minds behind Codex Api'S. Each contributor brings unique skills and passion.
+            </p>
+        </div>
+
+        <!-- Owner Section -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-primary-dim flex items-center justify-center">
+                    <i class="fas fa-crown text-primary-DEFAULT text-lg"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Project Owner</h2>
+            </div>
+            
+            <div class="profile-card p-8">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                    <!-- Avatar -->
+                    <div class="relative">
+                        <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-primary-DEFAULT/30 avatar-glow">
+                            <img src="/src/images/codex.jpg" alt="Codex" class="w-full h-full object-cover" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                        </div>
+                    </div>
+                    
+                    <!-- Info -->
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-3xl font-black text-white mb-2 gradient-text">Codex</h3>
+                        <p class="text-gray-400 mb-4 italic">"Building the future of APIs, one endpoint at a time"</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-primary-dim flex items-center justify-center">
+                                    <i class="fas fa-briefcase text-primary-DEFAULT"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-500 uppercase">Role</div>
+                                    <div class="font-bold text-white">Full Stack Developer</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-cyan/10 flex items-center justify-center">
+                                    <i class="fas fa-envelope text-cyan"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-500 uppercase">Email</div>
+                                    <div class="font-bold text-white">contact@api.zyvor.my.id</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-300 mb-6">
+                            Passionate developer with expertise in backend systems, API architecture, and scalable solutions. 
+                            Loves creating tools that empower other developers.
+                        </p>
+                        
+                        <!-- Skills -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 rounded-full bg-primary-dim text-primary-DEFAULT text-sm font-medium">
+                                <i class="fas fa-server mr-1"></i>Backend
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-purple/10 text-purple text-sm font-medium">
+                                <i class="fas fa-database mr-1"></i>Database
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-pink/10 text-pink text-sm font-medium">
+                                <i class="fas fa-paint-brush mr-1"></i>Frontend
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-cyan/10 text-cyan text-sm font-medium">
+                                <i class="fab fa-node-js mr-1"></i>Node.js
+                            </span>
+                        </div>
+                        
+                        <!-- Social Links -->
+                        <div class="flex flex-wrap gap-3">
+                            <a href="#" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#24292e] hover:bg-[#1a1e22] text-white transition-all hover:scale-105">
+                                <i class="fab fa-github"></i>
+                                <span class="font-medium">GitHub</span>
+                            </a>
+                            <a href="https://t.me/codexnf_404" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0088cc] hover:bg-[#0077b3] text-white transition-all hover:scale-105">
+                                <i class="fab fa-telegram"></i>
+                                <span class="font-medium">Telegram</span>
+                            </a>
+                            <a href="https://whatsapp.com/channel/0029Vb8vO7o2f3EEsjefzm0w" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#25D366] hover:bg-[#1ebe57] text-white transition-all hover:scale-105">
+                                <i class="fab fa-whatsapp"></i>
+                                <span class="font-medium">WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contributors Section -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="150">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-purple/10 flex items-center justify-center">
+                    <i class="fas fa-users text-purple text-lg"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Core Contributors</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="contributors-container">
+                <!-- Contributors will be loaded here dynamically -->
+                <!-- Template for each contributor -->
+            </div>
+        </div>
+
+        <!-- Friends & Supporters -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="200">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center">
+                    <i class="fas fa-hands-helping text-success text-lg"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Friends & Supporters</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="supporters-container">
+                <!-- Supporters will be loaded here dynamically -->
+            </div>
+        </div>
+
+        <!-- Thank You Section -->
+        <div class="text-center" data-aos="fade-up" data-aos-delay="250">
+            <div class="profile-card p-8 max-w-2xl mx-auto">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary-DEFAULT to-pink flex items-center justify-center mx-auto mb-6 animate-float">
+                    <i class="fas fa-heart text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-black text-white mb-4">Thank You! ❤️</h2>
+                <p class="text-gray-300 text-lg mb-6">
+                    Terima kasih kepada semua yang telah berkontribusi, memberikan masukan, 
+                    dan mendukung pengembangan Codex Api'S. Kalian luar biasa! 🚀
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/" class="px-6 py-3 rounded-lg bg-gradient-to-r from-primary-DEFAULT to-purple text-white font-bold hover:opacity-90 transition-all hover:scale-105">
+                        <i class="fas fa-home mr-2"></i>Back to Home
+                    </a>
+                    <a href="/docs" class="px-6 py-3 rounded-lg bg-surface border border-white/10 text-white font-bold hover:bg-white/5 transition-all hover:scale-105">
+                        <i class="fas fa-book mr-2"></i>View Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-white/5 bg-[#020205] py-8">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center text-center gap-4">
+            <div class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">
+                © <span id="year-stats"></span> AlwaysCodex Api'S <span class="text-primary-DEFAULT">•</span> Support & Contributors
+            </div>
+            <div class="flex gap-6 justify-center">
+                <a href="#" target="_blank" class="text-gray-600 hover:text-white transition-colors text-xs"><i class="fab fa-github"></i></a>
+                <a href="https://t.me/codexnf_404" target="_blank" class="text-gray-600 hover:text-white transition-colors text-xs"><i class="fab fa-telegram"></i></a>
+                <a href="mailto:contact@api.zyvor.my.id" class="text-gray-600 hover:text-white transition-colors text-xs"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS and set current year
+        AOS.init({ duration: 800, once: true });
+        document.getElementById("year-stats").textContent = new Date().getFullYear();
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // --- Menu Logic ---
+        function toggleNavMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('hidden');
+        }
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('navMenu');
+            const btn = document.querySelector('button[onclick="toggleNavMenu()"]');
+            if (menu && !menu.classList.contains('hidden')) {
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        // --- Contributors Data (Easy to modify) ---
+        const contributorsData = [
+            {
+                name: "Zyrex",
+                role: "",
+                image: "/src/images/zyrex.jpg",
+                email: "zyrex@xcure-store.my.id",
+                github: "",
+                telegram: "https://t.me/Zyrexoffc3",
+                description: "Specialized in server optimization and database management. Makes everything run smoothly.",
+                skills: ["Node.js", "MongoDB", "Redis", "Docker"]
+            },
+            {
+                name: "Jian Code",
+                role: "Scraper Modder",
+                image: "/src/images/jian.jpg",
+                email: "",
+                github: "",
+                telegram: "https://t.me/JianCode",
+                description: "Creates Function Scraper Modderr.",
+                skills: ["React", "TypeScript", "Tailwind", "Figma"]
+            }
+        ];
+
+        const supportersData = [
+            { name: "Nanz", role: "Support", image: "/src/images/nanz.jpg" }
+        ];
+
+        // --- Render Functions ---
+        function renderContributors() {
+            const container = document.getElementById('contributors-container');
+            if (!container) return;
+
+            container.innerHTML = contributorsData.map((contributor, index) => `
+                <div class="profile-card p-6" data-aos="fade-up" data-aos-delay="${100 + (index * 50)}">
+                    <div class="flex flex-col items-center text-center">
+                        <!-- Avatar -->
+                        <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-primary-DEFAULT/20 mb-4">
+                            <img src="${contributor.image}" alt="${contributor.name}" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                        </div>
+                        
+                        <!-- Info -->
+                        <h3 class="text-xl font-bold text-white mb-1">${contributor.name}</h3>
+                        <div class="px-3 py-1 rounded-full role-badge text-xs font-bold text-primary-DEFAULT mb-3">
+                            ${contributor.role}
+                        </div>
+                        
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-3">${contributor.description}</p>
+                        
+                        <!-- Skills -->
+                        <div class="flex flex-wrap gap-1.5 justify-center mb-4">
+                            ${contributor.skills.map(skill => `
+                                <span class="px-2 py-1 rounded bg-surface text-xs text-gray-300">${skill}</span>
+                            `).join('')}
+                        </div>
+                        
+                        <!-- Social Links -->
+                        <div class="flex gap-2">
+                            ${contributor.email ? `
+                                <a href="mailto:${contributor.email}" class="w-8 h-8 rounded-full bg-cyan/10 hover:bg-cyan/20 flex items-center justify-center text-cyan hover:scale-110 transition-all" title="Email">
+                                    <i class="fas fa-envelope text-xs"></i>
+                                </a>
+                            ` : ''}
+                            ${contributor.github ? `
+                                <a href="${contributor.github}" target="_blank" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-900 flex items-center justify-center text-white hover:scale-110 transition-all" title="GitHub">
+                                    <i class="fab fa-github text-xs"></i>
+                                </a>
+                            ` : ''}
+                            ${contributor.telegram ? `
+                                <a href="${contributor.telegram}" target="_blank" class="w-8 h-8 rounded-full bg-[#0088cc]/10 hover:bg-[#0088cc]/20 flex items-center justify-center text-[#0088cc] hover:scale-110 transition-all" title="Telegram">
+                                    <i class="fab fa-telegram text-xs"></i>
+                                </a>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSupporters() {
+            const container = document.getElementById('supporters-container');
+            if (!container) return;
+
+            container.innerHTML = supportersData.map((supporter, index) => `
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-surface/30 border border-white/5 hover:border-primary-DEFAULT/30 transition-colors" 
+                     data-aos="fade-up" data-aos-delay="${150 + (index * 30)}">
+                    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary-DEFAULT/30">
+                        <img src="${supporter.image}" alt="${supporter.name}" 
+                             class="w-full h-full object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                    </div>
+                    <div>
+                        <div class="font-bold text-white">${supporter.name}</div>
+                        <div class="text-xs text-gray-500">${supporter.role}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Initialize on load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderContributors();
+            renderSupporters();
+        });
+
+        // --- Easy Contributor Addition ---
+        function addContributor(newContributor) {
+            contributorsData.push(newContributor);
+            renderContributors();
+        }
+
+        function addSupporter(newSupporter) {
+            supportersData.push(newSupporter);
+            renderSupporters();
+        }
+
+        // Example usage for adding new contributors:
+        /*
+        addContributor({
+            name: "New Contributor",
+            role: "New Role",
+            image: "/src/images/new.jpg",
+            email: "new@example.com",
+            github: "",
+            telegram: "https://t.me/new",
+            description: "New contributor description.",
+            skills: ["Skill1", "Skill2"]
+        });
+        */
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "127.0.0.1": {
+    "addedAt": "2026-01-31T13:21:37.024Z",
+    "reason": "Localhost"
+  },
+  "::1": {
+    "addedAt": "2026-01-31T13:21:37.024Z",
+    "reason": "Localhost"
+  },
+  "ips": {
+    "127.0.0.1": {
+      "addedAt": "2026-07-07T18:15:48.607Z",
+      "reason": "Localhost"
+    },
+    "::1": {
+      "addedAt": "2026-07-07T18:15:49.027Z",
+      "reason": "Localhost"
+    }
+  }
+}

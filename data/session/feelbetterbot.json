@@ -1,0 +1,17 @@
+{
+  "memoryId": "gentle-cat-3226",
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hi, I'm FeelBetterBot — I'm here to listen and help you carry whatever feels heavy, without judgment."
+    },
+    {
+      "role": "user",
+      "content": "Halo"
+    },
+    {
+      "role": "assistant",
+      "content": "Hi there, good to have you here. How are you doing today?"
+    }
+  ]
+}

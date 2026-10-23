@@ -1,0 +1,10 @@
+pub mod artinama;
+pub mod cocokpasangan;
+pub mod nomorhoki;
+pub mod penyakit;
+pub mod ramalanjodohbali;
+pub mod ramaljodoh;
+pub mod rezekihokiweton;
+pub mod sifatusaha;
+pub mod tafsirmimpi;
+pub mod zodiac;

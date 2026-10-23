@@ -1,0 +1,50 @@
+# robots.txt for Zyyvor Api'S
+# https://api.zyvor.my.id
+
+User-agent: *
+Allow: /
+Allow: /docs$
+Allow: /stats$
+Allow: /changelog$
+Allow: /support$
+Allow: /request-report$
+Allow: /legal/
+Allow: /src/images/
+Allow: /public/
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /data/
+Disallow: /files/
+Disallow: /logs/
+Disallow: /proxy/
+Disallow: /dashboard
+Disallow: /*?_
+Disallow: /*.json$
+Disallow: /*.ico$
+
+# AI crawlers — allow indexing of docs/content but not API endpoints
+User-agent: GPTBot
+Crawl-Delay: 10
+Disallow: /api/
+
+User-agent: CCBot
+Crawl-Delay: 10
+Disallow: /api/
+
+User-agent: Google-Extended
+Crawl-Delay: 5
+Disallow: /api/
+
+# Bytespider (ByteDance) — aggressive crawler, block entirely
+User-agent: Bytespider
+Disallow: /
+
+# Common crawlers
+User-agent: Claude-Web
+Disallow: /api/
+
+User-agent: PerplexityBot
+Crawl-Delay: 10
+
+Sitemap: https://api.zyvor.my.id/sitemap.xml

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>503 — Under Maintenance | Zyyvor Api'S</title>
+    <meta name="description" content="Zyyvor API is currently undergoing scheduled maintenance. Please try again shortly.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://api.zyvor.my.id/">
+    <link rel="icon" href="/src/images/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/src/images/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #050505;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, transparent 0%, #050505 70%);
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .error-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #666;
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 2.5rem;
+        }
+
+        .error-number {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(7rem, 20vw, 12rem);
+            font-weight: 800;
+            line-height: 0.9;
+            color: rgba(255,255,255,0.08);
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            user-select: none;
+        }
+
+        .error-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .error-desc {
+            font-size: 0.95rem;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 440px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #050505;
+        }
+
+        .btn-primary:hover {
+            background: #e5e5e5;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #999;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .btn-secondary:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #333;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 480px) {
+            .actions { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 240px; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-badge">Status 503</div>
+        <div class="error-number">503</div>
+        <h1 class="error-title">Under Maintenance</h1>
+        <p class="error-desc">We are currently performing scheduled system upgrades to improve our API services. Please try again shortly.</p>
+        <div class="actions">
+            <button onclick="window.history.back()" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Back
+            </button>
+            <button onclick="window.location.reload()" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                Reload
+            </button>
+        </div>
+        <div class="footer-note">Zyyvor Api'S — v<span id="v">...</span></div>
+    </div>
+    <script>
+        (async function() {
+            try {
+                const r = await fetch('/configuration');
+                const c = await r.json();
+                if (c.releases?.[0]?.version) document.getElementById('v').textContent = c.releases[0].version;
+            } catch(e) {}
+        })();
+    </script>
+</body>
+</html>

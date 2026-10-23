@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>500 - Server Error | AlwaysCodex API</title>
+    
+    <!-- Tailwind & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        background: '#030712',
+                        surface: '#111827',
+                        border: '#1f2937',
+                        primary: {
+                            DEFAULT: '#6366f1',
+                            hover: '#4f46e5',
+                            dim: 'rgba(99, 102, 241, 0.1)',
+                        },
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glitch': 'glitch 3s infinite',
+                    },
+                    keyframes: {
+                        glitch: {
+                            '0%, 100%': { transform: 'skew(0deg, 0deg)' },
+                            '95%': { transform: 'skew(5deg, -2deg)' },
+                            '97%': { transform: 'skew(-3deg, 1deg)' },
+                            '99%': { transform: 'skew(0deg, 0deg)' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    
+    <style>
+        body {
+            background-color: #030712;
+            color: #e2e8f0;
+            background-image: 
+                linear-gradient(rgba(239, 68, 68, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(239, 68, 68, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* Red overlay for server error theme */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(239, 68, 68, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        /* Error card styling */
+        .error-card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(239, 68, 68, 0.25);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+        
+        .error-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(239, 68, 68, 0.1), transparent 30%);
+            animation: border-spin 8s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes border-spin {
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Server error text */
+        .server-error-text {
+            font-size: clamp(5rem, 15vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Status badge */
+        .status-badge {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 100px;
+            padding: 0.25rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #f87171;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Neo button */
+        .neo-button {
+            background: #ef4444;
+            color: white;
+            border: 2px solid #f87171;
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .neo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.4);
+            background: #dc2626;
+        }
+        
+        .neo-button:active {
+            transform: translateY(0);
+        }
+        
+        .neo-button.secondary {
+            background: transparent;
+            border-color: #4b5563;
+            box-shadow: none;
+            color: #e2e8f0;
+        }
+        
+        .neo-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #6b7280;
+        }
+        
+        /* Server icon */
+        .server-icon {
+            color: #ef4444;
+        }
+    </style>
+    
+    <!-- Anti DevTools Script -->
+    <script>
+        (function () {
+            const lockedHTML = '<div style="background:#050505;color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;overflow:hidden;position:fixed;top:0;left:0;width:100%;z-index:100000;width:100vw;height:100vh;"><div style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.15;pointer-events:none;background-image:repeating-linear-gradient(45deg, #6366f1, #6366f1 20px, #000 20px, #000 40px);"></div><div style="background:#6366f1;border:8px solid black;padding:2.5rem;max-width:40rem;width:90%;box-shadow:20px 20px 0px 0px #000;transform:rotate(-2deg);text-align:center;position:relative;z-index:10;"><h1 style="font-size:clamp(3rem, 10vw, 6rem);font-weight:900;margin-bottom:1.5rem;text-transform:uppercase;color:white;line-height:0.9;font-style:italic;">ACCESS<br>DENIED</h1><div style="background:white;border:4px solid black;padding:1.5rem;margin-bottom:2rem;transform:rotate(1deg);"><p style="color:black;font-weight:900;text-transform:uppercase;font-size:1.25rem;">Developer tools detected. Please close them and refresh to continue browsing.</p></div><div style="display:flex;justify-content:center;gap:1.5rem;"><div style="background:black;color:white;padding:0.75rem 1.5rem;border:4px solid white;font-weight:900;text-transform:uppercase;letter-spacing:1px;">SYSTEM LOCKED</div><button onclick="sessionStorage.removeItem(\'bawor_locked\');window.location.reload();" style="background:white;color:black;padding:0.75rem 1.5rem;border:4px solid black;font-weight:900;text-transform:uppercase;cursor:pointer;">REFRESH</button></div></div></div>';
+            if (sessionStorage.getItem('bawor_locked')) {
+                document.documentElement.innerHTML = lockedHTML;
+                return;
+            }
+            function detectDev() {
+                const start = new Date().getTime();
+                debugger;
+                if (new Date().getTime() - start > 100) {
+                    sessionStorage.setItem('bawor_locked', 'true');
+                    document.body.innerHTML = '';
+                    location.reload();
+                }
+            }
+            setInterval(detectDev, 1000);
+            window.addEventListener('keydown', function (e) {
+                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'U')) {
+                    sessionStorage.setItem('bawor_locked', 'true');
+                    location.reload();
+                }
+            });
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        })();
+    </script>
+</head>
+
+<body class="font-sans">
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 relative z-20">
+        <div class="error-card p-8 md:p-12 max-w-lg mx-auto text-center">
+            
+            <!-- Status Badge -->
+            <div class="flex justify-center mb-6">
+                <div class="status-badge">
+                    <i class="fas fa-exclamation-triangle text-xs"></i>
+                    <span>Error 500</span>
+                </div>
+            </div>
+            
+            <!-- 500 Server Error Text -->
+            <div class="text-center mb-6">
+                <div class="server-error-text">
+                    500
+                </div>
+                
+                <!-- Server Location Badge -->
+                <div class="inline-flex items-center gap-2 bg-surface/50 backdrop-blur-sm border border-border rounded-full px-4 py-1.5 mt-2">
+                    <i class="fas fa-server server-icon text-xs"></i>
+                    <span class="text-xs font-mono text-gray-300">atlantic-server</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                </div>
+            </div>
+            
+            <!-- Error Message -->
+            <h2 class="text-xl md:text-2xl font-bold text-white text-center mb-3">
+                Server Mengalami Gangguan
+            </h2>
+            
+            <p class="text-gray-400 text-center mb-8 max-w-md mx-auto text-sm">
+                Maaf, terjadi kesalahan pada server kami. Tim teknis kami telah diberitahu dan sedang memperbaiki masalah ini.
+            </p>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
+                <button onclick="window.location.reload()" class="neo-button">
+                    <i class="fas fa-sync-alt"></i>
+                    Coba Lagi
+                </button>
+                
+                <a href="/" class="neo-button secondary">
+                    <i class="fas fa-home"></i>
+                    Kembali
+                </a>
+            </div>
+            
+            <!-- Support Information -->
+            <div class="text-center space-y-2">
+                <p class="text-gray-500 text-xs">
+                    <i class="far fa-clock mr-1"></i>
+                    <span id="server-time" class="text-gray-400">--:--:--</span> WIB
+                </p>
+                <p class="text-gray-600 text-xs mt-4">
+                    Butuh bantuan? 
+                    <a href="mailto:support@api.zyvor.my.id" class="text-red-400 hover:underline">support@api.zyvor.my.id</a>
+                </p>
+                <p class="text-gray-700 text-[9px] mt-4 font-mono">
+                    Error ID: <span id="error-id">500-ATL-7F3D2A</span>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="text-center mt-4 text-gray-700 text-[8px] font-mono">
+            AlwaysCodex API • Atlantic Server Indonesia • v<span id="api-version">1.5.0</span>
+        </div>
+    </div>
+    
+    <script>
+        // Update server time
+        function updateServerTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('id-ID', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('server-time').textContent = timeStr;
+        }
+        updateServerTime();
+        setInterval(updateServerTime, 1000);
+
+        (async function() {
+            try {
+                const res = await fetch('/configuration');
+                const cfg = await res.json();
+                if (cfg.releases?.[0]?.version) document.getElementById('api-version').textContent = cfg.releases[0].version;
+            } catch (e) {}
+        })();
+        
+        // Random error ID generator
+        function generateErrorId() {
+            const chars = '0123456789ABCDEF';
+            let id = '500-ATL-';
+            for (let i = 0; i < 6; i++) {
+                id += chars[Math.floor(Math.random() * 16)];
+            }
+            document.getElementById('error-id').textContent = id;
+        }
+        generateErrorId();
+        
+        // Glitch effect on hover
+        document.querySelector('.server-error-text').addEventListener('mouseenter', function() {
+            this.style.animation = 'glitch 0.3s infinite';
+            setTimeout(() => {
+                this.style.animation = 'none';
+            }, 300);
+        });
+    </script>
+</body>
+
+</html>

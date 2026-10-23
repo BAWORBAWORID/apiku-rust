@@ -1,0 +1,11 @@
+# Security Contact
+# ----------------
+# If you discover a security vulnerability in Zyyvor API,
+# please report it responsibly.
+
+Contact: mailto:contact@api.zyvor.my.id
+Contact: https://t.me/ZyyvorAPI
+Encryption: https://api.zyvor.my.id/.well-known/pgp-key.txt
+Preferred-Languages: en, id
+Policy: https://api.zyvor.my.id/legal/security-policy
+Canonical: https://api.zyvor.my.id/security.txt

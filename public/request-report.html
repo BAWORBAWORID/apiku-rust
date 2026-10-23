@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="generator" content="Zyyvor Api Platform">
+    <title>Laporkan | Zyyvor Api</title>
+    <meta name="description" content="Send a report, feature request, or bug report to the Zyyvor development team.">
+    <meta name="keywords" content="report, bug report, feature request, feedback, zyvor">
+    <meta name="author" content="Zyyvor">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#f7f1e5">
+    <link rel="icon" type="image/x-icon" href="/src/images/logo.ico">
+    <link rel="apple-touch-icon" href="/src/images/logo.jpg">
+    <link rel="canonical" href="https://api.zyvor.my.id/request-report">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://api.zyvor.my.id/request-report">
+    <meta property="og:title" content="Send a Report — Zyyvor Api'S">
+    <meta property="og:description" content="Send a report, feature request, or bug report to the development team.">
+    <meta property="og:image" content="https://api.zyvor.my.id/src/images/logo.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:site_name" content="Zyyvor Api'S">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ZyyvorAPI">
+    <meta name="twitter:creator" content="@ZyyvorAPI">
+    <meta name="twitter:title" content="Send a Report — Zyyvor Api'S">
+    <meta name="twitter:description" content="Send a report, feature request, or bug report to the Zyyvor development team.">
+    <meta name="twitter:image" content="https://api.zyvor.my.id/src/images/logo.jpg">
+    <meta name="twitter:image:alt" content="Send a Report — Zyyvor">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SiteNavigationElement",
+                "@id": "https://api.zyvor.my.id/#navigation",
+                "name": "Main Navigation",
+                "description": "Primary site navigation links for Zyyvor API platform",
+                "url": "https://api.zyvor.my.id",
+                "hasPart": [
+                    {"@type": "SiteNavigationElement", "name": "Home", "url": "https://api.zyvor.my.id/"},
+                    {"@type": "SiteNavigationElement", "name": "Documentation", "url": "https://api.zyvor.my.id/docs"},
+                    {"@type": "SiteNavigationElement", "name": "Support", "url": "https://api.zyvor.my.id/support"},
+                    {"@type": "SiteNavigationElement", "name": "Status", "url": "https://api.zyvor.my.id/stats"},
+                    {"@type": "SiteNavigationElement", "name": "Changelog", "url": "https://api.zyvor.my.id/changelog"},
+                    {"@type": "SiteNavigationElement", "name": "Request", "url": "https://api.zyvor.my.id/request-report"}
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://api.zyvor.my.id/#website",
+                "name": "Zyyvor Api'S",
+                "url": "https://api.zyvor.my.id",
+                "inLanguage": "en-US"
+            },
+            {
+                "@type": "WebAPI",
+                "@id": "https://api.zyvor.my.id/#webapi",
+                "name": "Zyyvor REST API Platform",
+                "url": "https://api.zyvor.my.id",
+                "documentation": "https://api.zyvor.my.id/docs"
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://api.zyvor.my.id/request-report#webpage",
+                "name": "Send a Report — Zyyvor Api'S",
+                "description": "Send a report, feature request, or bug report to the Zyyvor development team.",
+                "url": "https://api.zyvor.my.id/request-report",
+                "isPartOf": { "@id": "https://api.zyvor.my.id/#website" },
+                "about": { "@id": "https://api.zyvor.my.id/#webapi" }
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://api.zyvor.my.id/#organization",
+                "name": "Zyyvor Api'S",
+                "url": "https://api.zyvor.my.id",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://api.zyvor.my.id/src/images/logo.jpg",
+                    "width": 1200,
+                    "height": 630
+                },
+                "sameAs": [
+                    "https://t.me/ZyyvorAPI",
+                    ""
+                ],
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "technical support",
+                    "email": "contact@api.zyvor.my.id",
+                    "url": "https://t.me/ZyyvorAPI",
+                    "availableLanguage": ["English", "Indonesian"]
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": "https://api.zyvor.my.id/request-report#breadcrumb",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://api.zyvor.my.id"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Request / Report",
+                        "item": "https://api.zyvor.my.id/request-report"
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Caveat', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        bg: '#f7f1e5',
+                        surface: '#faf8f5',
+                        border: '#e0d5c1',
+                        muted: '#665f55',
+                        dim: '#8c8275',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-paper: #f7f1e5;
+            --line-color: #e5d8c5;
+            --text-main: #2b2b2b;
+            --text-sub: #665f55;
+            --text-muted: #8c8275;
+            --accent-red: #8b2626;
+            --card-white: #faf8f5;
+            --card-yellow: #fceea7;
+            --card-blue: #dcebf0;
+            --card-pink: #f9dbdb;
+            --tape-color: #d1b48c;
+            --border-color: #e0d5c1;
+        }
+
+        /* Essential Utility Fallbacks */
+        .hidden { display: none !important; }
+        .flex { display: flex !important; }
+        .inline-flex { display: inline-flex !important; }
+        .grid { display: grid !important; }
+        .relative { position: relative !important; }
+        .absolute { position: absolute !important; }
+        .fixed { position: fixed !important; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-paper);
+            background-image: linear-gradient(var(--line-color) 1px, transparent 1px);
+            background-size: 100% 28px;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* Dot Grid Background */
+        .dot-grid {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-paper); }
+        ::-webkit-scrollbar-thumb { background: var(--tape-color); border-radius: 3px; }
+
+        /* Fixed Structural Navbar CSS */
+        .glass-header {
+            background: rgba(247, 241, 229, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px dashed var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            z-index: 1000;
+        }
+
+        .nav-inner {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-white);
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .menu-btn:hover {
+            background: var(--card-yellow);
+            color: var(--text-main);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 48px;
+            left: 0;
+            width: 200px;
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 2px 8px 24px rgba(0,0,0,0.08);
+            padding: 6px;
+            z-index: 100;
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-sub);
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+        .dropdown-menu a:hover {
+            background: var(--card-yellow);
+            color: var(--accent-red);
+        }
+
+        /* Form Card */
+        .paper-card {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 2px 8px 24px rgba(0,0,0,0.04);
+            position: relative;
+        }
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 22px;
+            background: rgba(209, 180, 140, 0.45);
+            border: 1px dashed rgba(0,0,0,0.1);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Inputs */
+        .form-field {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.2s;
+            outline: none;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .form-field:focus {
+            border-color: var(--accent-red);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px var(--card-pink);
+        }
+        .form-field::placeholder { color: var(--text-muted); }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Categories */
+        .cat-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cat-option:hover {
+            border-color: var(--text-main);
+            background: var(--card-yellow);
+        }
+        .cat-option.selected {
+            border-color: var(--accent-red);
+            background: var(--card-pink);
+        }
+        .cat-option .radio-dot {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            margin-top: 2px;
+            background: #fff;
+        }
+        .cat-option.selected .radio-dot {
+            border-color: var(--accent-red);
+        }
+        .cat-option.selected .radio-dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+        }
+
+        /* Buttons */
+        .btn-submit {
+            background: var(--text-main);
+            color: #ffffff;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 14px 28px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            width: 100%;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.06);
+        }
+        .btn-submit:hover:not(:disabled) {
+            background: #000000;
+            transform: translateY(-1px);
+        }
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success State */
+        .success-box {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        .error-box {
+            background: var(--card-pink);
+            border: 1px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 14px 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dot-grid"></div>
+
+    <!-- Navbar -->
+    <nav class="glass-header">
+        <div class="nav-inner">
+            <div class="nav-left">
+                <div class="relative">
+                    <button onclick="toggleNavMenu()" class="menu-btn" aria-label="Menu">
+                        <i class="fas fa-ellipsis-v text-sm"></i>
+                    </button>
+                    <div id="navMenu" class="dropdown-menu hidden">
+                        <a href="/"><i class="fas fa-home w-4 text-center"></i><span>Home</span></a>
+                        <div style="height:1px;border-bottom:1px dashed var(--border-color);margin:4px 0"></div>
+                        <a href="/docs"><i class="fas fa-book w-4 text-center"></i><span>Documentation</span></a>
+                        <a href="/donasi"><i class="fas fa-heart w-4 text-center"></i><span>Donasi</span></a>
+                        <div style="height:1px;border-bottom:1px dashed var(--border-color);margin:4px 0"></div>
+                        <a href="/support"><i class="fas fa-headset w-4 text-center"></i><span>Support</span></a>
+                        <a href="/stats"><i class="fas fa-chart-line w-4 text-center"></i><span>Status</span></a>
+                        <a href="/changelog"><i class="fas fa-clock-rotate-left w-4 text-center"></i><span>Changelog</span></a>
+                        <div style="height:1px;border-bottom:1px dashed var(--border-color);margin:4px 0"></div>
+                        <a href="/request-report" style="background:var(--card-pink);color:var(--accent-red);font-weight:700"><i class="fas fa-bug w-4 text-center"></i><span>Request</span></a>
+                        <a href="/admin/login"><i class="fas fa-shield-alt w-4 text-center"></i><span>Admin</span></a>
+                    </div>
+                </div>
+                <a href="/" style="display:flex;align-items:center;gap:10px">
+                    <img src="/src/images/logo.jpg" alt="Logo" style="width:32px;height:32px;border-radius:50%;border:1px solid #2b2b2b;object-fit:cover" onerror="this.style.display='none'">
+                    <div style="display:flex;flex-direction:column">
+                        <span style="font-family:'Caveat',cursive;font-size:1.25rem;font-weight:700;line-height:1;color:#2b2b2b">Zyyvor Api'S</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#665f55;text-transform:uppercase;letter-spacing:0.1em;margin-top:2px">Report Box</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="pb-20 px-4 sm:px-6 max-w-2xl mx-auto" style="margin-top: 100px !important;">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#faf8f5] border border-[#e0d5c1] text-[#8b2626] text-xs font-mono font-bold mb-4 shadow-sm">
+                <i class="fas fa-pen-to-square text-[10px]"></i>
+                <span>Direct Telegram Feedback</span>
+            </div>
+            <h1 class="font-display text-4xl sm:text-6xl font-bold text-[#2b2b2b] tracking-tight mb-2">
+                Send a Report ✏️
+            </h1>
+            <p class="text-[#665f55] text-base max-w-md mx-auto leading-relaxed font-medium">
+                Found a bug, have a feature suggestion, or want to share feedback? Send your note directly to the development team.
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="paper-card">
+            <!-- Success State -->
+            <div id="successState" class="hidden">
+                <div class="success-box">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-[#fceea7] border border-[#e0d5c1] flex items-center justify-center text-[#8b2626]">
+                        <i class="fas fa-check text-xl"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-[#2b2b2b] mb-2">Report Submitted Successfully</h3>
+                    <p class="text-[#665f55] text-xs sm:text-sm mb-6 font-medium leading-relaxed" id="successMessage">Thank you for your feedback. Your report has been delivered to the development team and will be reviewed as soon as possible.</p>
+                    
+                    <div class="bg-[#faf8f5] border border-[#e0d5c1] rounded-lg p-3.5 mb-6 text-left text-xs font-mono text-[#665f55] block">
+                        <div class="mb-1">Report ID: <span id="reportIdOutput" class="text-[#8b2626] font-bold"></span></div>
+                        <div>Sent: <span id="reportTimeOutput" class="text-[#2b2b2b] font-bold"></span></div>
+                    </div>
+                    
+                    <button onclick="resetForm()" class="text-xs text-[#8b2626] hover:underline font-mono font-bold transition-colors flex items-center justify-center gap-2 mx-auto">
+                        <i class="fas fa-plus text-[10px]"></i>
+                        <span>Submit another report</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="reportForm" onsubmit="submitReport(event)">
+                <!-- Category -->
+                <div class="mb-8">
+                    <label class="block text-[11px] font-mono text-[#8c8275] uppercase font-bold tracking-wider mb-3">Category</label>
+                    <div class="space-y-2.5" id="categoryContainer">
+                        <div class="cat-option selected" data-value="Request Fitur" onclick="selectCategory(this)">
+                            <div class="radio-dot"></div>
+                            <div class="w-7 h-7 rounded-md bg-[#fceea7] border border-[#e0d5c1] flex items-center justify-center text-[#8b2626] flex-shrink-0">
+                                <i class="fas fa-rocket text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#2b2b2b] text-xs sm:text-sm">Feature Request</div>
+                                <div class="text-[11px] text-[#665f55] font-medium leading-tight mt-0.5">Suggest new features, improvements, or ideas that could enhance the platform.</div>
+                            </div>
+                        </div>
+
+                        <div class="cat-option" data-value="Laporan Bug" onclick="selectCategory(this)">
+                            <div class="radio-dot"></div>
+                            <div class="w-7 h-7 rounded-md bg-[#f9dbdb] border border-[#e0d5c1] flex items-center justify-center text-[#8b2626] flex-shrink-0">
+                                <i class="fas fa-bug text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#2b2b2b] text-xs sm:text-sm">Bug Report</div>
+                                <div class="text-[11px] text-[#665f55] font-medium leading-tight mt-0.5">Report bugs, errors, or unexpected behavior you've encountered.</div>
+                            </div>
+                        </div>
+
+                        <div class="cat-option" data-value="Feedback" onclick="selectCategory(this)">
+                            <div class="radio-dot"></div>
+                            <div class="w-7 h-7 rounded-md bg-[#dcebf0] border border-[#e0d5c1] flex items-center justify-center text-[#2b2b2b] flex-shrink-0">
+                                <i class="fas fa-comment-dots text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#2b2b2b] text-xs sm:text-sm">Feedback</div>
+                                <div class="text-[11px] text-[#665f55] font-medium leading-tight mt-0.5">Share your thoughts, experience, and suggestions to help us improve.</div>
+                            </div>
+                        </div>
+
+                        <div class="cat-option" data-value="Lainnya" onclick="selectCategory(this)">
+                            <div class="radio-dot"></div>
+                            <div class="w-7 h-7 rounded-md bg-[#faf8f5] border border-[#e0d5c1] flex items-center justify-center text-[#8c8275] flex-shrink-0">
+                                <i class="fas fa-ellipsis text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#2b2b2b] text-xs sm:text-sm">Other</div>
+                                <div class="text-[11px] text-[#665f55] font-medium leading-tight mt-0.5">Questions, requests, or topics that don't fit the categories above.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="kategori" id="kategoriInput" value="Request Fitur">
+                </div>
+
+                <!-- Name -->
+                <div class="mb-5">
+                    <label class="block text-[11px] font-mono text-[#8c8275] uppercase font-bold tracking-wider mb-2" for="nama">Full Name</label>
+                    <input type="text" name="nama" id="nama" class="form-field" placeholder="Enter your name" maxlength="100">
+                </div>
+
+                <!-- Contact -->
+                <div class="mb-5">
+                    <label class="block text-[11px] font-mono text-[#8c8275] uppercase font-bold tracking-wider mb-2" for="kontak">Contact Information</label>
+                    <input type="text" name="kontak" id="kontak" class="form-field" placeholder="WhatsApp, Email, Telegram, or Social Media" maxlength="200">
+                </div>
+
+                <!-- Detail -->
+                <div class="mb-6">
+                    <label class="block text-[11px] font-mono text-[#8c8275] uppercase font-bold tracking-wider mb-2" for="pesan">Report Details</label>
+                    <textarea name="pesan" id="pesan" class="form-field form-textarea" placeholder="Provide as much detail as possible to help us understand your request, issue, or feedback."></textarea>
+                    <div class="flex justify-end mt-1.5">
+                        <span class="text-[11px] font-mono text-[#8c8275] font-bold" id="charCount">0 / 5000 characters</span>
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <div id="errorBox" class="error-box hidden mb-6 flex items-start gap-3">
+                    <i class="fas fa-exclamation-circle text-[#8b2626] mt-0.5"></i>
+                    <div>
+                        <div class="text-xs font-bold text-[#8b2626] mb-0.5">Failed to Submit Report</div>
+                        <p class="text-xs text-[#8b2626] font-medium" id="errorMessage">We couldn't deliver your report at this time. Please try again in a few moments.</p>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" class="btn-submit flex items-center justify-center gap-3">
+                    <span id="btnText">Send a Report</span>
+                    <i class="fas fa-arrow-right text-xs" id="btnIcon"></i>
+                    <i class="fas fa-circle-notch fa-spin hidden" id="btnSpinner"></i>
+                </button>
+
+                <p class="text-center text-[11px] text-[#8c8275] mt-4 font-mono font-bold">
+                    Reports are sent directly to the Zyyvor development team via Telegram. <i class="fab fa-telegram-plane text-[#8b2626] ml-1"></i>
+                </p>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <footer class="border-t border-dashed border-[#e0d5c1] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[#8c8275] font-mono font-bold">
+            <div>&copy; 2026-2027 Zyyvor Api'S. All rights reserved.<span id="footerYear" style="display:none"></span></div>
+            <div class="flex gap-4">
+                <span>Version: <span id="api-version" class="text-[#8b2626]"></span></span>
+                <span>Status: <span class="text-emerald-700">Online</span></span>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+        fetch('/configuration')
+            .then(r => r.json())
+            .then(cfg => {
+                if (cfg.releases?.[0]?.version) document.getElementById('api-version').textContent = cfg.releases[0].version;
+            })
+            .catch(() => {});
+
+        function toggleNavMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('navMenu');
+            const btn = document.querySelector('button[onclick="toggleNavMenu()"]');
+            if (menu && !menu.classList.contains('hidden')) {
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        function selectCategory(el) {
+            document.querySelectorAll('.cat-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('kategoriInput').value = el.dataset.value;
+        }
+
+        document.getElementById('pesan').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('charCount').textContent = count + ' / 5000 characters';
+            if (count > 5000) {
+                this.value = this.value.substring(0, 5000);
+                document.getElementById('charCount').textContent = '5000 / 5000 characters';
+            }
+        });
+
+        function showError(msg) {
+            const box = document.getElementById('errorBox');
+            document.getElementById('errorMessage').textContent = msg;
+            box.classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorBox').classList.add('hidden');
+        }
+
+        async function submitReport(e) {
+            e.preventDefault();
+            hideError();
+
+            const kategori = document.getElementById('kategoriInput').value;
+            const pesan = document.getElementById('pesan').value.trim();
+            const nama = document.getElementById('nama').value.trim();
+            const kontak = document.getElementById('kontak').value.trim();
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnSpinner = document.getElementById('btnSpinner');
+
+            if (!pesan) {
+                showError('Harap isi detail laporan.');
+                document.getElementById('pesan').focus();
+                return;
+            }
+
+            btn.disabled = true;
+            btnText.textContent = 'Submitting...';
+            btnIcon.classList.add('hidden');
+            btnSpinner.classList.remove('hidden');
+
+            try {
+                const res = await fetch('/api/request-report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ kategori, pesan, nama, kontak })
+                });
+
+                const data = await res.json();
+
+                if (data.status) {
+                    document.getElementById('reportForm').classList.add('hidden');
+                    const reportId = 'RP-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(Math.random()*1000).toString().padStart(3,'0');
+                    const timeOpts = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+                    const timeStr = new Date().toLocaleDateString('en-GB', timeOpts) + ' WIB';
+                    document.getElementById('reportIdOutput').textContent = reportId;
+                    document.getElementById('reportTimeOutput').textContent = timeStr;
+                    document.getElementById('successState').classList.remove('hidden');
+                    btn.disabled = false;
+                    btnText.textContent = 'Send a Report';
+                    btnIcon.classList.remove('hidden');
+                    btnSpinner.classList.add('hidden');
+                } else {
+                    showError(data.message || 'Gagal mengirim laporan.');
+                    btn.disabled = false;
+                    btnText.textContent = 'Send a Report';
+                    btnIcon.classList.remove('hidden');
+                    btnSpinner.classList.add('hidden');
+                }
+            } catch (err) {
+                showError('Gagal terhubung ke server. Periksa koneksi Anda.');
+                btn.disabled = false;
+                btnText.textContent = 'Send a Report';
+                btnIcon.classList.remove('hidden');
+                btnSpinner.classList.add('hidden');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('successState').classList.add('hidden');
+            document.getElementById('reportForm').classList.remove('hidden');
+            document.getElementById('pesan').value = '';
+            document.getElementById('nama').value = '';
+            document.getElementById('kontak').value = '';
+            document.getElementById('charCount').textContent = '0 / 5000 characters';
+            hideError();
+
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnSpinner = document.getElementById('btnSpinner');
+            btn.disabled = false;
+            btnText.textContent = 'Send a Report';
+            btnIcon.classList.remove('hidden');
+            btnSpinner.classList.add('hidden');
+
+            document.querySelectorAll('.cat-option').forEach((opt, i) => {
+                opt.classList.toggle('selected', i === 0);
+            });
+            document.getElementById('kategoriInput').value = 'Request Fitur';
+        }
+    </script>
+</body>
+</html>

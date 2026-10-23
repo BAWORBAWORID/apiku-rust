@@ -1,0 +1,24 @@
+{
+  "ips": {
+    "104.23.176.13": {
+      "bannedAt": "2026-09-17T23:14:37.250Z",
+      "reason": "Manually banned via dashboard",
+      "until": null
+    },
+    "172.70.208.140": {
+      "bannedAt": "2026-09-17T23:16:38.908Z",
+      "reason": "Manually banned via dashboard",
+      "until": null
+    },
+    "2a06:98c0:3600::": {
+      "bannedAt": "2026-09-17T23:58:00.000Z",
+      "reason": "Spamming deleted endpoint /api/tools/ff-guest (Cloudflare edge IPv6)",
+      "until": null
+    },
+    "140.213.45.191": {
+      "bannedAt": "2026-09-17T23:58:00.000Z",
+      "reason": "Spamming deleted endpoint /api/tools/ff-guest (IPv4)",
+      "until": null
+    }
+  }
+}

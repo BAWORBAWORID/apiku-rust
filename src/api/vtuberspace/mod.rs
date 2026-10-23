@@ -1,0 +1,14 @@
+pub mod agencies;
+pub mod debuts;
+pub mod home;
+pub mod news;
+pub mod news_categories;
+pub mod news_detail;
+pub mod news_latest;
+pub mod news_popular;
+pub mod news_search;
+pub mod news_tags;
+pub mod vtuber_detail;
+pub mod vtuber_search;
+pub mod vtubers;
+pub mod youtube_avatar;

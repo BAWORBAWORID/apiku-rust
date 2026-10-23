@@ -1,0 +1,2449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zyyvor Api - Admin Dashboard</title>
+    <meta name="description" content="Admin dashboard for Zyyvor API management">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Libraries & Fonts -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="/src/images/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/src/images/logo.jpg">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        hand: ['"Caveat"', 'cursive'],
+                    },
+                    colors: {
+                        paper: {
+                            bg: '#f7f1e5',
+                            line: '#e5d8c5',
+                            card: '#faf8f5',
+                            yellow: '#fceea7',
+                            blue: '#dcebf0',
+                            pink: '#f9dbdb',
+                            tape: '#d1b48c',
+                            border: '#e0d5c1',
+                        },
+                        main: '#2b2b2b',
+                        sub: '#665f55',
+                        accent: {
+                            red: '#8b2626',
+                        },
+                        success: '#2e7d32',
+                        error: '#c62828',
+                        warning: '#f57c00',
+                        info: '#0288d1',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-down': 'slideDown 0.3s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(8px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px) scale(0.98)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        }
+                    }
+                },
+            },
+        };
+    </script>
+
+    <style>
+        :root {
+            --bg-paper: #f7f1e5;
+            --line-color: #e5d8c5;
+            --text-main: #2b2b2b;
+            --text-sub: #665f55;
+            --accent-red: #8b2626;
+            --card-yellow: #fceea7;
+            --card-blue: #dcebf0;
+            --card-pink: #f9dbdb;
+            --card-white: #faf8f5;
+            --tape-color: #d1b48c;
+            --border-color: #e0d5c1;
+        }
+
+        body {
+            background-color: var(--bg-paper);
+            background-image: linear-gradient(var(--line-color) 1px, transparent 1px);
+            background-size: 100% 28px;
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .handwritten {
+            font-family: 'Caveat', cursive;
+            font-weight: 700;
+        }
+
+        /* Paper Card with Tape Effect */
+        .paper-card {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            position: relative;
+            box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.04);
+        }
+        
+        .tape-effect::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 14px;
+            background-color: var(--tape-color);
+            opacity: 0.7;
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        /* Glass / Paper Header */
+        .paper-header {
+            background: rgba(247, 241, 229, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-paper); }
+        ::-webkit-scrollbar-thumb { background: var(--tape-color); border-radius: 3px; }
+
+        * { -webkit-tap-highlight-color: transparent; }
+
+        /* Data Table Paper Theme */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .data-table thead th {
+            background: var(--card-yellow);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px dashed var(--border-color);
+            white-space: nowrap;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .data-table tbody tr {
+            border-bottom: 1px dashed var(--border-color);
+            transition: all 0.2s ease;
+        }
+        /* ---- Live Feed: filter chips & notification badges ---- */
+        .feed-filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 100px;
+            border: 1px solid var(--border-color);
+            background: var(--card-white);
+            color: var(--text-sub);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .feed-filter-chip:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+        .feed-filter-chip.active {
+            background: var(--text-main);
+            border-color: var(--text-main);
+            color: #ffffff;
+        }
+        .feed-filter-chip i {
+            color: var(--chip, var(--text-sub));
+        }
+        .feed-filter-chip.active i {
+            color: #ffffff;
+        }
+        .feed-chip-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem;
+            opacity: 0.75;
+        }
+        .feed-badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid currentColor;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .data-table tbody tr:hover {
+            background: rgba(252, 238, 167, 0.3);
+        }
+        .data-table tbody td {
+            padding: 0.75rem 1rem;
+            font-size: 0.8125rem;
+            color: var(--text-main);
+            border-bottom: 1px dashed var(--border-color);
+            vertical-align: middle;
+        }
+
+        /* Method Badges */
+        .method-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.625rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        .m-get { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .m-post { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+        .m-put { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+        .m-delete { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+
+        /* Status Select */
+        .status-select {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: 'JetBrains Mono', monospace;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b2626' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            padding-right: 2rem;
+        }
+        .status-select:focus {
+            border-color: var(--accent-red);
+        }
+        .status-select option {
+            background: var(--card-white);
+            color: var(--text-main);
+        }
+
+        /* Modal Paper */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(43, 43, 43, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+        }
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            max-width: 480px;
+            width: 100%;
+            padding: 1.5rem;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.3s ease;
+            box-shadow: 4px 8px 20px rgba(0,0,0,0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-backdrop.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Input Fields */
+        .input-field {
+            background-color: var(--bg-paper);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        .input-field:focus {
+            border-color: var(--accent-red);
+            background-color: #fff;
+        }
+        .input-field::placeholder {
+            color: var(--text-sub);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .toggle-switch.active {
+            background: var(--accent-red);
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+
+        /* Toast */
+        .toast {
+            min-width: 280px;
+            max-width: 400px;
+            padding: 0.875rem 1.25rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 2px 6px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .toast-success {
+            background: var(--card-blue);
+            color: #1565c0;
+        }
+        .toast-error {
+            background: var(--card-pink);
+            color: var(--accent-red);
+        }
+        .toast-warning {
+            background: var(--card-yellow);
+            color: #f57f17;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-white);
+            color: var(--text-main);
+            font-size: 0.8125rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            background: var(--card-yellow);
+            border-color: var(--text-main);
+        }
+        .action-btn.danger:hover {
+            background: var(--card-pink);
+            color: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+
+        /* Settings Section */
+        .settings-section {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.25rem;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.02);
+        }
+        .settings-section h3 {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .settings-section label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-sub);
+        }
+        .empty-state i {
+            font-size: 2.5rem;
+            color: var(--tape-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent-red);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Table Wrapper */
+        .table-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-white);
+        }
+
+        .scroll-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            padding: 0.5rem 0 0.25rem;
+            font-family: 'Caveat', cursive;
+            font-size: 0.9rem;
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(247, 241, 229, 0.96);
+            border-right: 1px dashed var(--border-color);
+        }
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.65rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-sub);
+            background: transparent;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            user-select: none;
+        }
+        .sidebar-btn:hover:not(.active) {
+            color: var(--text-main);
+            background: var(--card-yellow);
+        }
+        .sidebar-btn.active {
+            color: var(--accent-red);
+            background: var(--card-yellow);
+            border-left: 3px solid var(--accent-red);
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body class="font-sans min-h-screen flex flex-col">
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] hidden md:hidden"></div>
+
+    <!-- Sidebar Notebook Navigation -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-[100] -translate-x-full md:translate-x-0 w-64 md:w-20 lg:w-64 flex flex-col transition-all duration-200 shadow-lg md:shadow-none">
+        <!-- Sidebar Header -->
+        <div class="p-5 border-b border-dashed border-paper-border flex items-center justify-between md:justify-center lg:justify-between">
+            <a href="/" class="flex items-center gap-3">
+                <img src="/src/images/logo.jpg" alt="Zyyvor" class="w-8 h-8 rounded-full border border-main object-cover" onerror="this.style.display='none'">
+                <div class="flex flex-col md:hidden lg:flex">
+                    <span class="handwritten text-xl font-bold leading-none text-main">Zyyvor Api'S</span>
+                    <span class="text-[10px] text-sub font-mono uppercase tracking-wider mt-0.5">Admin Notebook</span>
+                </div>
+            </a>
+            <button onclick="toggleSidebar(false)" class="md:hidden p-1.5 rounded text-sub hover:text-main hover:bg-paper-yellow">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar Navigation Menu -->
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            <div class="handwritten text-sm text-accent-red px-3 mb-2 md:text-center lg:text-left"><span class="md:hidden lg:inline">✦ Core Management</span><span class="hidden md:inline lg:hidden">•</span></div>
+            <button id="sidebar-btn-endpoints" class="sidebar-btn active" onclick="switchTab('endpoints')" title="Endpoints">
+                <i class="fas fa-server w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">Endpoints</span>
+            </button>
+            <button id="sidebar-btn-keys" class="sidebar-btn" onclick="switchTab('keys')" title="API Keys">
+                <i class="fas fa-key w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">API Keys</span>
+            </button>
+            <button id="sidebar-btn-users" class="sidebar-btn" onclick="switchTab('users')" title="Users">
+                <i class="fas fa-users w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">Users</span>
+            </button>
+            <button id="sidebar-btn-ips" class="sidebar-btn" onclick="switchTab('ips')" title="IP Management">
+                <i class="fas fa-network-wired w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">IP Management</span>
+            </button>
+
+            <div class="handwritten text-sm text-accent-red px-3 pt-4 mb-2 md:text-center lg:text-left"><span class="md:hidden lg:inline">✦ System & Monitor</span><span class="hidden md:inline lg:hidden">•</span></div>
+            <button id="sidebar-btn-settings" class="sidebar-btn" onclick="switchTab('settings')" title="Settings">
+                <i class="fas fa-gear w-5 text-center shrink-0"></i>
+                <span class="md:hidden lg:inline">Settings</span>
+            </button>
+            <button id="sidebar-btn-live" class="sidebar-btn" onclick="switchTab('live')" title="Live Feed">
+                <i class="fas fa-bolt w-5 text-center text-warning shrink-0"></i>
+                <span class="md:hidden lg:inline">Live Feed</span>
+            </button>
+        </nav>
+
+        <!-- Sidebar Footer Quick Links -->
+        <div class="p-3 border-t border-dashed border-paper-border mt-auto bg-paper-card">
+            <div class="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 text-xs">
+                <a href="/docs" target="_blank" class="flex items-center justify-center lg:justify-start gap-1.5 p-2 rounded bg-paper-bg border border-paper-border text-main hover:bg-paper-yellow transition-colors">
+                    <i class="fas fa-book text-[11px]"></i>
+                    <span class="md:hidden lg:inline">Docs</span>
+                </a>
+                <a href="/stats" target="_blank" class="flex items-center justify-center lg:justify-start gap-1.5 p-2 rounded bg-paper-bg border border-paper-border text-main hover:bg-paper-yellow transition-colors">
+                    <i class="fas fa-chart-line text-[11px]"></i>
+                    <span class="md:hidden lg:inline">Status</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div id="main-wrapper" class="flex-1 md:pl-20 lg:pl-64 flex flex-col min-h-screen transition-all duration-200">
+
+        <!-- Top Navbar -->
+        <header class="sticky top-0 z-40 paper-header h-16 w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar(true)" class="md:hidden p-2 rounded bg-paper-card border border-paper-border text-main hover:bg-paper-yellow transition-colors">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-base text-main leading-tight">Admin Control Center</span>
+                        <span class="text-[11px] text-sub handwritten hidden sm:inline">notebook management dashboard</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div id="systemStatus" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-paper-card border border-paper-border shadow-sm">
+                        <i class="fas fa-user-shield text-success text-xs"></i>
+                        <span id="user-greeting" class="text-xs font-bold text-main">Logged in</span>
+                    </div>
+                    <button onclick="logout()" class="flex items-center gap-1.5 px-3 py-1.5 rounded border border-accent-red text-accent-red text-xs font-bold hover:bg-paper-pink transition-colors">
+                        <i class="fas fa-right-from-bracket text-xs"></i>
+                        <span class="hidden sm:inline">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Body -->
+        <main class="flex-grow pt-6 pb-10 px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-7xl mx-auto space-y-6">
+
+            <!-- Tab Content: Endpoints -->
+            <div id="content-endpoints" class="tab-content hidden animate-fade-in">
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <div class="relative flex-1">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-sub text-sm"></i>
+                        </div>
+                        <input
+                            type="text"
+                            id="endpoint-search"
+                            placeholder="Search endpoints by route, name, or category..."
+                            class="input-field w-full pl-10 pr-4 py-2.5 text-sm font-mono"
+                            oninput="filterEndpoints()"
+                        >
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-cube text-accent-red text-xs"></i>
+                            <span class="text-[11px] text-sub">Total:</span>
+                            <span id="endpoint-total" class="text-xs font-bold text-main font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-filter text-accent-red text-xs"></i>
+                            <span class="text-[11px] text-sub">Showing:</span>
+                            <span id="endpoint-filtered" class="text-xs font-bold text-main font-mono">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Methods</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="endpoints-tbody">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-3 text-sm">Loading endpoints...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroll-hint">
+                    <span>scroll horizontally for details ✦</span>
+                </div>
+            </div>
+
+            <!-- Tab Content: API Keys -->
+            <div id="content-keys" class="tab-content hidden animate-fade-in">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-key text-accent-red"></i>
+                        <span class="text-sm text-sub">Total keys: <span id="keys-total" class="font-bold text-main font-mono">0</span></span>
+                    </div>
+                    <button onclick="openGenerateModal()" class="flex items-center gap-2 px-4 py-2 rounded bg-main text-white text-xs font-bold hover:bg-black transition-all">
+                        <i class="fas fa-plus"></i>
+                        Generate New Key
+                    </button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Name</th>
+                                <th>Rate Limit</th>
+                                <th>Package</th>
+                                <th>Expires</th>
+                                <th>Restrictions</th>
+                                <th>Created</th>
+                                <th>Last Used</th>
+                                <th>Usage</th>
+                                <th>Enabled</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keys-tbody">
+                            <tr>
+                                <td colspan="11">
+                                    <div class="empty-state">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-3 text-sm">Loading API keys...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroll-hint">
+                    <span>scroll horizontally for details ✦</span>
+                </div>
+            </div>
+
+            <!-- Tab Content: User Management -->
+            <div id="content-users" class="tab-content hidden animate-fade-in">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-users text-accent-red"></i>
+                        <span class="text-sm text-sub">Total users: <span id="users-total" class="font-bold text-main font-mono">0</span></span>
+                    </div>
+                    <button onclick="openCreateUserModal()" class="flex items-center gap-2 px-4 py-2 rounded bg-main text-white text-xs font-bold hover:bg-black transition-all">
+                        <i class="fas fa-plus"></i>
+                        Create User
+                    </button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <div class="loading-spinner"></div>
+                                        <p class="mt-3 text-sm">Loading users...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroll-hint">
+                    <span>scroll horizontally for details ✦</span>
+                </div>
+            </div>
+
+            <!-- Tab Content: IP Management -->
+            <div id="content-ips" class="tab-content hidden animate-fade-in">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-ban text-error"></i> Banned IPs (<span id="banned-count">0</span>)</h3>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="ban-ip-input" class="input-field flex-1 px-3 py-2 text-sm font-mono" placeholder="Enter IP address...">
+                            <button onclick="banIP()" class="px-3 py-2 rounded bg-paper-pink text-error text-xs font-bold hover:bg-red-200 border border-border">
+                                Ban
+                            </button>
+                            <button onclick="unbanIP()" class="px-3 py-2 rounded bg-paper-yellow text-warning text-xs font-bold hover:bg-yellow-200 border border-border">
+                                Unban
+                            </button>
+                        </div>
+                        <div id="banned-list" class="text-sm text-sub max-h-48 overflow-y-auto">
+                            <p class="text-xs">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3><i class="fas fa-shield text-success"></i> Whitelist IPs (<span id="whitelist-count">0</span>)</h3>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="whitelist-ip-input" class="input-field flex-1 px-3 py-2 text-sm font-mono" placeholder="Enter IP to whitelist...">
+                            <button onclick="addWhitelistIP()" class="px-3 py-2 rounded bg-paper-blue text-info text-xs font-bold hover:bg-blue-200 border border-border">
+                                Add
+                            </button>
+                        </div>
+                        <div id="whitelist-list" class="text-sm text-sub max-h-48 overflow-y-auto">
+                            <p class="text-xs">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Live Notifications -->
+            <div id="content-live" class="tab-content hidden animate-fade-in">
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+                            <span class="text-[11px] text-sub">Status:</span>
+                            <span class="text-xs font-bold text-success font-mono">LIVE</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-users text-accent-red text-xs"></i>
+                            <span class="text-[11px] text-sub">IPs:</span>
+                            <span id="live-total-ips" class="text-xs font-bold text-main font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-chart-simple text-accent-red text-xs"></i>
+                            <span class="text-[11px] text-sub">Req:</span>
+                            <span id="live-total-req" class="text-xs font-bold text-main font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-triangle-exclamation text-warning text-xs"></i>
+                            <span class="text-[11px] text-sub">Violations:</span>
+                            <span id="live-total-violations" class="text-xs font-bold text-warning font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-crown text-xs" style="color:#6a1b9a"></i>
+                            <span class="text-[11px] text-sub">Premium:</span>
+                            <span id="live-total-premium" class="text-xs font-bold font-mono" style="color:#6a1b9a">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-gem text-xs" style="color:#a35400"></i>
+                            <span class="text-[11px] text-sub">VIP:</span>
+                            <span id="live-total-vip" class="text-xs font-bold font-mono" style="color:#a35400">0</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 ml-auto">
+                        <div id="next-reset-countdown" class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-card border border-paper-border">
+                            <i class="fas fa-calendar-clock text-info text-xs"></i>
+                            <span class="text-[11px] text-sub">Next Reset:</span>
+                            <span id="reset-countdown" class="text-xs font-bold text-main font-mono">--</span>
+                        </div>
+                        <button onclick="clearNotificationFeed()" class="flex items-center gap-1.5 px-3 py-2 rounded bg-paper-pink border border-border text-error text-xs font-bold hover:bg-red-200">
+                            <i class="fas fa-trash-can"></i>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <div id="live-feed-filters" class="flex items-center gap-1.5 flex-wrap mb-3">
+                    <button type="button" data-feed-filter="all" class="feed-filter-chip active">
+                        <i class="fas fa-layer-group"></i> All <span data-feed-count="all" class="feed-chip-count">0</span>
+                    </button>
+                    <button type="button" data-feed-filter="premium" class="feed-filter-chip" style="--chip:#6a1b9a">
+                        <i class="fas fa-crown"></i> Premium <span data-feed-count="premium" class="feed-chip-count">0</span>
+                    </button>
+                    <button type="button" data-feed-filter="vip" class="feed-filter-chip" style="--chip:#a35400">
+                        <i class="fas fa-gem"></i> VIP <span data-feed-count="vip" class="feed-chip-count">0</span>
+                    </button>
+                    <button type="button" data-feed-filter="spam" class="feed-filter-chip" style="--chip:#c62828">
+                        <i class="fas fa-triangle-exclamation"></i> Spam <span data-feed-count="spam" class="feed-chip-count">0</span>
+                    </button>
+                    <button type="button" data-feed-filter="violation" class="feed-filter-chip" style="--chip:#a35500">
+                        <i class="fas fa-circle-exclamation"></i> Violation <span data-feed-count="violation" class="feed-chip-count">0</span>
+                    </button>
+                    <button type="button" data-feed-filter="ban" class="feed-filter-chip" style="--chip:#2b2b2b">
+                        <i class="fas fa-ban"></i> Ban <span data-feed-count="ban" class="feed-chip-count">0</span>
+                    </button>
+                    <button type="button" data-feed-filter="stats" class="feed-filter-chip" style="--chip:#026aa4">
+                        <i class="fas fa-chart-simple"></i> Stats <span data-feed-count="stats" class="feed-chip-count">0</span>
+                    </button>
+                </div>
+
+                <div id="live-feed" class="space-y-2 max-h-[600px] overflow-y-auto pr-1">
+                    <div class="text-center py-12">
+                        <i class="fas fa-bolt text-3xl text-sub mb-3"></i>
+                        <p class="text-sm text-sub">Waiting for live notifications...</p>
+                        <p class="text-xs text-sub mt-1">Auto-refreshes every 5 seconds</p>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <h3 class="handwritten text-xl text-main mb-2 flex items-center gap-2">
+                        <i class="fas fa-network-wired text-accent-red text-base"></i>
+                        Active IPs (Top 20)
+                    </h3>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>IP</th>
+                                    <th>Requests</th>
+                                    <th>Violations</th>
+                                    <th>Last Path</th>
+                                    <th>Last Active</th>
+                                </tr>
+                            </thead>
+                            <tbody id="live-ips-tbody">
+                                <tr><td colspan="5"><div class="empty-state py-6"><p class="text-xs text-sub">No active IPs</p></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Settings -->
+            <div id="content-settings" class="tab-content hidden animate-fade-in">
+                <div class="space-y-4">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-database text-accent-red"></i> Database Status</h3>
+                        <div id="db-status-container" class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div id="db-status-dot" class="w-3 h-3 rounded-full bg-success"></div>
+                                <div>
+                                    <p id="db-status-text" class="text-sm font-bold text-success">Online</p>
+                                    <p id="db-status-detail" class="text-xs text-sub mt-0.5">JSON-based stats storage</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span id="db-type-badge" class="text-[10px] font-mono font-bold px-2 py-1 rounded bg-paper-blue text-info border border-paper-border">JSON</span>
+                                <span id="db-file-badge" class="text-[10px] font-mono px-2 py-1 rounded bg-paper-bg border border-paper-border text-main">api-stats.json</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section border-l-4 border-warning">
+                        <h3><i class="fas fa-screwdriver-wrench text-warning"></i> Maintenance Mode</h3>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <label class="block font-bold mb-1">System Maintenance</label>
+                                <p class="text-xs text-sub">Aktifkan untuk mengubah seluruh API dan sistem menjadi mode perbaikan (Under Maintenance)</p>
+                            </div>
+                            <div>
+                                <div id="toggle-maintenance" class="toggle-switch" onclick="toggleSetting(this, 'maintenance')"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-comment-dots text-accent-red"></i> Feedback Button</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Enabled</label>
+                                <div id="toggle-feedback" class="toggle-switch" onclick="toggleSetting(this, 'feedbackButton.enabled')"></div>
+                            </div>
+                            <div>
+                                <label class="block mb-2">URL</label>
+                                <input type="text" id="setting-feedback-url" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="https://...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-gauge-high text-accent-red"></i> Rate Limiting</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Enabled</label>
+                                <div id="toggle-rateLimit" class="toggle-switch active" onclick="toggleSetting(this, 'rateLimit.enabled')"></div>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Max Requests (per window)</label>
+                                <input type="number" id="setting-rateLimit-maxRequests" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="500">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Window (ms) <span class="text-xs text-sub font-normal">86400000 = 24 jam</span></label>
+                                <input type="number" id="setting-rateLimit-windowMs" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="86400000">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Message</label>
+                                <input type="text" id="setting-rateLimit-message" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="Rate limit exceeded...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-shield-halved text-error"></i> Spam Detection</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Max Violations (sebelum ban)</label>
+                                <input type="number" id="setting-spamDetection-maxViolations" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="20">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Max Unique IPs (flood protection)</label>
+                                <input type="number" id="setting-spamDetection-maxUniqueIPs" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-fire text-warning"></i> Popular Endpoints</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Limit (jumlah top endpoints)</label>
+                                <input type="number" id="setting-popularLimit" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="50" min="10" max="200">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bell text-warning"></i> Notifications</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2">Enabled</label>
+                                <div id="toggle-notifications" class="toggle-switch active" onclick="toggleSetting(this, 'notifications.enabled')"></div>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Title</label>
+                                <input type="text" id="setting-notifications-title" class="input-field w-full px-3 py-2 text-sm" placeholder="Notification title">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block mb-2">Message</label>
+                                <textarea id="setting-notifications-message" class="input-field w-full px-3 py-2 text-sm resize-none" rows="3" placeholder="Notification message"></textarea>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Button Text</label>
+                                <input type="text" id="setting-notifications-buttonText" class="input-field w-full px-3 py-2 text-sm" placeholder="e.g. OK, MANTAP">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Source Code Text</label>
+                                <input type="text" id="setting-notifications-sourceCodeText" class="input-field w-full px-3 py-2 text-sm" placeholder="e.g. KUNJUNGI WEB">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block mb-2">Custom Domain (Source URL)</label>
+                                <input type="url" id="setting-notifications-sourceCodeUrl" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="https://example.com/">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-tag text-success"></i> Releases</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div id="releases-list">
+                                <div class="text-xs text-sub py-2">Loading releases...</div>
+                            </div>
+                            <div class="flex justify-center pt-1">
+                                <button onclick="openAddReleaseModal()" class="flex items-center gap-2 px-4 py-2 rounded bg-paper-card border border-paper-border text-main text-xs font-bold hover:bg-paper-yellow">
+                                    <i class="fas fa-plus"></i> Add Release
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bullhorn text-info"></i> Announcements</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="flex items-center justify-between">
+                                <label class="block mb-0">Enabled</label>
+                                <div id="toggle-announcements" class="toggle-switch active" onclick="toggleSetting(this, 'announcements.enabled')"></div>
+                            </div>
+                            <div id="announcements-list">
+                                <div class="text-xs text-sub py-2">Loading announcements...</div>
+                            </div>
+                            <div class="flex justify-center pt-1">
+                                <button onclick="openAddAnnouncementModal()" class="flex items-center gap-2 px-4 py-2 rounded bg-paper-card border border-paper-border text-main text-xs font-bold hover:bg-paper-yellow">
+                                    <i class="fas fa-plus"></i> Add Announcement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                        <button onclick="saveSettings()" id="saveSettingsBtn" class="flex items-center gap-2 px-6 py-2.5 rounded bg-main text-white text-sm font-bold hover:bg-black transition-all">
+                            <i class="fas fa-floppy-disk"></i>
+                            Save Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer border-t border-dashed border-paper-border mt-auto py-6 text-center text-xs text-accent-red italic">
+        <div class="flex flex-col items-center justify-center gap-1">
+            <div class="flex items-center justify-center gap-2">
+                <img src="/src/images/logo.jpg" alt="" class="w-4 h-4 rounded-full border border-main object-cover" onerror="this.style.display='none'">
+                <span>&copy; 2026-2027 Zyyvor Api'S. All rights reserved.</span>
+            </div>
+            <span id="footerVer" class="font-mono text-[10px] text-sub"></span>
+        </div>
+    </footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal-backdrop" onclick="if(event.target===this)closeModal()">
+        <div class="modal-content" id="modal-content"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-4 z-[300] flex flex-col gap-2"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, duration: 300, offset: 15 });
+
+        let allEndpoints = [];
+        let allKeys = [];
+        let settingsConfig = {};
+        window._releaseItems = [];
+        window._announcementItems = [];
+
+        function toggleNavMenu() {
+            document.getElementById('navMenu').classList.toggle('hidden');
+        }
+
+        function toggleSidebar(show) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar && overlay) {
+                if (show === undefined) {
+                    show = sidebar.classList.contains('-translate-x-full');
+                }
+                if (show) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
+                    overlay.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.remove('translate-x-0');
+                    overlay.classList.add('hidden');
+                }
+            }
+        }
+
+        function switchTabUI(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.sidebar-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+            const targetContent = document.getElementById(`content-${tabName}`);
+            if (targetContent) targetContent.classList.remove('hidden');
+            const activeBtn = document.getElementById(`sidebar-btn-${tabName}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            localStorage.setItem('admin_active_tab', tabName);
+        }
+
+        function switchTab(tabName) {
+            switchTabUI(tabName);
+            if (window.innerWidth < 768) toggleSidebar(false);
+            if (tabName !== 'live' && typeof stopLivePolling === 'function') stopLivePolling();
+
+            if (tabName === 'endpoints' && typeof loadEndpoints === 'function') loadEndpoints();
+            if (tabName === 'keys' && typeof loadApiKeys === 'function') loadApiKeys();
+            if (tabName === 'users' && typeof loadUsers === 'function') loadUsers();
+            if (tabName === 'ips' && typeof loadIPs === 'function') loadIPs();
+            if (tabName === 'settings' && typeof loadSettings === 'function') loadSettings();
+            if (tabName === 'live') {
+                if (typeof initLiveFeedFilters === 'function') initLiveFeedFilters();
+                if (typeof loadLiveFeed === 'function') loadLiveFeed();
+                if (typeof loadLiveIPs === 'function') loadLiveIPs();
+                if (typeof startLivePolling === 'function') startLivePolling();
+            }
+        }
+
+        function openModal(html) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modal-content').innerHTML = html;
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const icons = { success: 'fa-check-circle', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation' };
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.success}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        async function loadEndpoints() {
+            try {
+                const res = await fetch('/admin/api/endpoints');
+                if (res.status === 401) return window.location.href = '/admin/login';
+                const data = await res.json();
+                if (data.success) {
+                    allEndpoints = data.endpoints;
+                    document.getElementById('endpoint-total').textContent = data.total;
+                    renderEndpoints(allEndpoints);
+                }
+            } catch (err) {
+                showToast('Failed to load endpoints', 'error');
+            }
+        }
+
+        function renderEndpoints(endpoints) {
+            const tbody = document.getElementById('endpoints-tbody');
+            document.getElementById('endpoint-filtered').textContent = endpoints.length;
+
+            if (endpoints.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-ghost"></i><p class="font-bold">No endpoints found</p></div></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = endpoints.map(ep => {
+                const methods = (ep.methods || [ep.method] || []).map(m => `<span class="method-badge m-${m.toLowerCase()}">${m}</span>`).join(' ');
+                const statusColors = { online: '#2e7d32', offline: '#c62828', maintenance: '#f57c00', premium: '#6a1b9a', vip: '#f57f17' };
+
+                return `
+                    <tr>
+                        <td><code class="text-xs font-mono text-main bg-paper-yellow px-1.5 py-0.5 rounded border border-paper-border">${escapeHtml(ep.route)}</code></td>
+                        <td class="font-bold text-main text-xs">${escapeHtml(ep.name || '-')}</td>
+                        <td><span class="text-xs px-2 py-0.5 rounded bg-paper-card border border-paper-border text-sub">${escapeHtml(ep.category || '-')}</span></td>
+                        <td>${methods}</td>
+                        <td>
+                            ${currentRole === 'superadmin' ? `
+                            <select class="status-select" style="color: ${statusColors[ep.status] || statusColors.online}" onchange="updateEndpointStatus('${escapeHtml(ep.route)}', this.value, this)">
+                                <option value="online" ${ep.status === 'online' ? 'selected' : ''}>online</option>
+                                <option value="offline" ${ep.status === 'offline' ? 'selected' : ''}>offline</option>
+                                <option value="maintenance" ${ep.status === 'maintenance' ? 'selected' : ''}>maintenance</option>
+                                <option value="premium" ${ep.status === 'premium' ? 'selected' : ''}>premium</option>
+                                <option value="vip" ${ep.status === 'vip' ? 'selected' : ''}>vip</option>
+                            </select>
+                            ` : `<span class="text-xs font-bold" style="color:${statusColors[ep.status]}">${ep.status}</span>`}
+                        </td>
+                        <td><a href="${escapeHtml(ep.route)}" target="_blank" class="action-btn"><i class="fas fa-external-link-alt"></i></a></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterEndpoints() {
+            const query = document.getElementById('endpoint-search').value.toLowerCase().trim();
+            if (!query) return renderEndpoints(allEndpoints);
+            const filtered = allEndpoints.filter(ep =>
+                (ep.route || '').toLowerCase().includes(query) ||
+                (ep.name || '').toLowerCase().includes(query) ||
+                (ep.category || '').toLowerCase().includes(query)
+            );
+            renderEndpoints(filtered);
+        }
+
+        async function updateEndpointStatus(route, status, selectEl) {
+            try {
+                const res = await fetch('/admin/api/endpoints/status', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ route, status })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`${route} set to ${status}`);
+                    const ep = allEndpoints.find(e => e.route === route);
+                    if (ep) ep.status = status;
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function loadApiKeys() {
+            try {
+                const res = await fetch('/admin/api/keys');
+                if (res.status === 401) return window.location.href = '/admin/login';
+                const data = await res.json();
+                if (data.success) {
+                    allKeys = data.keys;
+                    document.getElementById('keys-total').textContent = data.total;
+                    renderKeys(allKeys);
+                }
+            } catch (err) { showToast('Failed to load keys', 'error'); }
+        }
+
+        function renderKeys(keys) {
+            const tbody = document.getElementById('keys-tbody');
+            if (keys.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><i class="fas fa-key"></i><p class="font-bold">No API keys found</p></div></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = keys.map(k => {
+                const created = k.createdAt ? new Date(k.createdAt).toLocaleDateString() : '-';
+                const lastUsed = k.lastUsed ? new Date(k.lastUsed).toLocaleDateString() : 'Never';
+                const rl = k.rateLimit || {};
+
+                return `
+                    <tr>
+                        <td><code class="text-xs font-mono text-main bg-paper-yellow px-1.5 py-0.5 rounded border border-paper-border">${escapeHtml(k.key)}</code></td>
+                        <td class="font-bold text-xs">${escapeHtml(k.name || '-')}</td>
+                        <td><span class="text-[10px] font-mono bg-paper-blue px-1.5 py-0.5 rounded border border-paper-border">D:${rl.maxPerDay ?? '∞'} M:${rl.maxPerMinute ?? '∞'}</span></td>
+                        <td><span class="text-[10px] font-bold uppercase">${k.package?.type || k.role || 'free'}</span></td>
+                        <td><span class="text-[10px] font-mono">${k.expiresAt ? new Date(k.expiresAt).toLocaleDateString() : 'Lifetime'}</span></td>
+                        <td><span class="text-[10px] text-sub">${k.allowedStatuses?.join(',') || 'All'}</span></td>
+                        <td class="text-xs text-sub">${created}</td>
+                        <td class="text-xs text-sub">${lastUsed}</td>
+                        <td class="text-xs font-mono font-bold">${k.usageCount || 0}</td>
+                        <td><div class="toggle-switch ${k.enabled ? 'active' : ''}" onclick="toggleApiKey('${escapeHtml(k._key)}', ${!k.enabled}, this)"></div></td>
+                        <td>
+                            <div class="flex items-center gap-1">
+                                <button class="action-btn" onclick="editKeyRateLimits('${escapeHtml(k._key)}')" title="Edit"><i class="fas fa-gauge-high"></i></button>
+                                <button class="action-btn danger" onclick="deleteApiKey('${escapeHtml(k._key)}')" title="Delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openGenerateModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Generate New Key ✏️</h3>
+                    <button onclick="closeModal()" class="text-sub hover:text-main"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">Key Name</label>
+                        <input type="text" id="modal-key-name" class="input-field w-full px-3 py-2 text-sm" placeholder="e.g. Production Server">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Custom Value (Optional)</label>
+                        <input type="text" id="modal-key-custom" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="my-custom-key">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block mb-1">Package</label>
+                            <select id="modal-key-pkg" class="input-field w-full px-3 py-2 text-sm">
+                                <option value="premium">Premium</option>
+                                <option value="vip">VIP</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block mb-1">Expired</label>
+                            <select id="modal-key-expired" class="input-field w-full px-3 py-2 text-sm">
+                                <option value="lifetime">Lifetime</option>
+                                <option value="3">3 Days</option>
+                                <option value="7">7 Days</option>
+                                <option value="30">30 Days</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block mb-1">Per Minute</label>
+                            <input type="number" id="modal-key-min" class="input-field w-full px-3 py-2 text-sm" value="60">
+                        </div>
+                        <div>
+                            <label class="block mb-1">Per Day</label>
+                            <input type="number" id="modal-key-day" class="input-field w-full px-3 py-2 text-sm" value="1000">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Endpoint Restrictions</label>
+                        <input type="text" id="modal-gen-endpoints" class="input-field w-full px-3 py-2 text-sm font-mono" placeholder="e.g. /api/am/*, /api/ai/*">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Status Restrictions</label>
+                        <div class="flex gap-4" id="modal-gen-statuses">
+                            <label class="flex items-center gap-1 text-xs"><input type="checkbox" value="premium"> Premium</label>
+                            <label class="flex items-center gap-1 text-xs"><input type="checkbox" value="vip"> VIP</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="generateApiKey()" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Generate</button>
+                </div>
+            `);
+        }
+
+        async function generateApiKey() {
+            const name = document.getElementById('modal-key-name')?.value?.trim();
+            if (!name) return showToast('Please enter a key name', 'warning');
+            const customKey = document.getElementById('modal-key-custom')?.value?.trim();
+            const maxPerMinute = parseInt(document.getElementById('modal-key-min')?.value) || 60;
+            const maxPerDay = parseInt(document.getElementById('modal-key-day')?.value) || 1000;
+            const pkgType = document.getElementById('modal-key-pkg')?.value || 'premium';
+            const expiredVal = document.getElementById('modal-key-expired')?.value || 'lifetime';
+
+            const genEndpointsRaw = document.getElementById('modal-gen-endpoints')?.value?.trim();
+            const allowedEndpoints = genEndpointsRaw ? genEndpointsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+            const genStatusCheckboxes = document.querySelectorAll('#modal-gen-statuses input[type=checkbox]:checked');
+            const allowedStatuses = Array.from(genStatusCheckboxes).map(cb => cb.value);
+
+            let expiresDate = null;
+            if (expiredVal !== 'lifetime') {
+                expiresDate = new Date(Date.now() + parseInt(expiredVal) * 86400000).toISOString();
+            }
+
+            try {
+                const res = await fetch('/admin/api/keys', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        customKey: customKey || undefined,
+                        package: { type: pkgType, expired: expiresDate },
+                        rateLimit: { maxPerDay, maxPerMinute },
+                        allowedEndpoints: allowedEndpoints.length ? allowedEndpoints : null,
+                        allowedStatuses: allowedStatuses.length ? allowedStatuses : null,
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const fullKey = data.key.key;
+                    document.getElementById('modal-content').innerHTML = `
+                        <div class="text-center">
+                            <h3 class="handwritten text-2xl font-bold text-main mb-2">API Key Generated ✏️</h3>
+                            <p class="text-xs text-sub mb-4">Copy your API key now. You won't be able to see it again!</p>
+                            <code id="generated-key-display" class="block w-full bg-paper-yellow border border-paper-border rounded p-3 text-xs font-mono text-main break-all mb-4">${escapeHtml(fullKey)}</code>
+                            <div class="flex justify-center gap-2">
+                                <button onclick="copyGeneratedKey()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-xs font-bold"><i class="fas fa-copy mr-1"></i>Copy</button>
+                                <button onclick="closeModal(); loadApiKeys();" class="px-4 py-2 rounded bg-main text-white text-xs font-bold">Done</button>
+                            </div>
+                        </div>
+                    `;
+                    showToast('API key generated successfully');
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        function copyGeneratedKey() {
+            const keyEl = document.getElementById('generated-key-display');
+            if (!keyEl) return;
+            navigator.clipboard.writeText(keyEl.textContent.trim()).then(() => {
+                showToast('API key copied to clipboard');
+            }).catch(() => {
+                fallbackCopy(keyEl.textContent.trim());
+            });
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('API key copied to clipboard');
+            } catch (e) {
+                showToast('Failed to copy manually', 'warning');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        async function toggleApiKey(key, enabled, toggleEl) {
+            try {
+                const res = await fetch(`/admin/api/keys/${encodeURIComponent(key)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enabled })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    toggleEl.classList.toggle('active');
+                    showToast(`Key ${enabled ? 'enabled' : 'disabled'}`);
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function deleteApiKey(key) {
+            openModal(`
+                <div class="text-center">
+                    <h3 class="handwritten text-2xl font-bold text-accent-red mb-2">Delete API Key?</h3>
+                    <p class="text-xs text-sub mb-4">This action cannot be undone.</p>
+                    <div class="flex justify-center gap-2">
+                        <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-xs font-bold">Cancel</button>
+                        <button onclick="confirmDeleteKey('${escapeHtml(key)}')" class="px-4 py-2 rounded bg-accent-red text-white text-xs font-bold">Delete</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function confirmDeleteKey(key) {
+            try {
+                const res = await fetch(`/admin/api/keys/${encodeURIComponent(key)}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('Key deleted');
+                    loadApiKeys();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function editKeyRateLimits(key) {
+            const k = allKeys.find(kk => kk._key === key);
+            if (!k) return;
+            const rl = k.rateLimit || {};
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Edit Key Settings ✏️</h3>
+                    <button onclick="closeModal()" class="text-sub"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">Key Name</label>
+                        <input type="text" id="modal-edit-name" class="input-field w-full px-3 py-2 text-sm" value="${escapeHtml(k.name || '')}">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Package</label>
+                        <select id="modal-edit-pkg" class="input-field w-full px-3 py-2 text-sm">
+                            <option value="premium" ${(k.package?.type || k.role) === 'premium' ? 'selected' : ''}>Premium</option>
+                            <option value="vip" ${(k.package?.type || k.role) === 'vip' ? 'selected' : ''}>VIP</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block mb-1">Per Day</label>
+                            <input type="number" id="modal-rl-day" class="input-field w-full px-3 py-2 text-sm" value="${rl.maxPerDay ?? 0}">
+                        </div>
+                        <div>
+                            <label class="block mb-1">Per Minute</label>
+                            <input type="number" id="modal-rl-minute" class="input-field w-full px-3 py-2 text-sm" value="${rl.maxPerMinute ?? 0}">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Endpoint Restrictions</label>
+                        <input type="text" id="modal-edit-endpoints" class="input-field w-full px-3 py-2 text-sm font-mono" value="${k.allowedEndpoints ? escapeHtml(k.allowedEndpoints.join(', ')) : ''}">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Status Restrictions</label>
+                        <div class="flex gap-4" id="modal-edit-statuses">
+                            <label class="flex items-center gap-1 text-xs"><input type="checkbox" value="premium" ${k.allowedStatuses?.includes('premium') ? 'checked' : ''}> Premium</label>
+                            <label class="flex items-center gap-1 text-xs"><input type="checkbox" value="vip" ${k.allowedStatuses?.includes('vip') ? 'checked' : ''}> VIP</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="confirmKeySettings('${escapeHtml(key)}')" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Save</button>
+                </div>
+            `);
+        }
+
+        async function confirmKeySettings(key) {
+            const name = document.getElementById('modal-edit-name')?.value?.trim();
+            const pkgType = document.getElementById('modal-edit-pkg')?.value || 'premium';
+            const maxPerDay = parseInt(document.getElementById('modal-rl-day')?.value) || 0;
+            const maxPerMinute = parseInt(document.getElementById('modal-rl-minute')?.value) || 0;
+
+            const editEndpointsRaw = document.getElementById('modal-edit-endpoints')?.value?.trim();
+            const editAllowedEndpoints = editEndpointsRaw ? editEndpointsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+            const editStatusCheckboxes = document.querySelectorAll('#modal-edit-statuses input[type=checkbox]:checked');
+            const editAllowedStatuses = Array.from(editStatusCheckboxes).map(cb => cb.value);
+
+            try {
+                const res = await fetch(`/admin/api/keys/${encodeURIComponent(key)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        package: { type: pkgType },
+                        rateLimit: { maxPerDay, maxPerMinute },
+                        allowedEndpoints: editAllowedEndpoints.length ? editAllowedEndpoints : null,
+                        allowedStatuses: editAllowedStatuses.length ? editAllowedStatuses : null
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('Key settings updated');
+                    loadApiKeys();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function loadSettings() {
+            try {
+                const res = await fetch('/admin/api/settings');
+                if (res.status === 401) return window.location.href = '/admin/login';
+                const data = await res.json();
+                if (data.success) {
+                    settingsConfig = data.config;
+                    populateSettings(settingsConfig, data.dbStatus, data.totalEndpoints);
+                }
+            } catch (err) { showToast('Failed to load settings', 'error'); }
+        }
+
+        function populateSettings(config, dbStatus, totalEndpoints) {
+            if (dbStatus) {
+                document.getElementById('db-status-text').textContent = dbStatus.connected ? 'SQLite Connected' : 'JSON Fallback';
+                document.getElementById('db-file-badge').textContent = dbStatus.file || 'api-stats.json';
+            }
+            const rl = config.rateLimit || {};
+            setToggle('toggle-rateLimit', rl.enabled !== false);
+            setInput('setting-rateLimit-maxRequests', rl.maxRequests || 500);
+            setInput('setting-rateLimit-windowMs', rl.windowMs || 86400000);
+            setInput('setting-rateLimit-message', rl.message || '');
+
+            const sd = config.spamDetection || {};
+            setInput('setting-spamDetection-maxViolations', sd.maxViolations || 20);
+            setInput('setting-spamDetection-maxUniqueIPs', sd.maxUniqueIPs || 100);
+
+            const popularLimitInput = document.getElementById('setting-popularLimit');
+            if (popularLimitInput) {
+                popularLimitInput.value = config.popularLimit || 50;
+                if (totalEndpoints) popularLimitInput.max = totalEndpoints;
+            }
+
+            const notif = config.notifications || {};
+            setToggle('toggle-notifications', notif.enabled === true);
+            setInput('setting-notifications-title', notif.title || '');
+            setInput('setting-notifications-message', notif.message || '');
+            setInput('setting-notifications-buttonText', notif.buttonText || '');
+            setInput('setting-notifications-sourceCodeText', notif.sourceCodeText || '');
+            setInput('setting-notifications-sourceCodeUrl', notif.sourceCodeUrl || '');
+
+            renderReleases(config.releases || []);
+
+            const ann = config.announcements || {};
+            setToggle('toggle-announcements', ann.enabled === true);
+            renderAnnouncements(ann.items || []);
+
+            setToggle('toggle-maintenance', config.maintenance === true);
+            setToggle('toggle-feedback', config.feedbackButton?.enabled === true);
+            setInput('setting-feedback-url', config.feedbackButton?.url || '');
+        }
+
+        function renderReleases(items) {
+            window._releaseItems = items || [];
+            const container = document.getElementById('releases-list');
+            if (!container) return;
+
+            if (!items || items.length === 0) {
+                container.innerHTML = `<div class="text-center py-4 text-xs text-sub">No releases yet</div>`;
+                return;
+            }
+
+            container.innerHTML = items.map((item, idx) => `
+                <div class="flex items-center justify-between p-2 rounded bg-paper-bg border border-paper-border">
+                    <div>
+                        <span class="font-bold text-xs">v${escapeHtml(item.version)}</span>
+                        <span class="text-[10px] text-sub ml-2">${escapeHtml(item.date || '')}</span>
+                    </div>
+                    <div class="flex gap-1">
+                        <button onclick="openEditReleaseModal(${idx})" class="action-btn"><i class="fas fa-pen"></i></button>
+                        <button onclick="deleteRelease(${idx})" class="action-btn danger"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAddReleaseModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Add Release ✏️</h3>
+                    <button onclick="closeModal()" class="text-sub"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">Version</label>
+                        <input type="text" id="modal-rel-version" class="input-field w-full px-3 py-2 text-sm" placeholder="1.0.0">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Date</label>
+                        <input type="text" id="modal-rel-date" class="input-field w-full px-3 py-2 text-sm" placeholder="Oct 2, 2026">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Changelog (one per line)</label>
+                        <textarea id="modal-rel-changelog" class="input-field w-full px-3 py-2 text-sm" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="saveReleaseItem(-1)" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Add</button>
+                </div>
+            `);
+        }
+
+        function openEditReleaseModal(index) {
+            const item = window._releaseItems[index];
+            if (!item) return;
+            const changelog = Array.isArray(item.changelog) ? item.changelog.join('\n') : (item.changelog || '');
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Edit Release ✏️</h3>
+                    <button onclick="closeModal()" class="text-sub"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">Version</label>
+                        <input type="text" id="modal-rel-version" class="input-field w-full px-3 py-2 text-sm" value="${escapeHtml(item.version)}">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Date</label>
+                        <input type="text" id="modal-rel-date" class="input-field w-full px-3 py-2 text-sm" value="${escapeHtml(item.date)}">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Changelog</label>
+                        <textarea id="modal-rel-changelog" class="input-field w-full px-3 py-2 text-sm" rows="3">${escapeHtml(changelog)}</textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="saveReleaseItem(${index})" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Save</button>
+                </div>
+            `);
+        }
+
+        async function saveReleaseItem(index) {
+            const version = document.getElementById('modal-rel-version')?.value?.trim();
+            const date = document.getElementById('modal-rel-date')?.value?.trim();
+            const changelogRaw = document.getElementById('modal-rel-changelog')?.value?.trim();
+
+            if (!version) return showToast('Version required', 'warning');
+            const changelog = changelogRaw ? changelogRaw.split('\n').map(l => l.trim()).filter(Boolean) : [];
+            const item = { version, date: date || '', changelog };
+
+            if (index === -1) window._releaseItems.unshift(item);
+            else window._releaseItems[index] = item;
+
+            renderReleases(window._releaseItems);
+            closeModal();
+            await saveReleaseOnly();
+        }
+
+        async function saveReleaseOnly() {
+            try {
+                const res = await fetch('/admin/api/settings');
+                const resData = await res.json();
+                const config = resData.config || {};
+                const payload = {
+                    ...config,
+                    releases: window._releaseItems || [],
+                    announcements: {
+                        ...(config.announcements || {}),
+                        enabled: getToggleValue('toggle-announcements'),
+                        items: window._announcementItems || []
+                    }
+                };
+                await fetch('/admin/api/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ config: payload })
+                });
+                showToast('Releases updated');
+            } catch (err) { showToast('Error saving releases', 'error'); }
+        }
+
+        function deleteRelease(index) {
+            window._releaseItems.splice(index, 1);
+            renderReleases(window._releaseItems);
+            saveReleaseOnly();
+        }
+
+        function renderAnnouncements(items) {
+            window._announcementItems = items || [];
+            const container = document.getElementById('announcements-list');
+            if (!container) return;
+
+            if (!items || items.length === 0) {
+                container.innerHTML = `<div class="text-center py-4 text-xs text-sub">No announcements yet</div>`;
+                return;
+            }
+
+            container.innerHTML = items.map((item, idx) => `
+                <div class="flex items-center justify-between p-2 rounded bg-paper-bg border border-paper-border">
+                    <div>
+                        <span class="font-bold text-xs">${escapeHtml(item.title)}</span>
+                        <span class="text-[10px] text-sub ml-2">${escapeHtml(item.date || '')}</span>
+                    </div>
+                    <div class="flex gap-1">
+                        <button onclick="openEditAnnouncementModal(${idx})" class="action-btn"><i class="fas fa-pen"></i></button>
+                        <button onclick="deleteAnnouncement(${idx})" class="action-btn danger"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAddAnnouncementModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Add Announcement ✏️</h3>
+                    <button onclick="closeModal()" class="text-sub"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">Title</label>
+                        <input type="text" id="modal-ann-title" class="input-field w-full px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Description</label>
+                        <textarea id="modal-ann-description" class="input-field w-full px-3 py-2 text-sm" rows="3"></textarea>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Date</label>
+                        <input type="text" id="modal-ann-date" class="input-field w-full px-3 py-2 text-sm" placeholder="Oct 2, 2026">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="saveAnnouncement(-1)" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Add</button>
+                </div>
+            `);
+        }
+
+        function openEditAnnouncementModal(index) {
+            const item = window._announcementItems[index];
+            if (!item) return;
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Edit Announcement ✏️</h3>
+                    <button onclick="closeModal()" class="text-sub"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">Title</label>
+                        <input type="text" id="modal-ann-title" class="input-field w-full px-3 py-2 text-sm" value="${escapeHtml(item.title)}">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Description</label>
+                        <textarea id="modal-ann-description" class="input-field w-full px-3 py-2 text-sm" rows="3">${escapeHtml(item.description)}</textarea>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Date</label>
+                        <input type="text" id="modal-ann-date" class="input-field w-full px-3 py-2 text-sm" value="${escapeHtml(item.date)}">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="saveAnnouncement(${index})" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Save</button>
+                </div>
+            `);
+        }
+
+        async function saveAnnouncement(index) {
+            const title = document.getElementById('modal-ann-title')?.value?.trim();
+            const description = document.getElementById('modal-ann-description')?.value?.trim();
+            const date = document.getElementById('modal-ann-date')?.value?.trim();
+
+            if (!title) return showToast('Title required', 'warning');
+            const item = { title, description: description || '', date: date || new Date().toLocaleDateString() };
+
+            if (index === -1) window._announcementItems.unshift(item);
+            else window._announcementItems[index] = item;
+
+            renderAnnouncements(window._announcementItems);
+            closeModal();
+            await saveAnnouncementOnly();
+        }
+
+        async function saveAnnouncementOnly() {
+            try {
+                const res = await fetch('/admin/api/settings');
+                const resData = await res.json();
+                const config = resData.config || {};
+                const payload = {
+                    ...config,
+                    announcements: {
+                        ...(config.announcements || {}),
+                        enabled: getToggleValue('toggle-announcements'),
+                        items: window._announcementItems || []
+                    }
+                };
+                await fetch('/admin/api/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ config: payload })
+                });
+                showToast('Announcements updated');
+            } catch (err) { showToast('Error saving announcements', 'error'); }
+        }
+
+        function deleteAnnouncement(index) {
+            window._announcementItems.splice(index, 1);
+            renderAnnouncements(window._announcementItems);
+            saveAnnouncementOnly();
+        }
+
+        function setToggle(id, active) {
+            const el = document.getElementById(id);
+            if (el) active ? el.classList.add('active') : el.classList.remove('active');
+        }
+
+        function setInput(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.value = value;
+        }
+
+        function toggleSetting(el) {
+            el.classList.toggle('active');
+        }
+
+        function getToggleValue(id) {
+            return document.getElementById(id)?.classList.contains('active') || false;
+        }
+
+        async function saveSettings() {
+            const btn = document.getElementById('saveSettingsBtn');
+            btn.disabled = true;
+
+            const config = {
+                ...settingsConfig,
+                maintenance: getToggleValue('toggle-maintenance'),
+                rateLimit: {
+                    ...(settingsConfig.rateLimit || {}),
+                    enabled: getToggleValue('toggle-rateLimit'),
+                    maxRequests: parseInt(document.getElementById('setting-rateLimit-maxRequests')?.value) || 500,
+                    windowMs: parseInt(document.getElementById('setting-rateLimit-windowMs')?.value) || 86400000,
+                    message: document.getElementById('setting-rateLimit-message')?.value || ''
+                },
+                spamDetection: {
+                    ...(settingsConfig.spamDetection || {}),
+                    maxViolations: parseInt(document.getElementById('setting-spamDetection-maxViolations')?.value) || 20,
+                    maxUniqueIPs: parseInt(document.getElementById('setting-spamDetection-maxUniqueIPs')?.value) || 100
+                },
+                popularLimit: parseInt(document.getElementById('setting-popularLimit')?.value) || 50,
+                notifications: {
+                    ...(settingsConfig.notifications || {}),
+                    enabled: getToggleValue('toggle-notifications'),
+                    title: document.getElementById('setting-notifications-title')?.value || '',
+                    message: document.getElementById('setting-notifications-message')?.value || '',
+                    buttonText: document.getElementById('setting-notifications-buttonText')?.value || '',
+                    sourceCodeText: document.getElementById('setting-notifications-sourceCodeText')?.value || '',
+                    sourceCodeUrl: document.getElementById('setting-notifications-sourceCodeUrl')?.value || ''
+                },
+                releases: window._releaseItems || [],
+                announcements: {
+                    ...(settingsConfig.announcements || {}),
+                    enabled: getToggleValue('toggle-announcements'),
+                    items: window._announcementItems || []
+                },
+                feedbackButton: {
+                    enabled: getToggleValue('toggle-feedback'),
+                    url: document.getElementById('setting-feedback-url')?.value || ''
+                }
+            };
+
+            try {
+                const res = await fetch('/admin/api/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ config })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    settingsConfig = config;
+                    showToast('Settings saved successfully');
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+            finally { btn.disabled = false; }
+        }
+
+        async function loadUsers() {
+            try {
+                const res = await fetch('/admin/api/users');
+                if (res.status === 401) return window.location.href = '/admin/login';
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('users-total').textContent = data.total;
+                    renderUsers(data.users);
+                }
+            } catch (err) { showToast('Failed to load users', 'error'); }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('users-tbody');
+            if (users.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><i class="fas fa-users"></i><p class="font-bold">No users found</p></div></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td class="font-bold text-main">${escapeHtml(u.username)}</td>
+                    <td><span class="text-xs font-bold uppercase">${escapeHtml(u.role)}</span></td>
+                    <td class="text-xs text-sub">${u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '-'}</td>
+                    <td class="text-xs text-sub">${u.updatedAt ? new Date(u.updatedAt).toLocaleDateString() : '-'}</td>
+                    <td>
+                        <div class="flex gap-1">
+                            <button class="action-btn" onclick="openEditUserModal('${escapeHtml(u.username)}', '${escapeHtml(u.role)}')" title="Edit"><i class="fas fa-pen"></i></button>
+                            <button class="action-btn danger" onclick="openDeleteUserModal('${escapeHtml(u.username)}')" title="Delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openCreateUserModal() {
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Create Admin User ✏️</h3>
+                    <button onclick="closeModal()" class="text-sub"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">Username</label>
+                        <input type="text" id="modal-user-username" class="input-field w-full px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Password</label>
+                        <input type="password" id="modal-user-password" class="input-field w-full px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Role</label>
+                        <select id="modal-user-role" class="input-field w-full px-3 py-2 text-sm">
+                            <option value="admin">Admin</option>
+                            ${currentRole === 'superadmin' ? '<option value="superadmin">Super Admin</option>' : ''}
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="createUser()" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Create</button>
+                </div>
+            `);
+        }
+
+        async function createUser() {
+            const username = document.getElementById('modal-user-username')?.value?.trim();
+            const password = document.getElementById('modal-user-password')?.value;
+            const role = document.getElementById('modal-user-role')?.value || 'admin';
+            if (!username || !password) return showToast('Required fields missing', 'warning');
+
+            try {
+                const res = await fetch('/admin/api/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, role })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('User created successfully');
+                    loadUsers();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        function openEditUserModal(username, userRole) {
+            openModal(`
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="handwritten text-2xl font-bold text-main">Edit User: ${escapeHtml(username)} ✏️️</h3>
+                    <button onclick="closeModal()" class="text-sub"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block mb-1">New Password (leave blank to keep)</label>
+                        <input type="password" id="modal-edit-password" class="input-field w-full px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Role</label>
+                        <select id="modal-edit-role" class="input-field w-full px-3 py-2 text-sm">
+                            <option value="admin" ${userRole === 'admin' ? 'selected' : ''}>Admin</option>
+                            ${currentRole === 'superadmin' ? `<option value="superadmin" ${userRole === 'superadmin' ? 'selected' : ''}>Super Admin</option>` : ''}
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-5">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-sm font-bold">Cancel</button>
+                    <button onclick="editUser('${escapeHtml(username)}')" class="px-4 py-2 rounded bg-main text-white text-sm font-bold">Save</button>
+                </div>
+            `);
+        }
+
+        async function editUser(username) {
+            const password = document.getElementById('modal-edit-password')?.value;
+            const role = document.getElementById('modal-edit-role')?.value;
+
+            const body = {};
+            if (password) body.password = password;
+            if (role) body.role = role;
+
+            try {
+                const res = await fetch(`/admin/api/users/${encodeURIComponent(username)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('User updated');
+                    loadUsers();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        function openDeleteUserModal(username) {
+            openModal(`
+                <div class="text-center">
+                    <h3 class="handwritten text-2xl font-bold text-accent-red mb-2">Delete User?</h3>
+                    <p class="text-xs text-sub mb-4">Delete user ${escapeHtml(username)}?</p>
+                    <div class="flex justify-center gap-2">
+                        <button onclick="closeModal()" class="px-4 py-2 rounded bg-paper-bg border border-paper-border text-xs font-bold">Cancel</button>
+                        <button onclick="confirmDeleteUser('${escapeHtml(username)}')" class="px-4 py-2 rounded bg-accent-red text-white text-xs font-bold">Delete</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function confirmDeleteUser(username) {
+            try {
+                const res = await fetch(`/admin/api/users/${encodeURIComponent(username)}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    showToast('User deleted');
+                    loadUsers();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function loadIPs() {
+            try {
+                const res = await fetch('/admin/api/ips');
+                if (res.status === 401) return window.location.href = '/admin/login';
+                const data = await res.json();
+                if (data.success) renderIPs(data.banned, data.whitelist);
+            } catch (err) { showToast('Failed to load IPs', 'error'); }
+        }
+
+        function renderIPs(banned, whitelist) {
+            document.getElementById('banned-count').textContent = banned.count || 0;
+            const bannedList = document.getElementById('banned-list');
+            bannedList.innerHTML = (banned.ips && banned.ips.length > 0)
+                ? banned.ips.map(ip => `
+                    <div class="flex justify-between items-center py-1 px-2 border-b border-paper-border font-mono text-xs text-error">
+                        <span>${escapeHtml(ip)}</span>
+                        <button onclick="unbanSpecificIP('${escapeHtml(ip)}')" class="text-sub hover:text-error"><i class="fas fa-times"></i></button>
+                    </div>
+                `).join('')
+                : '<p class="text-xs text-sub py-2">No banned IPs</p>';
+
+            document.getElementById('whitelist-count').textContent = whitelist.count || 0;
+            const whitelistEl = document.getElementById('whitelist-list');
+            whitelistEl.innerHTML = (whitelist.ips && whitelist.ips.length > 0)
+                ? whitelist.ips.map(ip => `
+                    <div class="flex justify-between items-center py-1 px-2 border-b border-paper-border font-mono text-xs text-success">
+                        <span>${escapeHtml(ip)}</span>
+                        <button onclick="removeWhitelistIP('${escapeHtml(ip)}')" class="text-sub hover:text-error"><i class="fas fa-times"></i></button>
+                    </div>
+                `).join('')
+                : '<p class="text-xs text-sub py-2">No whitelisted IPs</p>';
+        }
+
+        async function banIP() {
+            const ip = document.getElementById('ban-ip-input')?.value?.trim();
+            if (!ip) return showToast('Enter IP', 'warning');
+            try {
+                const res = await fetch('/admin/api/ips/ban', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('ban-ip-input').value = '';
+                    showToast(`IP ${ip} banned`);
+                    loadIPs();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function unbanIP() {
+            const ip = document.getElementById('ban-ip-input')?.value?.trim();
+            if (!ip) return showToast('Enter IP', 'warning');
+            try {
+                const res = await fetch('/admin/api/ips/unban', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('ban-ip-input').value = '';
+                    showToast(`IP ${ip} unbanned`);
+                    loadIPs();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function unbanSpecificIP(ip) {
+            try {
+                const res = await fetch('/admin/api/ips/unban', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`IP ${ip} unbanned`);
+                    loadIPs();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function addWhitelistIP() {
+            const ip = document.getElementById('whitelist-ip-input')?.value?.trim();
+            if (!ip) return showToast('Enter IP', 'warning');
+            try {
+                const res = await fetch('/admin/api/ips/whitelist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('whitelist-ip-input').value = '';
+                    showToast(`IP ${ip} whitelisted`);
+                    loadIPs();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        async function removeWhitelistIP(ip) {
+            try {
+                const res = await fetch(`/admin/api/ips/whitelist/${encodeURIComponent(ip)}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`IP ${ip} removed from whitelist`);
+                    loadIPs();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        let livePollInterval = null;
+        let liveFeedFilter = 'all';
+        let liveFeedCache = [];
+
+        /* Warna & label per tipe notifikasi. Premium & VIP sengaja dipisah
+           karena endpoint-nya berbeda (lihat epStatus di src/app/index.js). */
+        const NOTIF_META = {
+            premium:  { label: 'Premium',  color: '#6a1b9a', icon: 'fa-crown' },
+            vip:      { label: 'VIP',      color: '#a35400', icon: 'fa-gem' },
+            spam:     { label: 'Spam',     color: '#c62828', icon: 'fa-triangle-exclamation' },
+            violation:{ label: 'Violation',color: '#a35500', icon: 'fa-circle-exclamation' },
+            ban:      { label: 'Ban',      color: '#2b2b2b', icon: 'fa-ban' },
+            unban:    { label: 'Unban',    color: '#2e7d32', icon: 'fa-unlock' },
+            lock:     { label: 'Lock',     color: '#c62828', icon: 'fa-lock' },
+            unlock:   { label: 'Unlock',   color: '#2e7d32', icon: 'fa-unlock' },
+            stats:    { label: 'Stats',    color: '#026aa4', icon: 'fa-chart-simple' },
+        };
+
+        function notifMeta(type) {
+            const key = String(type || '').toLowerCase();
+            return NOTIF_META[key] || { label: type || 'unknown', color: '#665f55', icon: 'fa-circle-info' };
+        }
+
+        async function loadLiveFeed() {
+            try {
+                const res = await fetch('/admin/api/notifications/feed');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (data.success) renderLiveFeed(data.notifications);
+            } catch (err) {}
+        }
+
+        function renderLiveFeed(notifications) {
+            const feed = document.getElementById('live-feed');
+            if (!feed) return;
+
+            liveFeedCache = Array.isArray(notifications) ? notifications.slice().reverse() : [];
+
+            // hitung counter per tipe
+            const counts = { all: liveFeedCache.length };
+            liveFeedCache.forEach(n => {
+                const k = String(n?.type || '').toLowerCase();
+                counts[k] = (counts[k] || 0) + 1;
+            });
+            document.querySelectorAll('[data-feed-count]').forEach(el => {
+                const k = el.getAttribute('data-feed-count');
+                el.textContent = counts[k] || 0;
+            });
+            const prem = document.getElementById('live-total-premium');
+            const vip = document.getElementById('live-total-vip');
+            if (prem) prem.textContent = counts.premium || 0;
+            if (vip) vip.textContent = counts.vip || 0;
+
+            const items = liveFeedFilter === 'all'
+                ? liveFeedCache
+                : liveFeedCache.filter(n => String(n?.type || '').toLowerCase() === liveFeedFilter);
+
+            if (items.length === 0) {
+                const msg = liveFeedCache.length === 0
+                    ? '<div class="text-center py-8 text-xs text-sub">No recent notifications</div>'
+                    : `<div class="text-center py-8 text-xs text-sub">Tidak ada notifikasi tipe <strong>${escapeHtml(liveFeedFilter)}</strong> saat ini.</div>`;
+                feed.innerHTML = msg;
+                return;
+            }
+
+            feed.innerHTML = items.slice(0, 50).map(n => {
+                const time = n.timestamp ? timeAgo(n.timestamp) : '';
+                const m = notifMeta(n.type);
+                const extra = [
+                    n.ip ? escapeHtml(n.ip) : '',
+                    n.method ? escapeHtml(n.method) : '',
+                    n.path ? escapeHtml(n.path) : ''
+                ].filter(Boolean).join(' &middot; ');
+                return `
+                    <div class="p-2 rounded bg-paper-card border border-paper-border text-xs flex justify-between gap-2 items-start">
+                        <div class="min-w-0">
+                            <span class="feed-badge" style="color:${m.color}"><i class="fas ${m.icon}"></i> ${escapeHtml(m.label)}</span>
+                            <span class="ml-1">${escapeHtml(n.message || '')}</span>
+                            ${extra ? `<div class="text-[10px] text-sub font-mono mt-0.5 truncate">${extra}</div>` : ''}
+                        </div>
+                        <span class="text-[10px] text-sub font-mono shrink-0">${time}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function initLiveFeedFilters() {
+            const wrap = document.getElementById('live-feed-filters');
+            if (!wrap || wrap.dataset.bound === '1') return;
+            wrap.dataset.bound = '1';
+            wrap.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-feed-filter]');
+                if (!btn) return;
+                liveFeedFilter = btn.getAttribute('data-feed-filter') || 'all';
+                wrap.querySelectorAll('.feed-filter-chip').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                renderLiveFeed(liveFeedCache);
+            });
+        }
+
+        async function loadLiveIPs() {
+            try {
+                const res = await fetch('/admin/api/requests/stats');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('live-total-ips').textContent = data.totalIPs || 0;
+                    document.getElementById('live-total-req').textContent = data.totalRequests || 0;
+                    document.getElementById('live-total-violations').textContent = data.totalViolations || 0;
+                    renderLiveIPs(data.ips || []);
+                }
+            } catch (err) {}
+        }
+
+        function renderLiveIPs(ips) {
+            const tbody = document.getElementById('live-ips-tbody');
+            if (!tbody) return;
+
+            if (!ips || ips.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state py-6">
+                    <p class="text-xs font-bold text-main mb-1">No active IPs</p>
+                    <p class="text-[11px] text-sub">Data tracking kosong. IP tracking hanya berjalan saat
+                    <code class="font-mono">rateLimit.enabled</code> menyala di <code class="font-mono">configuration.json</code> &mdash; saat ini dimatikan.</p>
+                </div></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = ips.map(ip => `
+                <tr>
+                    <td><code class="text-xs font-mono text-main bg-paper-yellow px-1 py-0.5 rounded border border-paper-border">${escapeHtml(ip.ip)}</code></td>
+                    <td class="text-xs font-mono font-bold">${ip.totalRequests || 0}</td>
+                    <td class="text-xs font-mono text-warning font-bold">${ip.violations || 0}</td>
+                    <td class="text-xs text-sub max-w-[200px] truncate">${escapeHtml(ip.lastPath || '-')}</td>
+                    <td class="text-xs text-sub">${ip.lastRequest ? timeAgo(ip.lastRequest) : '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function startLivePolling() {
+            stopLivePolling();
+            livePollInterval = setInterval(() => {
+                loadLiveFeed();
+                loadLiveIPs();
+                updateResetCountdown();
+            }, 5000);
+        }
+
+        function stopLivePolling() {
+            if (livePollInterval) {
+                clearInterval(livePollInterval);
+                livePollInterval = null;
+            }
+        }
+
+        async function clearNotificationFeed() {
+            try {
+                const res = await fetch('/admin/api/notifications/feed', { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Notification feed cleared');
+                    loadLiveFeed();
+                } else showToast(data.error || 'Failed', 'error');
+            } catch (err) { showToast('Network error', 'error'); }
+        }
+
+        function updateResetCountdown() {
+            const now = new Date();
+            const wib = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+            let targetYear = wib.getUTCFullYear();
+            let targetMonth = wib.getUTCMonth();
+            if (wib.getUTCDate() >= 1 && wib.getUTCHours() >= 0) {
+                targetMonth++;
+                if (targetMonth > 11) { targetMonth = 0; targetYear++; }
+            }
+            const target = new Date(Date.UTC(targetYear, targetMonth, 1, 17, 0, 0));
+            const diff = target - now;
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const el = document.getElementById('reset-countdown');
+            if (el) el.textContent = `${days}d ${hours}h`;
+        }
+
+        function timeAgo(timestamp) {
+            const diff = Date.now() - timestamp;
+            const seconds = Math.floor(diff / 1000);
+            if (seconds < 10) return 'just now';
+            if (seconds < 60) return seconds + 's ago';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return minutes + 'm ago';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + 'h ago';
+            return Math.floor(hours / 24) + 'd ago';
+        }
+
+        async function logout() {
+            try { await fetch('/admin/api/logout', { method: 'POST' }); } catch (err) {}
+            window.location.href = '/admin/login';
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        let currentUser = '';
+        let currentRole = '';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('/admin/api/me');
+                if (res.status === 401) return window.location.href = '/admin/login';
+                const data = await res.json();
+                if (data.success) {
+                    currentUser = data.user.username;
+                    currentRole = data.user.role;
+                    document.getElementById('user-greeting').textContent = `${data.user.username}`;
+                    
+                    const savedTab = localStorage.getItem('admin_active_tab') || 'endpoints';
+                    switchTabUI(savedTab);
+                    await switchTab(savedTab);
+                } else window.location.href = '/admin/login';
+            } catch (err) { window.location.href = '/admin/login'; }
+
+            try {
+                const cfg = await fetch('/configuration');
+                const cfgData = await cfg.json();
+                if (cfgData.releases?.[0]?.version) {
+                    document.getElementById('footerVer').textContent = 'v' + cfgData.releases[0].version;
+                }
+            } catch {}
+        });
+    </script>
+</body>
+</html>

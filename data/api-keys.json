@@ -1,0 +1,99 @@
+{
+  "keys": [
+    {
+      "key": "adm",
+      "name": "admin",
+      "createdAt": "2026-09-29T12:24:00.494Z",
+      "lastUsed": "2026-10-21T23:52:49.771Z",
+      "usageCount": 73,
+      "enabled": true,
+      "role": "vip",
+      "allowedEndpoints": null,
+      "allowedStatuses": [
+        "premium",
+        "vip"
+      ],
+      "rateLimit": {
+        "maxPerDay": 1000,
+        "maxPerMinute": 60
+      },
+      "dailyUsage": {
+        "date": "2026-10-21",
+        "count": 14
+      },
+      "minuteUsage": {
+        "timestamp": 29877112,
+        "count": 1
+      },
+      "expiresAt": null,
+      "package": {
+        "type": "vip",
+        "expired": null
+      }
+    },
+    {
+      "key": "khoirularifin",
+      "name": "User 2",
+      "createdAt": "2026-10-02T05:25:50.663Z",
+      "lastUsed": "2026-10-13T11:41:38.671Z",
+      "usageCount": 8,
+      "enabled": true,
+      "role": "vip",
+      "allowedEndpoints": null,
+      "allowedStatuses": [
+        "premium",
+        "vip"
+      ],
+      "rateLimit": {
+        "maxPerDay": 1000,
+        "maxPerMinute": 60
+      },
+      "dailyUsage": {
+        "date": "2026-10-13",
+        "count": 4
+      },
+      "minuteUsage": {
+        "timestamp": 29864861,
+        "count": 1
+      },
+      "expiresAt": null,
+      "package": {
+        "type": "vip",
+        "expired": null
+      }
+    },
+    {
+      "key": "reach-ch-free",
+      "name": "free reach ch",
+      "createdAt": "2026-10-12T14:03:22.211Z",
+      "lastUsed": "2026-10-22T01:05:53.963Z",
+      "usageCount": 2,
+      "enabled": true,
+      "role": "vip",
+      "allowedEndpoints": [
+        "/api/fun/reach*"
+      ],
+      "allowedStatuses": [
+        "premium",
+        "vip"
+      ],
+      "rateLimit": {
+        "maxPerDay": 100,
+        "maxPerMinute": 20
+      },
+      "dailyUsage": {
+        "date": "2026-10-22",
+        "count": 1
+      },
+      "minuteUsage": {
+        "timestamp": 29877185,
+        "count": 1
+      },
+      "expiresAt": null,
+      "package": {
+        "type": "vip",
+        "expired": null
+      }
+    }
+  ]
+}

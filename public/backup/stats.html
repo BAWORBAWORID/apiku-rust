@@ -1,0 +1,1342 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlwaysCodex Api'S - System Status</title>
+    
+    <!-- Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#030712',
+                        surface: '#111827',     
+                        border: '#1f2937',      
+                        
+                        primary: {
+                            DEFAULT: '#6366f1', 
+                            hover: '#4f46e5',
+                            dim: 'rgba(99, 102, 241, 0.1)',
+                            glow: 'rgba(99, 102, 241, 0.5)'
+                        },
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#ef4444',
+                        info: '#3b82f6',
+                        pink: '#ec4899',
+                        purple: '#8b5cf6'
+                    },
+                    animation: {
+                        'grid-flow': 'gridMove 20s linear infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-down': 'slideDown 0.2s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        gridMove: {
+                            '0%': { backgroundPosition: '0 0' },
+                            '100%': { backgroundPosition: '40px 40px' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px) scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            background-color: #030712;
+            color: #cbd5e1;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Background Animation --- */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .cyber-grid::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, #030712 90%);
+        }
+
+        /* --- Components --- */
+        .glass-header {
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-card {
+            background-color: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* --- Charts Overrides --- */
+        .apexcharts-tooltip {
+            background: #111827 !important;
+            border: 1px solid #374151 !important;
+            color: #fff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important;
+        }
+        .apexcharts-tooltip-title {
+            background: #1f2937 !important; 
+            border-bottom: 1px solid #374151 !important;
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+        .apexcharts-text {
+            fill: #9ca3af !important;
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        /* --- Custom Scrollbar --- */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(31, 41, 55, 0.3);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+    </style>
+</head>
+
+<body class="font-sans min-h-screen pb-10 flex flex-col">
+
+    <!-- Background -->
+    <div class="cyber-grid animate-grid-flow"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header h-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+            
+            <!-- Left: Menu & Logo -->
+            <div class="flex items-center gap-4">
+                <!-- 3 Dots Menu -->
+                <div class="relative z-50">
+                    <button onclick="toggleNavMenu()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors focus:outline-none">
+                        <i class="fas fa-ellipsis-v text-lg"></i>
+                    </button>
+                    <!-- Dropdown -->
+                    <div id="navMenu" class="hidden absolute top-full left-0 mt-3 w-48 bg-[#0b0d12] border border-border rounded-xl shadow-2xl overflow-hidden animate-slide-down origin-top-left">
+                        <div class="py-1">
+                            <a href="/" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-home w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Home</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/docs" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-book w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Documentation</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/support" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-headset w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Support</span>
+                            </a>
+                            <a href="/stats" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-chart-line w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Status</span>
+                            </a>
+                            <a href="/changelog" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-clock-rotate-left w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Changelog</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/request-report" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-bug w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Request</span>
+                            </a>
+                            <a href="/donasi" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-hand-holding-heart w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Donasi</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-8 h-8 rounded bg-gradient-to-br from-primary-DEFAULT to-purple-600 flex items-center justify-center text-white font-black shadow-lg shadow-primary-DEFAULT/30 group-hover:scale-110 transition-transform">
+                        AC
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-lg leading-none text-white tracking-tight">AlwaysCodex Api'S</span>
+                        <span class="text-[10px] text-primary-DEFAULT font-mono tracking-widest uppercase">System Status</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Right: Status Badge -->
+            <div class="flex items-center gap-4">
+                <div id="connection-badge" class="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.1)] transition-all">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-green-500 hidden sm:block tracking-wide">LIVE MONITOR</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-4 sm:px-6 max-w-7xl mx-auto w-full flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-10" data-aos="fade-down">
+            <h1 class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 mb-2 tracking-tight uppercase">
+                Server Telemetry
+            </h1>
+            <p class="text-gray-400 text-sm max-w-2xl font-mono">Real-time performance metrics and health status of the API Engine.</p>
+            <div class="flex items-center gap-2 mt-2">
+                <span id="update-indicator" class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span class="text-xs text-gray-400 font-mono" id="last-update">Last update: Loading...</span>
+            </div>
+        </div>
+
+        <!-- 6 Grid Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8" data-aos="fade-up">
+            
+            <!-- Card 1: Server Status -->
+            <div class="stat-card p-5 flex flex-col justify-between h-32 relative overflow-hidden group xl:col-span-1">
+                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fas fa-server text-5xl text-primary-DEFAULT"></i>
+                </div>
+                <div class="flex items-center justify-between relative z-10">
+                    <h3 class="text-gray-400 font-bold text-[10px] uppercase tracking-widest">System Status</h3>
+                    <div id="status-indicator" class="w-2 h-2 rounded-full bg-green-500 animate-pulse-slow shadow-[0_0_10px_#22c55e]"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="text-2xl font-black text-white tracking-tight" id="server-status">LOADING</div>
+                    <div class="text-[10px] text-primary-DEFAULT font-mono mt-1" id="server-uptime">Fetching uptime...</div>
+                </div>
+            </div>
+
+            <!-- Card 2: Platform -->
+            <div class="stat-card p-5 flex flex-col justify-between h-32 relative overflow-hidden group xl:col-span-1">
+                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fab fa-linux text-5xl text-gray-400"></i>
+                </div>
+                <div class="flex items-center justify-between relative z-10">
+                    <h3 class="text-gray-400 font-bold text-[10px] uppercase tracking-widest">Platform</h3>
+                </div>
+                <div class="relative z-10">
+                    <div class="text-lg font-bold text-white tracking-tight truncate" id="os-platform">Loading...</div>
+                    <div class="text-[10px] text-gray-500 font-mono mt-1 truncate" id="os-distro">Fetching info...</div>
+                </div>
+            </div>
+
+            <!-- Card 3: CPU Load -->
+            <div class="stat-card p-5 flex flex-col justify-between h-32 relative overflow-hidden group xl:col-span-1">
+                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fas fa-microchip text-5xl text-primary-DEFAULT"></i>
+                </div>
+                <div class="flex items-center justify-between relative z-10">
+                    <h3 class="text-gray-400 font-bold text-[10px] uppercase tracking-widest">CPU Load</h3>
+                </div>
+                <div class="relative z-10 w-full">
+                    <div class="flex items-end gap-2 mb-2">
+                        <span class="text-2xl font-black text-white" id="cpu-text">0%</span>
+                        <span class="text-[10px] text-gray-500 mb-1.5 font-mono">CORE USAGE</span>
+                    </div>
+                    <div class="w-full bg-gray-800/50 h-1.5 rounded-full overflow-hidden border border-white/5">
+                        <div id="cpu-bar" class="h-full bg-gradient-to-r from-primary-DEFAULT to-purple-500 transition-all duration-500 w-0 shadow-[0_0_10px_#6366f1]"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Memory -->
+            <div class="stat-card p-5 flex flex-col justify-between h-32 relative overflow-hidden group xl:col-span-1">
+                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fas fa-memory text-5xl text-pink"></i>
+                </div>
+                <div class="flex items-center justify-between relative z-10">
+                    <h3 class="text-gray-400 font-bold text-[10px] uppercase tracking-widest">Memory Usage</h3>
+                </div>
+                <div class="relative z-10 w-full">
+                    <div class="flex items-end gap-2 mb-2">
+                        <span class="text-2xl font-black text-white" id="mem-text">0%</span>
+                        <span class="text-[10px] text-gray-500 mb-1.5 font-mono">RAM ALLOCATION</span>
+                    </div>
+                    <div class="w-full bg-gray-800/50 h-1.5 rounded-full overflow-hidden border border-white/5">
+                        <div id="mem-bar" class="h-full bg-gradient-to-r from-pink-500 to-rose-500 transition-all duration-500 w-0 shadow-[0_0_10px_#ec4899]"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: API Hits Today -->
+            <div class="stat-card p-5 flex flex-col justify-between h-32 relative overflow-hidden group xl:col-span-1">
+                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fas fa-bolt text-5xl text-warning"></i>
+                </div>
+                <div class="flex items-center justify-between relative z-10">
+                    <h3 class="text-gray-400 font-bold text-[10px] uppercase tracking-widest">Today Hits</h3>
+                    <i class="fas fa-fire text-xs text-warning"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="text-2xl font-black text-white tracking-tight" id="api-today">0</div>
+                    <div class="text-[10px] text-warning font-mono mt-1" id="api-today-percentage">Fetching...</div>
+                </div>
+            </div>
+
+            <!-- Card 6: Total Endpoints -->
+            <div class="stat-card p-5 flex flex-col justify-between h-32 relative overflow-hidden group xl:col-span-1">
+                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                    <i class="fas fa-code text-5xl text-info"></i>
+                </div>
+                <div class="flex items-center justify-between relative z-10">
+                    <h3 class="text-gray-400 font-bold text-[10px] uppercase tracking-widest">Endpoints</h3>
+                    <div class="w-2 h-2 rounded-full bg-primary-DEFAULT animate-pulse"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="text-2xl font-black text-white tracking-tight" id="total-endpoints">0</div>
+                    <div class="text-[10px] text-info font-mono mt-1" id="endpoints-status">
+                        <span class="inline-flex items-center gap-1">
+                            <i class="fas fa-sync-alt text-[8px] animate-spin-slow"></i>
+                            Hot Reload: <span id="hot-reload-status">checking...</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Charts & API Stats Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8" data-aos="fade-up" data-aos-delay="100">
+            
+            <!-- CPU Chart -->
+            <div class="stat-card p-6 min-h-[350px] lg:col-span-2">
+                <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-primary-dim flex items-center justify-center">
+                            <i class="fas fa-wave-square text-primary-DEFAULT text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white uppercase tracking-wide">Processor Activity</h3>
+                            <p class="text-[10px] text-gray-500 font-mono">Real-time CPU load frequency</p>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono text-gray-500" id="cpu-current-time">--:--:--</div>
+                </div>
+                <div id="cpuChart" class="w-full h-[250px]"></div>
+                <div class="flex items-center justify-between mt-4">
+                    <div class="text-xs text-gray-500 font-mono">
+                        <span id="cpu-data-count">0</span> data points
+                    </div>
+                    <div class="text-xs text-primary-DEFAULT font-mono">
+                        <i class="fas fa-sync-alt text-[8px] animate-spin-slow mr-1"></i>
+                        <span id="refresh-rate">3s</span> refresh
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Hits Summary -->
+            <div class="stat-card p-6 min-h-[350px]">
+                <div class="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+                    <div class="w-8 h-8 rounded-lg bg-success/10 flex items-center justify-center">
+                        <i class="fas fa-chart-bar text-success text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wide">API Traffic</h3>
+                        <p class="text-[10px] text-gray-500 font-mono">Request statistics overview</p>
+                    </div>
+                </div>
+                <div class="space-y-5">
+                    <!-- Today Hits -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center">
+                                <i class="fas fa-calendar-day text-warning text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400 font-semibold">Today</div>
+                                <div class="text-xs text-gray-500 font-mono">Last 24 hours</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-black text-white" id="api-today-detail">0</div>
+                            <div class="text-[10px] text-warning font-mono" id="api-today-trend">Loading...</div>
+                        </div>
+                    </div>
+
+                    <!-- This Week -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-purple/10 flex items-center justify-center">
+                                <i class="fas fa-calendar-week text-purple text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400 font-semibold">This Week</div>
+                                <div class="text-xs text-gray-500 font-mono">Last 7 days</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-black text-white" id="api-week">0</div>
+                            <div class="text-[10px] text-purple font-mono">Weekly total</div>
+                        </div>
+                    </div>
+
+                    <!-- This Month -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-info/10 flex items-center justify-center">
+                                <i class="fas fa-calendar-alt text-info text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400 font-semibold">This Month</div>
+                                <div class="text-xs text-gray-500 font-mono">Current month</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-black text-white" id="api-month">0</div>
+                            <div class="text-[10px] text-info font-mono">Monthly total</div>
+                        </div>
+                    </div>
+
+                    <!-- All Time -->
+                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-primary-dim flex items-center justify-center">
+                                <i class="fas fa-infinity text-primary-DEFAULT text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400 font-semibold">All Time</div>
+                                <div class="text-xs text-gray-500 font-mono">Total requests</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-black text-white" id="api-alltime">0</div>
+                            <div class="text-[10px] text-primary-DEFAULT font-mono" id="api-integrity">
+                                <i class="fas fa-shield-alt mr-1"></i> <span>checking...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Section: Memory Chart & Popular Endpoints -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="150">
+            
+            <!-- Memory Chart -->
+            <div class="stat-card p-6 min-h-[350px]">
+                <div class="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+                    <div class="w-8 h-8 rounded-lg bg-pink/10 flex items-center justify-center">
+                        <i class="fas fa-chart-pie text-pink text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wide">Memory Distribution</h3>
+                        <p class="text-[10px] text-gray-500 font-mono">Used vs Free space</p>
+                    </div>
+                </div>
+                <div id="memChart" class="w-full h-[250px] flex items-center justify-center"></div>
+                <div class="grid grid-cols-3 gap-4 mt-6">
+                    <div class="text-center">
+                        <div class="text-xs text-gray-500 font-mono mb-1">Used</div>
+                        <div class="text-lg font-bold text-pink" id="mem-used-gb">0 GB</div>
+                    </div>
+                    <div class="text-center border-x border-white/5">
+                        <div class="text-xs text-gray-500 font-mono mb-1">Free</div>
+                        <div class="text-lg font-bold text-success" id="mem-free-gb">0 GB</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-500 font-mono mb-1">Total</div>
+                        <div class="text-lg font-bold text-white" id="mem-total-gb">0 GB</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Endpoints -->
+            <div class="stat-card p-6 min-h-[350px]">
+                <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-success/10 flex items-center justify-center">
+                            <i class="fas fa-star text-success text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white uppercase tracking-wide">Popular Endpoints</h3>
+                            <p class="text-[10px] text-gray-500 font-mono">Most requested API routes</p>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono text-gray-500" id="api-last-updated">--:--:--</div>
+                </div>
+                <div class="space-y-4 max-h-[250px] overflow-y-auto custom-scrollbar pr-2" id="popular-endpoints-list">
+                    <!-- Dynamic content will be inserted here -->
+                    <div class="text-center py-10">
+                        <div class="animate-spin-slow mx-auto mb-3">
+                            <i class="fas fa-circle-notch text-2xl text-primary-DEFAULT"></i>
+                        </div>
+                        <div class="text-gray-500 text-sm">Loading endpoint data...</div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/5 text-center">
+                    <div class="text-[10px] text-gray-500 font-mono">
+                        <i class="fas fa-clock mr-1"></i>
+                        Updated: <span id="api-update-time">Just now</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- NEW SECTION: Disk & Network & Process Info -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8" data-aos="fade-up" data-aos-delay="200">
+            
+            <!-- Disk Information -->
+            <div class="stat-card p-6 lg:col-span-2">
+                <div class="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+                    <div class="w-8 h-8 rounded-lg bg-warning/10 flex items-center justify-center">
+                        <i class="fas fa-hdd text-warning text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wide">Disk Usage</h3>
+                        <p class="text-[10px] text-gray-500 font-mono">Partition storage allocation</p>
+                    </div>
+                </div>
+                <div class="space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar pr-2" id="disk-list">
+                    <div class="text-center py-10">
+                        <div class="animate-spin-slow mx-auto mb-3">
+                            <i class="fas fa-circle-notch text-2xl text-primary-DEFAULT"></i>
+                        </div>
+                        <div class="text-gray-500 text-sm">Loading disk data...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network & Process Summary -->
+            <div class="stat-card p-6">
+                <div class="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+                    <div class="w-8 h-8 rounded-lg bg-info/10 flex items-center justify-center">
+                        <i class="fas fa-network-wired text-info text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wide">Network & Process</h3>
+                        <p class="text-[10px] text-gray-500 font-mono">Traffic and system load</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-xs font-semibold text-gray-400 mb-2">Network I/O</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500">⬇️ Download</span>
+                                <span class="text-sm font-mono text-success" id="network-rx-sec">0 B/s</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500">⬆️ Upload</span>
+                                <span class="text-sm font-mono text-info" id="network-tx-sec">0 B/s</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-2 border-t border-white/5">
+                                <span class="text-xs text-gray-500">Total RX</span>
+                                <span class="text-sm font-mono text-white" id="network-rx-total">0 B</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500">Total TX</span>
+                                <span class="text-sm font-mono text-white" id="network-tx-total">0 B</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-semibold text-gray-400 mb-2 mt-4">Processes</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-surface/30 p-3 rounded-lg text-center">
+                                <div class="text-lg font-bold text-white" id="proc-total">0</div>
+                                <div class="text-[10px] text-gray-500">Total</div>
+                            </div>
+                            <div class="bg-surface/30 p-3 rounded-lg text-center">
+                                <div class="text-lg font-bold text-success" id="proc-running">0</div>
+                                <div class="text-[10px] text-gray-500">Running</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-semibold text-gray-400 mb-2 mt-4">Software</h4>
+                        <div class="space-y-1 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Node.js:</span>
+                                <span class="font-mono text-white" id="software-node">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Python:</span>
+                                <span class="font-mono text-white" id="software-python">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">FFmpeg:</span>
+                                <span class="font-mono text-white" id="software-ffmpeg">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW SECTION: Network Interfaces & CPU Cores -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6" data-aos="fade-up" data-aos-delay="250">
+            
+            <!-- Network Interfaces -->
+            <div class="stat-card p-6">
+                <div class="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+                    <div class="w-8 h-8 rounded-lg bg-primary-dim flex items-center justify-center">
+                        <i class="fas fa-plug text-primary-DEFAULT text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wide">Network Interfaces</h3>
+                        <p class="text-[10px] text-gray-500 font-mono">Active connections</p>
+                    </div>
+                </div>
+                <div class="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-2" id="network-interfaces-list">
+                    <div class="text-center py-10">
+                        <div class="animate-spin-slow mx-auto mb-3">
+                            <i class="fas fa-circle-notch text-2xl text-primary-DEFAULT"></i>
+                        </div>
+                        <div class="text-gray-500 text-sm">Loading network data...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CPU Core Details & Load Average -->
+            <div class="stat-card p-6">
+                <div class="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+                    <div class="w-8 h-8 rounded-lg bg-purple/10 flex items-center justify-center">
+                        <i class="fas fa-microchip text-purple text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wide">CPU Details</h3>
+                        <p class="text-[10px] text-gray-500 font-mono">Core specs & load average</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="bg-surface/30 p-3 rounded-lg text-center">
+                            <div class="text-lg font-bold text-white" id="cpu-total-cores">0</div>
+                            <div class="text-[10px] text-gray-500">Total Cores</div>
+                        </div>
+                        <div class="bg-surface/30 p-3 rounded-lg text-center">
+                            <div class="text-lg font-bold text-white" id="cpu-physical-cores">0</div>
+                            <div class="text-[10px] text-gray-500">Physical</div>
+                        </div>
+                        <div class="bg-surface/30 p-3 rounded-lg text-center">
+                            <div class="text-lg font-bold text-white" id="cpu-speed">0 MHz</div>
+                            <div class="text-[10px] text-gray-500">Speed</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-semibold text-gray-400 mb-2">Load Average</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-xs text-gray-500">1 minute:</span>
+                                <span class="text-sm font-mono text-white" id="load-1min">0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-xs text-gray-500">5 minutes:</span>
+                                <span class="text-sm font-mono text-white" id="load-5min">0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-xs text-gray-500">15 minutes:</span>
+                                <span class="text-sm font-mono text-white" id="load-15min">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-white/5">
+                        <h4 class="text-xs font-semibold text-gray-400 mb-2">Process Memory (Node)</h4>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-500">RSS:</span>
+                                <span class="font-mono text-white" id="proc-mem-rss">0 MB</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-500">Heap Used:</span>
+                                <span class="font-mono text-white" id="proc-mem-heap-used">0 MB</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-500">Heap Total:</span>
+                                <span class="font-mono text-white" id="proc-mem-heap-total">0 MB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Attribution -->
+        <div class="mt-10 text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface/50 border border-white/5">
+                <i class="fas fa-code text-primary-DEFAULT text-xs"></i>
+                <span class="text-[10px] text-gray-500 font-mono">Powered by</span>
+                <span class="text-[10px] font-bold text-primary-DEFAULT" id="attribution-text">@zyvor</span>
+                <span class="text-[8px] text-gray-600">• v<span id="api-version">1.7.0</span></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-white/5 bg-[#020205] py-8">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center text-center gap-4">
+            <div class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">
+                © <span id="year-stats"></span> AlwaysCodex Api'S <span class="text-primary-DEFAULT">•</span> System Telemetry
+            </div>
+            <div class="flex gap-6 justify-center">
+                <a href="#" class="text-gray-600 hover:text-white transition-colors text-xs"><i class="fab fa-github"></i></a>
+                <a href="#" class="text-gray-600 hover:text-white transition-colors text-xs"><i class="fab fa-discord"></i></a>
+                <a href="#" class="text-gray-600 hover:text-white transition-colors text-xs"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripting -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS and set current year
+        AOS.init({ duration: 800, once: true });
+        document.getElementById("year-stats").textContent = new Date().getFullYear();
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // --- Menu Logic ---
+        function toggleNavMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('hidden');
+        }
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('navMenu');
+            const btn = document.querySelector('button[onclick="toggleNavMenu()"]');
+            if (menu && !menu.classList.contains('hidden')) {
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        // --- Helpers ---
+        function formatUptime(seconds) {
+            const units = [
+                { label: 'y', value: 31536000 }, // 365 days
+                { label: 'mo', value: 2592000 }, // 30 days
+                { label: 'd', value: 86400 },
+                { label: 'h', value: 3600 },
+                { label: 'm', value: 60 },
+                { label: 's', value: 1 }
+            ];
+            let result = [];
+
+            for (const unit of units) {
+                const amount = Math.floor(seconds / unit.value);
+                if (amount > 0) {
+                    result.push(`${amount}${unit.label}`);
+                    seconds %= unit.value;
+                }
+            }
+
+            return result.length ? result.join(' ') : '0s';
+        }
+
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        function formatRelativeTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000);
+            
+            if (diff < 10) return 'Just now';
+            if (diff < 60) return `${diff} seconds ago`;
+            if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+            return `${Math.floor(diff / 86400)} days ago`;
+        }
+
+        function getTrendEmoji(trend) {
+            if (trend > 20) return '🚀';
+            if (trend > 10) return '📈';
+            if (trend > 0) return '↗️';
+            if (trend < 0) return '↘️';
+            return '➡️';
+        }
+
+        function getSuccessRateColor(rate) {
+            if (rate >= 90) return 'text-success';
+            if (rate >= 70) return 'text-warning';
+            return 'text-error';
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        // --- Charts Setup ---
+        // CPU Area Chart
+        const cpuOptions = {
+            series: [{ name: 'CPU Load', data: [] }],
+            chart: {
+                type: 'area',
+                height: 250,
+                animations: { enabled: true, easing: 'linear', dynamicAnimation: { speed: 1000 } },
+                toolbar: { show: false },
+                background: 'transparent',
+                fontFamily: 'JetBrains Mono, monospace'
+            },
+            colors: ['#6366f1'],
+            stroke: { curve: 'smooth', width: 2 },
+            fill: {
+                type: 'gradient',
+                gradient: { 
+                    shadeIntensity: 1, 
+                    opacityFrom: 0.7, 
+                    opacityTo: 0.2, 
+                    stops: [0, 90, 100],
+                    gradientToColors: ['#8b5cf6']
+                }
+            },
+            dataLabels: { enabled: false },
+            grid: {
+                borderColor: '#1f2937',
+                strokeDashArray: 4,
+                yaxis: { lines: { show: true } },
+                xaxis: { lines: { show: false } }
+            },
+            xaxis: {
+                labels: { show: false },
+                axisBorder: { show: false },
+                axisTicks: { show: false }
+            },
+            yaxis: {
+                max: 100,
+                min: 0,
+                tickAmount: 5,
+                labels: { 
+                    style: { 
+                        colors: '#6b7280', 
+                        fontFamily: 'JetBrains Mono',
+                        fontSize: '11px'
+                    },
+                    formatter: (value) => `${value}%`
+                }
+            },
+            tooltip: {
+                theme: 'dark',
+                x: { show: false },
+                y: {
+                    formatter: (value) => `${value.toFixed(1)}%`,
+                    title: { formatter: () => 'CPU Load' }
+                }
+            }
+        };
+        const cpuChart = new ApexCharts(document.querySelector("#cpuChart"), cpuOptions);
+        cpuChart.render();
+
+        // Memory Donut Chart
+        const memOptions = {
+            series: [0, 0],
+            labels: ['Used', 'Free'],
+            chart: {
+                type: 'donut',
+                height: 250,
+                background: 'transparent',
+                fontFamily: 'JetBrains Mono, monospace',
+                animations: { enabled: true, speed: 500 }
+            },
+            colors: ['#ec4899', '#10b981'],
+            stroke: { show: true, colors: ['#030712'], width: 4 },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '75%',
+                        labels: {
+                            show: true,
+                            name: { 
+                                color: '#9ca3af', 
+                                fontSize: '12px',
+                                fontFamily: 'JetBrains Mono'
+                            },
+                            value: { 
+                                color: '#fff', 
+                                fontSize: '22px', 
+                                fontWeight: 700,
+                                fontFamily: 'JetBrains Mono',
+                                formatter: function(val) {
+                                    return val.toFixed(1) + " GB";
+                                }
+                            },
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                color: '#6b7280',
+                                fontSize: '11px',
+                                fontFamily: 'JetBrains Mono',
+                                formatter: function (w) {
+                                    return w.globals.seriesTotals.reduce((a, b) => a + b, 0).toFixed(1) + " GB";
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            dataLabels: { enabled: false },
+            legend: { show: false },
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function (val) {
+                        return val.toFixed(1) + " GB";
+                    }
+                }
+            }
+        };
+        const memChart = new ApexCharts(document.querySelector("#memChart"), memOptions);
+        memChart.render();
+
+        // --- Real-time Data Management ---
+        let previousApiStats = null;
+        let cpuDataPoints = [];
+        let isConnected = true;
+        let fetchInterval = null;
+        let errorCount = 0;
+        const MAX_ERROR_COUNT = 5;
+        
+        function updateConnectionStatus(connected) {
+            const badge = document.getElementById('connection-badge');
+            const indicator = document.getElementById('status-indicator');
+            
+            if (connected) {
+                badge.className = 'flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.1)]';
+                indicator.className = 'w-2 h-2 rounded-full bg-green-500 animate-pulse-slow shadow-[0_0_10px_#22c55e]';
+                isConnected = true;
+            } else {
+                badge.className = 'flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.1)]';
+                indicator.className = 'w-2 h-2 rounded-full bg-red-500 animate-pulse-slow shadow-[0_0_10px_#ef4444]';
+                isConnected = false;
+            }
+        }
+        
+        async function fetchRealTimeStats() {
+            try {
+                const startTime = Date.now();
+                const res = await fetch('/status', {
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
+                });
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+                
+                const data = await res.json();
+                const latency = Date.now() - startTime;
+                
+                // Reset error count on successful fetch
+                errorCount = 0;
+                
+                // Update connection status
+                updateConnectionStatus(true);
+                
+                // Update Server Status
+                document.getElementById('server-status').textContent = data.status.toUpperCase();
+                document.getElementById('server-status').className = 
+                    data.status === 'online' ? 'text-2xl font-black text-success tracking-tight' : 
+                    'text-2xl font-black text-error tracking-tight';
+                
+                // Use uptime_human from response
+                document.getElementById('server-uptime').textContent = "Up: " + (data.uptime_human || formatUptime(data.uptime));
+                
+                // Update version from configuration.json
+                try {
+                    const cfgRes = await fetch('/configuration');
+                    const cfg = await cfgRes.json();
+                    if (cfg.releases?.[0]?.version) {
+                        document.getElementById('api-version').textContent = cfg.releases[0].version;
+                    }
+                } catch (e) {
+                    if (data.version) {
+                        document.getElementById('api-version').textContent = data.version;
+                    }
+                }
+
+                // Update OS
+                if (data.os) {
+                    document.getElementById('os-platform').textContent = data.os.platform.toUpperCase();
+                    document.getElementById('os-distro').textContent = `${data.os.distro || ''} ${data.os.release || ''}`.trim() || 'Unknown';
+                }
+
+                // Update CPU
+                const cpuLoad = Math.round(data.cpu.currentLoad);
+                document.getElementById('cpu-text').textContent = cpuLoad + "%";
+                document.getElementById('cpu-bar').style.width = cpuLoad + "%";
+                
+                // Update CPU Chart with real data (keep last 30 data points)
+                cpuDataPoints.push({
+                    x: new Date(data.timestamp).getTime(),
+                    y: cpuLoad
+                });
+                
+                // Keep only last 30 points
+                if (cpuDataPoints.length > 30) {
+                    cpuDataPoints.shift();
+                }
+                
+                // Update chart
+                cpuChart.updateSeries([{
+                    name: 'CPU Load',
+                    data: cpuDataPoints
+                }]);
+                
+                // Update data count
+                document.getElementById('cpu-data-count').textContent = cpuDataPoints.length;
+                
+                // Update current time
+                document.getElementById('cpu-current-time').textContent = 
+                    new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+                // Update Memory
+                const usedMemGB = parseFloat((data.mem.used / 1073741824).toFixed(2));
+                const freeMemGB = parseFloat((data.mem.free / 1073741824).toFixed(2));
+                const totalMemGB = parseFloat((data.mem.total / 1073741824).toFixed(2));
+                const usedPercent = parseFloat(data.mem.usagePercent);
+
+                document.getElementById('mem-text').textContent = usedPercent.toFixed(1) + "%";
+                document.getElementById('mem-bar').style.width = usedPercent + "%";
+                
+                // Update Memory details
+                document.getElementById('mem-used-gb').textContent = usedMemGB.toFixed(2) + " GB";
+                document.getElementById('mem-free-gb').textContent = freeMemGB.toFixed(2) + " GB";
+                document.getElementById('mem-total-gb').textContent = totalMemGB.toFixed(2) + " GB";
+                
+                // Update memory chart
+                memChart.updateSeries([usedMemGB, freeMemGB]);
+                memChart.updateOptions({
+                    plotOptions: { 
+                        pie: { 
+                            donut: { 
+                                labels: { 
+                                    total: { 
+                                        formatter: () => totalMemGB.toFixed(1) + " GB" 
+                                    } 
+                                } 
+                            } 
+                        } 
+                    }
+                });
+
+                // Update Endpoints
+                if (data.endpoints) {
+                    document.getElementById('total-endpoints').textContent = data.endpoints.total || 0;
+                    document.getElementById('hot-reload-status').textContent = 
+                        data.endpoints.hotReload ? "Enabled" : "Disabled";
+                    document.getElementById('hot-reload-status').className = 
+                        data.endpoints.hotReload ? "text-success" : "text-warning";
+                }
+
+                // Update API Stats
+                if (data.apiStats) {
+                    // Update hit counts
+                    document.getElementById('api-today').textContent = data.apiStats.hits.today;
+                    document.getElementById('api-today-detail').textContent = data.apiStats.hits.today;
+                    document.getElementById('api-week').textContent = data.apiStats.hits.thisWeek;
+                    document.getElementById('api-month').textContent = data.apiStats.hits.thisMonth;
+                    document.getElementById('api-alltime').textContent = data.apiStats.hits.allTime;
+                    
+                    // Calculate trend if we have previous data
+                    if (previousApiStats) {
+                        const trend = previousApiStats.hits.today > 0 ? 
+                            Math.round(((data.apiStats.hits.today - previousApiStats.hits.today) / previousApiStats.hits.today) * 100) : 0;
+                        const emoji = getTrendEmoji(trend);
+                        document.getElementById('api-today-percentage').textContent = 
+                            `${trend > 0 ? '+' : ''}${trend}% from previous ${emoji}`;
+                        document.getElementById('api-today-trend').textContent = 
+                            `${trend > 0 ? '+' : ''}${trend}%`;
+                    } else {
+                        document.getElementById('api-today-percentage').textContent = "First reading";
+                        document.getElementById('api-today-trend').textContent = "---";
+                    }
+                    
+                    // Update data integrity
+                    const integrityEl = document.getElementById('api-integrity');
+                    integrityEl.innerHTML = '<i class="fas fa-shield-alt text-primary-DEFAULT mr-1"></i> <span class="text-primary-DEFAULT">Verified</span>';
+                    
+                    // Update last updated time
+                    if (data.apiStats.lastUpdated) {
+                        document.getElementById('api-last-updated').textContent = formatTime(data.apiStats.lastUpdated);
+                        document.getElementById('api-update-time').textContent = formatRelativeTime(data.apiStats.lastUpdated);
+                    }
+                    
+                    // Update popular endpoints
+                    if (data.apiStats.popularEndpoints) {
+                        updatePopularEndpoints(data.apiStats.popularEndpoints);
+                    }
+                    
+                    // Store for next comparison
+                    previousApiStats = data.apiStats;
+                }
+
+                // Update Network Stats
+                if (data.network && data.network.stats) {
+                    document.getElementById('network-rx-total').textContent = formatBytes(data.network.stats.rxBytes);
+                    document.getElementById('network-tx-total').textContent = formatBytes(data.network.stats.txBytes);
+                    document.getElementById('network-rx-sec').textContent = formatBytes(data.network.stats.rxSec) + '/s';
+                    document.getElementById('network-tx-sec').textContent = formatBytes(data.network.stats.txSec) + '/s';
+                }
+
+                // Update Process Info
+                if (data.processes) {
+                    document.getElementById('proc-total').textContent = data.processes.total || 0;
+                    document.getElementById('proc-running').textContent = data.processes.running || 0;
+                }
+
+                // Update Software Versions
+                if (data.software) {
+                    document.getElementById('software-node').textContent = data.software.nodejs || '-';
+                    document.getElementById('software-python').textContent = data.software.python || '-';
+                    document.getElementById('software-ffmpeg').textContent = data.software.ffmpeg || 'Not installed';
+                }
+
+                // Update Disk Info
+                if (data.disk && data.disk.length > 0) {
+                    updateDiskInfo(data.disk);
+                }
+
+                // Update Network Interfaces
+                if (data.network && data.network.interfaces) {
+                    updateNetworkInterfaces(data.network.interfaces);
+                }
+
+                // Update CPU Details
+                if (data.cpu) {
+                    document.getElementById('cpu-total-cores').textContent = data.cpu.totalCores || 0;
+                    document.getElementById('cpu-physical-cores').textContent = data.cpu.physicalCores || 0;
+                    document.getElementById('cpu-speed').textContent = data.cpu.processors && data.cpu.processors[0] ? data.cpu.processors[0].speed : '0 MHz';
+                    
+                    if (data.cpu.loadAverage) {
+                        document.getElementById('load-1min').textContent = data.cpu.loadAverage['1min'] || '0.00';
+                        document.getElementById('load-5min').textContent = data.cpu.loadAverage['5min'] || '0.00';
+                        document.getElementById('load-15min').textContent = data.cpu.loadAverage['15min'] || '0.00';
+                    }
+                }
+
+                // Update Process Memory
+                if (data.memory) {
+                    document.getElementById('proc-mem-rss').textContent = data.memory.rss || '0 MB';
+                    document.getElementById('proc-mem-heap-used').textContent = data.memory.heapUsed || '0 MB';
+                    document.getElementById('proc-mem-heap-total').textContent = data.memory.heapTotal || '0 MB';
+                }
+
+                // Update timestamp
+                document.getElementById('last-update').textContent = 
+                    `Last update: ${formatRelativeTime(data.timestamp)} (${latency}ms)`;
+
+            } catch (error) {
+                console.error("Error fetching real-time stats:", error);
+                errorCount++;
+                
+                if (errorCount >= MAX_ERROR_COUNT) {
+                    updateConnectionStatus(false);
+                    document.getElementById('server-status').textContent = "OFFLINE";
+                    document.getElementById('server-status').className = "text-2xl font-black text-error tracking-tight";
+                    document.getElementById('server-uptime').textContent = "Connection lost";
+                }
+                
+                document.getElementById('last-update').textContent = 
+                    `Update failed: ${errorCount}/${MAX_ERROR_COUNT} errors`;
+            }
+        }
+
+        function updatePopularEndpoints(endpoints) {
+            const container = document.getElementById('popular-endpoints-list');
+            if (!endpoints || endpoints.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-inbox text-3xl text-gray-600 mb-3"></i>
+                        <div class="text-gray-500 text-sm">No endpoint data available</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            endpoints.forEach((ep, index) => {
+                const successColor = getSuccessRateColor(ep.successRate);
+                const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+                
+                html += `
+                    <div class="flex items-center justify-between p-3 rounded-lg bg-surface/30 border border-white/5 hover:border-primary-DEFAULT/30 transition-colors">
+                        <div class="flex items-center gap-3 flex-1 min-w-0">
+                            <div class="text-lg">${rankEmoji}</div>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-sm font-semibold text-white truncate" title="${ep.endpoint}">${ep.endpoint}</div>
+                                <div class="text-[10px] text-gray-500 font-mono truncate">${ep.hits} requests</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <div class="text-sm font-bold ${successColor}">${ep.successRate}%</div>
+                            <div class="text-[10px] text-gray-500 font-mono">success</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateDiskInfo(disks) {
+            const container = document.getElementById('disk-list');
+            if (!disks || disks.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-hdd text-3xl text-gray-600 mb-3"></i>
+                        <div class="text-gray-500 text-sm">No disk data available</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            disks.forEach(disk => {
+                const usePercent = parseFloat(disk.usePercent);
+                let barColor = 'bg-success';
+                if (usePercent > 90) barColor = 'bg-error';
+                else if (usePercent > 75) barColor = 'bg-warning';
+
+                html += `
+                    <div class="p-3 rounded-lg bg-surface/30 border border-white/5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="min-w-0">
+                                <div class="text-sm font-semibold text-white truncate" title="${disk.mount}">${disk.mount}</div>
+                                <div class="text-[10px] text-gray-500 font-mono truncate">${disk.filesystem}</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-bold text-white">${disk.used_human} / ${disk.size_human}</div>
+                                <div class="text-[10px] ${usePercent > 90 ? 'text-error' : 'text-gray-500'} font-mono">${disk.usePercent}% used</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-800/50 h-1.5 rounded-full overflow-hidden">
+                            <div class="h-full ${barColor} transition-all duration-500" style="width: ${usePercent}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateNetworkInterfaces(interfaces) {
+            const container = document.getElementById('network-interfaces-list');
+            if (!interfaces || interfaces.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-network-wired text-3xl text-gray-600 mb-3"></i>
+                        <div class="text-gray-500 text-sm">No network data available</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            interfaces.forEach(iface => {
+                const ipv4 = iface.addresses.find(addr => addr.family === 'IPv4' && !addr.internal);
+                const ipv4Local = iface.addresses.find(addr => addr.family === 'IPv4' && addr.internal);
+                const ipv6 = iface.addresses.find(addr => addr.family === 'IPv6' && !addr.internal);
+
+                html += `
+                    <div class="p-3 rounded-lg bg-surface/30 border border-white/5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-network-wired text-xs text-primary-DEFAULT"></i>
+                            <span class="text-sm font-semibold text-white">${iface.name}</span>
+                            ${iface.addresses.some(addr => !addr.internal) ? '<span class="text-[8px] bg-success/20 text-success px-2 py-0.5 rounded-full">PUBLIC</span>' : ''}
+                        </div>
+                        <div class="space-y-1 text-[11px] font-mono">
+                            ${ipv4 ? `<div class="flex justify-between"><span class="text-gray-500">IPv4:</span><span class="text-info">${ipv4.address}</span></div>` : ''}
+                            ${ipv4Local ? `<div class="flex justify-between"><span class="text-gray-500">Local:</span><span class="text-gray-400">${ipv4Local.address}</span></div>` : ''}
+                            ${ipv6 ? `<div class="flex justify-between"><span class="text-gray-500">IPv6:</span><span class="text-info truncate max-w-[150px]" title="${ipv6.address}">${ipv6.address.substring(0, 20)}...</span></div>` : ''}
+                            <div class="flex justify-between"><span class="text-gray-500">MAC:</span><span class="text-gray-400">${iface.addresses[0]?.mac || 'N/A'}</span></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Start Real-time Fetch loop
+        fetchRealTimeStats();
+        fetchInterval = setInterval(fetchRealTimeStats, 3000); // Update every 3 seconds
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (fetchInterval) {
+                clearInterval(fetchInterval);
+            }
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{
+  "visitorId": "dc9dca774f0d00a07a7b7b77c11b8ab5",
+  "vtoken": "ugkwWs6xIBapA8rg4BKJSvDw9tZbH8Am8DM+cMP39zC0emyB9wfOyqEAbAE/0cYLYhaazyENeMVsQ0lTAN7nVXCqqs0dOnsxUm+V+b8iscZS0MYhENvmhLOG9AyPcGTo4v/CQvOLkpMSHkh5WXIsmIxTqXTe7eh+3RkO43J4yzc=",
+  "conversationId": 59030960,
+  "ip": "237.125.53.162",
+  "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Halo"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Halo! 👋 Ada yang bisa saya bantu hari ini?"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Halo"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Halo lagi! 😊 Apa kabar? Ada yang ingin kamu tanyakan atau bicarakan?"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Halo, jelaskan apa itu black hole secara singkat😭"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Black hole (lubang hitam) adalah wilayah di ruang angkasa dengan gravitasi sangat kuat, sehingga tidak ada apa pun—bahkan cahaya—yang bisa lolos darinya. Biasanya terbentuk ketika bintang masif runtuh ke dalam dirinya sendiri. 😭✨"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Halo, jelaskan apa itu black hole secara singkat😭"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Black hole adalah objek luar angkasa dengan gravitasi sangat kuat sehingga cahaya pun tidak dapat lolos. Biasanya terbentuk dari runtuhnya bintang besar. 🌌"
+        }
+      ]
+    }
+  ]
+}

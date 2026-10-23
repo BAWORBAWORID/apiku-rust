@@ -1,0 +1,6466 @@
+{
+  "announcements": {
+    "enabled": true,
+    "items": [
+      {
+        "date": "October 21, 2026",
+        "description": "1) Reach CH VIP (/api/fun/reach-ch-vip) — Upgrade core engine reaksi WhatsApp Channel via ReactionWA VIP API, integrasi penyimpanan data/key-reach.json, otomatis regenerasi VIP key saat limit harian habis, dan response bersih tanpa task_id/vip_key. 2) Downloader Unification (/api/downloader) — Penyelarasan kategori All-In-One Downloader v3 (dari DOWNLOADER menjadi Downloader) dan fix proxy di pinterest.js sehingga seluruh 61 endpoint downloader kini seragam. 3) Pembersihan Endpoint AI — Penghapusan 25 endpoint AI yang terblokir/mati (mathgpt, sakana, venice, felo, deep-ai, deepai, gemini-pro, gpt4, gpt5-4, qwen3-coder, nvidia, quily-ai, scite-ai, chatgpt-org, chatilm, apodex, duckai, genspark, langchain, lumo, notegpt, qwenv2, qwenguest, manus, jolly, claude-v2) beserta file cache terkait, menyisakan 35 endpoint AI aktif terverifikasi 200 OK.",
+        "releaseVersion": "2.1.2",
+        "title": "Maintenance & Updates — Reach CH VIP Upgrade, Downloader Unification & AI Cleanup"
+      },
+      {
+        "date": "October 3, 2026",
+        "description": "Pembaruan endpoint baru & scraper: 1) AnimoTVSlash Anime (/api/anime/animotv) — scraper anime lengkap 5 aksi: latest, search, detail, episodes, dan streaming embed resolver. 2) Apple Music Downloader (/api/downloader/applemusic) — search & download track Apple Music via AplMate (MP3 & Cover HD). 3) AlightMotion Bulk v4 (/api/am/bulkv4) — generate akun Alight Motion premium massal via CyberMail dengan proses latar belakang (anti-timeout). 4) CyberMail TempMail (/api/tempmail/cybermail) — temporary email generator & inbox checker cybermail.us. 5) Samehadaku Anime (/api/anime/samehadaku) — scraper anime & donghua Samehadaku (latest, search, detail, stream). 6) Crunchyroll Resolver (/api/anime/crunchyroll) — pencarian, detail, season, episode & multi-server stream embed. 7) Melolo Drama (/api/movie/melolo) & FreeMovie (/api/movie/freemovie) — scraper short drama & katalog film gratis. Total endpoint: 478 aktif di 29 kategori.",
+        "releaseVersion": "",
+        "title": "New Endpoints — AnimoTV, Apple Music, AlightMotion v4, Samehadaku & CyberMail"
+      },
+      {
+        "date": "September 28, 2026",
+        "description": "Endpoint baru: 1) Islami AI (/api/ai/islamiai) — tanya jawab Islam berbasis RAG dengan rujukan sumber. 2) GStory AI Image (/api/imageai/gstory) — generate gambar AI dari prompt, return URL hasil tanpa menyimpan gambar ke server. 3) Goal.com (/api/search/goal) — scraper berita sepak bola 4 action: latest, transfers, search, article; fix struktur __NEXT_DATA__ (newsArchive) yang berubah & search di-rank dengan skoring relevansi. 4) Spotify Downloader v2 (/api/downloader/spotifyv2) — SpotiSaver via HTTP + cookie jar tanpa Puppeteer, return metadata & daftar track. 5) AlightMotion Bulk v3 (/api/am/bulkv3) — pakai tempmail-donz, polling inbox cari link Firebase.\nPerbaikan: 6) Instagram Stalker (/api/stalker/instagram) — rewrite core browser: Cloudflare retry 5x + form driving (sebelumnya hanya andalkan ?username=), dan fix parseCount untuk follower ringkas \"12.4k\" yang sebelumnya null. 7) Pinterest (/api/downloader/pinterest) — hapus klickpin.com (mati, 500) ganti direct scrape halaman pin + fallback proxy worker, support image & video pin. 8) Unlimited AI (/api/ai/unlimited) — response direstruktur menjadi { status, data }. 9) WhatsApp Stalker — hapus alias parameter 'channel', satu-satunya input jadi 'link'. 10) FreeFire Stalker — hapus field 'source' dari response. 11) Dockerfile — fix build Puppeteer (npx/npm exec tidak ketemu binary), sekarang pakai bundled Chrome.\nLainnya: 12) Endpoint baru gitreverse, dubbindo, checknumber, 7reels, students, apkcombo, bilibili, duckduckgo, dummylabs. 13) Hapus endpoint wow-dl (upstream TLS rusak) serta fun/tikboost dan fun/tiktokview. 14) allinonev4 status offline (timeout).",
+        "releaseVersion": "",
+        "title": "New Endpoints & Fixes — Islami AI, GStory, Goal.com, Spotify v2 & Stalker Overhaul"
+      },
+      {
+        "date": "September 16, 2026",
+        "description": "Pembaruan endpoint baru & perbaikan:\n1) NoteGPTv2 AI Chat (/api/ai/notegptv2) — AI chat gratis via anonymous session + WASM signing (gemini-3.1-flash-lite), support multi-turn conversation (conversation_id + parent_message_id), web search, tone/length/language/chat_mode parameter. Total 8 model enum tersedia.\n2) AnimeHub VIP Manager (/api/fun/animehub) — Cek status VIP (check), buat VIP (prem), hapus VIP (remove) via email. Parsing JSON response terstruktur.\n3) Fix: notegptv2 paramsSchema enum rapih multi-line. AnimeHub response JSON parse otomatis.\nTotal endpoint: 425.",
+        "releaseVersion": "",
+        "title": "New AI Chat & Fun Tools — NoteGPTv2, AnimeHub VIP & Fixes"
+      },
+      {
+        "date": "September 15, 2026",
+        "description": "Perbaikan endpoint /api/search/pinterest yang sebelumnya error 403 Invalid Resource Request & empty results: 1) Update format payload Aragon (scope: pins, page_size, refine_search_with_filters) yang ditolak Pinterest dengan payload lama. 2) Rotasi otomatis 12 CORS proxy (caliph, rpoxy, prox, aged, wave, hill, icy, fazri, spring, sizable, jiashu, eu) untuk bypass soft-block IP datacenter — Pinterest sengaja mengembalikan 200 + results: [] untuk IP datacenter. 3) Endpoint diaktifkan kembali (status: online). Contoh: /api/search/pinterest?query=mountain&limit=5",
+        "releaseVersion": "",
+        "title": "Fix — Search Pinterest Bypass IP Soft-Block"
+      },
+      {
+        "date": "September 14, 2026",
+        "description": "1) TutorGPT AI (/api/ai/tutorgpt) — AI chat gratis multi-turn (session), pilihan model, tone & length output. 2) Akinator Game (/api/games/akinator) — game tebak karakter action start/answer/back/exclude/stop, 3 tema (characters, animals, objects). 3) Search Wallpaper 4K (/api/search/4kwallpapers) — scraper wallpaper 4K dengan 9 action: recent, popular, featured, random, search, category, categories, collections, collection detail. 4) MAGMA Gunung Api fix (/api/tools/magma/status & /catalog) — status realtime Level I-IV dan katalog 69 gunung, sebelumnya error 500 (stale CSRF). Total endpoint: 423.",
+        "releaseVersion": "2.1.3",
+        "title": "New Endpoints — TutorGPT AI, Akinator Game, Wallpaper 4K & MAGMA Fix"
+      },
+      {
+        "date": "September 13, 2026",
+        "description": "Endpoint baru /api/ai/zerogpt — ZeroGPT AI dengan 2 mode: 1) Chat (default) — Chat interaktif dengan ZeroGPT AI Assistant via WebSocket streaming, support multi-turn conversation (parameter: text, conversation_id). 2) Detect — Deteksi apakah teks dibuat oleh AI/GPT atau ditulis manusia, hasil lengkap: verdict (ai/human/uncertain), fake_percentage, ai_words, text_words, feedback, detected_language (parameter: text, action=detect). Contoh: /api/ai/zerogpt?text=Halo siapa kamu? | /api/ai/zerogpt?action=detect&text=...",
+        "releaseVersion": "2.1.2",
+        "title": "New Endpoint — ZeroGPT AI (Chat & Detector)"
+      },
+      {
+        "date": "September 13, 2026",
+        "description": "Pembaruan fitur & endpoint baru: 1) Reach CH (/api/fun/reach-ch) — Kirim reaksi emoji otomatis ke postingan WhatsApp Channel via Cloudflare Turnstile bypass (engine bycf) dan sistem rotasi proxy dinamis, mendukung mode Free dan VIP Key. 2) Anime AV1 (/api/anime/animeav1) — Streaming & download anime codec AV1 kualitas tinggi dengan daftar server dan episode lengkap. 3) Upscaler v2 Upgrade (/api/imagehd/upscalev2) — Peningkatan engine bypass ke modul bycf untuk proses AI Image Upscale yang jauh lebih cepat tanpa lag. 4) Luna AI (/api/ai/luna) — Endpoint asisten AI Chat interaktif baru dengan multi-turn memory. 5) Check Ban WA (/api/checknumber/checkban) — Cek status nomor WhatsApp apakah aktif atau terblokir/banned secara akurat.",
+        "releaseVersion": "2.1.2",
+        "title": "New Update — WhatsApp Channel Reactions, Anime AV1 & Engine ByCF"
+      },
+      {
+        "date": "September 8, 2026",
+        "description": "3 endpoint baru: 1) SnapAny Downloader (/api/downloader/snapany) — universal media downloader via SnapAny API, support 1000+ situs (YouTube, TikTok, Instagram, X, dll), HMAC auto-signed, return langsung URL media video/audio. 2) GetDL Downloader (/api/downloader/getdl) — downloader multi-platform via getdl.space dengan auto-detect platform (TikTok, Douyin, Instagram, Facebook, YouTube, X, Threads, CapCut, Spotify, SoundCloud, Pinterest, BiliBili, dll) — hasil lengkap: MP4 no-watermark (HD), MP4 with watermark & MP3 audio plus metadata. 3) GetContact Stalker (/api/stalker/getcontact) — cek data nomor HP via GetContact (auth WhatsApp): profil (nama, foto, bio, verifikasi) & tags dari database publik.",
+        "releaseVersion": "2.0.0",
+        "title": "New Update — SnapAny & GetDL Universal Downloaders, GetContact Stalker"
+      },
+      {
+        "date": "September 7, 2026",
+        "description": "4 endpoint baru: 1) Winbu (/api/anime/winbu) — scraper streaming anime, donghua, series & film dari winbu.org: action home, search, series (detail + 1000+ episode list), film (player + download), stream (resolve 13 server embed via AJAX + link download 360p-1080p di Gofile/Mp4Upload/MEGA/MegaUp), category, genre, genres. 2) LiveChart Anime (/api/anime/livechart) — LiveChart.me: action season & year (list anime per musim), detail, streams (Crunchyroll, Muse Asia, Netflix, Prime Video, dll), info (detail+streams), rankings, studios (120+), tags/genres (170+), franchises. 3) ClearPNG Upscaler (/api/imagehd/clearpng) — upscale 2x/4x via cleanpng.com, response langsung gambar (format png/jpg). 4) Optimole Upscaler (/api/imagehd/optimole) — AI upscale via Replicate, output WebP kualitas tertinggi, response langsung gambar.",
+        "releaseVersion": "2.0.0",
+        "title": "New Endpoints — Winbu & LiveChart Anime, ClearPNG & Optimole Upscaler"
+      },
+      {
+        "date": "September 5, 2026",
+        "description": "System updates and fixes: 1) Added Facebook Downloader (/api/downloader/facebook) using getmyfb.com. 2) Added Image Resize Maker (/api/maker/resize) with direct PNG, JPG, and WebP image responses. 3) Upgraded SaveTube Downloader (/api/downloader/savetube) with fast stream support, 1440p/2160p quality, MP3 output, and GET/POST support. 4) Fixed All-In-One Downloader (/api/downloader/allinone) with automatic retatube.com fallback when downr.org returns action_forbidden. 5) Fixed TikTok Stalker (/api/stalker/tiktok) using TikTok embed data for complete profile statistics and recent videos. 6) Removed Grok V2 because its upstream model deployments were deprecated.",
+        "releaseVersion": "2.0.0",
+        "title": "Maintenance & Fix Update — Downloader, Image Maker, TikTok Stalker"
+      },
+      {
+        "date": "September 4, 2026",
+        "description": "12 endpoint baru: 1) Qwen Guest AI (/api/ai/qwenguest) — chat Qwen 3.7 tanpa akun via guest mode, persistent browser (12-14s warm), support deep thinking & web search. 2) DeepL Translate (/api/tools/translate) — translator 3-engine (DeepL → Neural GTX → MyMemory), 35+ bahasa, alias lokal (jepang/korea/dll), voice TTS & alternatives. 3) Omnify AIO (/api/downloader/omnify) — all-in-one downloader (TikTok, IG, YouTube, CapCut, Spotify, GDrive, TeraBox, Mega, dll), auto-detect platform. 4) YouTube Downloader v4 (/api/downloader/youtube4) — via scriptmind.co, auto-merge video+audio ffmpeg jadi MP4. 5) TikTokIO Downloader (/api/downloader/tiktokio) — provider tiktokio.com, support photo slide. 6) CapCut Downloader v2 (/api/downloader/capcutv2) — backend 3bic.com. 7) LK21 Stream v2 (/api/downloader/lk21v2) — TMDB API resmi + embed streaming 3 server. 8) TempMail Chat (/api/tempmail/tempmailchat) — tempmail.chat provider ke-14, action create/inbox/wait/auto/delete. 9) AskMe AI (/api/ai/askme) — chat + image vision, session multi-turn. 10) Anichin Help (/api/anime/anichin-help) — donghua anichin.help. 11) Anichi (/api/anime/anichi) — anime streaming anichi.to. 12) Voratoon Updates (/api/search/voratoon) — manga update list. Fix: Wikipedia (User-Agent deskriptif sesuai robot policy WMF, 403 resolved).",
+        "releaseVersion": "2.0.0",
+        "title": "New Update — Qwen Guest AI, DeepL Translate, Omnify AIO & More"
+      },
+      {
+        "date": "September 1, 2026",
+        "description": "Endpoint baru /api/anime/anichin — Scraper donghua (anime China) dari anichin.cafe. Action: search (cari donghua), ongoing (sedang tayang), completed (tamat), schedule (jadwal rilis per hari), genres (daftar genre: Action, Cultivation, Fantasy, dll.), genre (filter genre), detail (sinopsis, rating, episode list, batch download), episode (stream server & download 360p-1080p). Contoh: /api/anime/anichin?action=search&query=soul+land | /api/anime/anichin?action=genre&genre=cultivation | /api/anime/anichin?action=detail&query=tales-of-herding-gods",
+        "releaseVersion": "2.0.0",
+        "title": "New Endpoint — Anichin Donghua (Streaming & Download)"
+      },
+      {
+        "date": "August 18, 2026",
+        "description": "1) FreeForAI Image Generator (/api/imageai/freeforai): FLUX.1 Dev/Kontext model, free unlimited, no login, 3 size options. 2) ChatGPTis AI Chat (/api/ai/chatgptis): 8 model (GPT, Claude, Gemini, Grok, DeepSeek, Qwen, Kimi, Perplexity) free unlimited. 3) AI Seek (/api/ai/aiseek): multi-model chat + vision + image generation via AI Seek API. 4) APKModY Downloader (/api/downloader/apkmody): search, detail, history, download APK/OBB/ZIP.",
+        "releaseVersion": "2.0.0",
+        "title": "New Update — FreeForAI Image Gen, ChatGPTis AI & More"
+      },
+      {
+        "date": "August 5, 2026",
+        "description": "1) Instagram Stalker: cek profil, statistik post, hashtag & analytics, plus pencarian akun. 2) AlightMotion Premium: kirim link verifikasi & aktivasi premium otomatis. 3) AI Chat baru: DeepAI (10 model) & Jolly AI. 4) Pencarian data sekolah Dapodik (Kemendikdasmen).",
+        "releaseVersion": "2.0.0",
+        "title": "New Update — Instagram Stalker, AlightMotion & More"
+      },
+      {
+        "date": "August 1, 2026",
+        "description": "Update perbaikan sistem (fixed errors): 1) Critical bug fix — perubahan Status Restrictions (allowedEndpoints/allowedStatuses) pada API key kini tersimpan dengan benar. Sebelumnya terjadi race condition antara dua cache terpisah yang menyebabkan pengaturan admin hilang/tertimpa; kini di-refactor menjadi satu shared store (apiKeysStore) dengan sinkronisasi otomatis. 2) Fixed crash pada /api/ai/gpt5-4 — error response dengan circular JSON kini ditangani dengan aman. 3) Perbaikan endpoint proxy OpenAI /api/v1/chat/completions (import path logger).",
+        "releaseVersion": "2.0.0",
+        "title": "System Update — API Key Save Fix & Crash Fixes"
+      },
+      {
+        "date": "July 26, 2026",
+        "description": "Pembaruan besar v2.0.0: 1) API Key Restrictions — Menambahkan field `allowedEndpoints` (mendukung wildcard seperti /api/am/*) dan `allowedStatuses` pada API key untuk membatasi akses endpoint tertentu saja (misal untuk pembeli AM saja). 2) Router Hot Swap — Peningkatan arsitektur server di mana file engine utama (`src/app/index.js` & file `src/`) di-load secara dinamis via HMR, update middleware/sistem kini langsung aktif secara instan tanpa perlu restart server atau matikan port. 3) UI Admin Dashboard & Docs — Dashboard admin kini dilengkapi form input pembatasan allowedEndpoints/allowedStatuses saat generate/edit key, dan dokumentasi interaktif API Key pada docs.html.",
+        "releaseVersion": "2.0.0",
+        "title": "v2.0.0 — API Key Restrictions & Router Hot Swap (No-Restart HMR)"
+      },
+      {
+        "date": "July 25, 2026",
+        "description": "Update besar v2.0.0: 1) /api/tools/subdomain-finder di-rewrite total — 7 sumber data (hackertarget, alienvault, rapiddns, urlscan, certspotter, threatminer, dns_bruteforce). 2) DNS Bruteforce Engine — scan 400+ subdomain umum otomatis, return IP untuk tiap subdomain yang live. 3) Per-source result count di response. 4) Response format baru: { subdomain, ips }.",
+        "releaseVersion": "2.0.0",
+        "title": "v2.0.0 — Subdomain Finder Rewrite & DNS Bruteforce Engine"
+      },
+      {
+        "date": "July 24, 2026",
+        "description": "Fitur baru: 1) Agent v2 endpoints: /api/v2/models (daftar 16 model Genspark) & /api/v2/chat/completions (OpenAI-compatible via Genspark  Claude 4, GPT-5, Gemini 3, Grok 4). 2) Premium API Key system upgrade — sekarang ada paket 3/7/14/30 Hari dengan auto-expiration. Key expired otomatis disabled, admin bisa renewal via dashboard.",
+        "releaseVersion": "2.0.0",
+        "title": "Agent v2 & Premium API Key System dengan Expiration"
+      },
+      {
+        "date": "July 23, 2026",
+        "description": "Endpoint baru /api/ai/genspark hadir dengan teknologi browser automation, support model Claude 4, GPT-5, Gemini 3, Grok 4, dan masih banyak lagi. Login sekali, nikmati session permanen!",
+        "releaseVersion": "2.0.0",
+        "title": "Genspark AI Hadir! Browser Automation Chat dengan 15+ Model Keren"
+      },
+      {
+        "date": "July 23, 2026",
+        "description": "Endpoint AI baru: /api/ai/genspark (Puppeteer-based, multi-model: Claude 4, GPT-5, Gemini 3, Grok 4). VoidChat via Cloudflare Worker. 5 engine upscale HD: v3-v7. Maker: /api/maker/nulis (handwriting). CloudStorage S3 (1TB) sebagai CDN ke-3.",
+        "releaseVersion": "2.0.0",
+        "title": "New AI: Genspark AI, VoidChat, Image HD v3-v7, Nulis Maker & CloudStorage CDN"
+      },
+      {
+        "date": "July 22, 2026",
+        "description": "Endpoint /api/ai/copilot dihapus karena Cloudflare memblokir IP datacenter server (43.156.70.52) dari copilot.microsoft.com. Tidak ada workaround tanpa residential proxy.",
+        "releaseVersion": "2.0.0",
+        "title": "Copilot Endpoint Removed"
+      },
+      {
+        "date": "July 18, 2026",
+        "description": "Pembaruan keamanan: 1) IP Spoofing Fix — rate limiter sekarang track IP real, spoofed headers diabaikan. 2) SSRF Protection — blokir request ke private IPs, DNS rebinding, file://, gopher://. 3) Session Secret — random ephemeral secret, tidak lagi hardcode. 4) Bot Shield — firewall otomatis blokir scanner berbahaya.",
+        "releaseVersion": "2.0.0",
+        "title": "Security Hardening v1.9.8"
+      },
+      {
+        "date": "July 17, 2026",
+        "description": "Pembaruan sistem & AI: 1) Smart Fallback AI — /api/ai/freetochat dilengkapi auto-fallback ke Pollinations jika terkena verifikasi Turnstile, menjaga respons tetap sukses 100%. 2) API Docs Upgrade — parameter stream & model pada /api/ai/chatai terstandarisasi lengkap dengan enum, default, & required. 3) Optimasi Infrastruktur — integrasi Swap RAM 5GB + penyesuaian kernel swappiness untuk stabilitas memori.",
+        "releaseVersion": "1.9.8",
+        "title": "Smart Fallback AI & API Docs Standarization"
+      },
+      {
+        "date": "July 14, 2026",
+        "description": "Menambahkan endpoint baru /api/tempmail/freetempmail menggunakan provider free-temp-mail.eu.org (Fmail/Livewire). Aksi: create (generate email acak & simpan cookie sesi ke in-memory Map) dan check / inbox (periksa kotak masuk secara praktis hanya dengan input pendek sessionId).",
+        "releaseVersion": "1.9.8",
+        "title": "New TempMail v11 — Free Temp Mail (Fmail)"
+      },
+      {
+        "date": "July 13, 2026",
+        "description": "Pembaruan sistem: 1) 10 Endpoint TempMail direstrukturisasi ke nama provider resmi. 2) Endpoint baru /api/maker/fakenotifwa — Generator Lockscreen WhatsApp Notif (iOS/Modern) 100% offline-first. 3) Endpoint baru /api/am/sendv2 & /api/am/verifyv2 — Alight Motion v2. 4) Endpoint baru /api/image/nanobananav3 — AI Image Editor.",
+        "releaseVersion": "1.9.8",
+        "title": "TempMail Re-routes, FakeNotif WA, AM v2 & Nano Banana V3"
+      },
+      {
+        "date": "July 7, 2026",
+        "description": "Kategori AlightMotion kini premium. /api/am/send (kirim email verifikasi), /api/am/verify (verifikasi link → aktifkan premium), dan /api/am/bulk (generate banyak akun via Generator.email + auto verify, maks 5). Butuh X-API-Key.",
+        "releaseVersion": "1.9.7",
+        "title": "AlightMotion Premium: Send, Verify & Bulk"
+      },
+      {
+        "date": "July 7, 2026",
+        "description": "Endpoint baru /api/payment/qris-static-v2 — Generate QRIS static dengan amount + logo di tengah (composite via sharp). Langsung mengembalikan bytes gambar JPEG (bukan JSON URL). Support GET & POST.",
+        "releaseVersion": "1.9.7",
+        "title": "New Payment: QRIS Static v2 (Logo + JPG)"
+      },
+      {
+        "date": "July 7, 2026",
+        "description": "Menambahkan endpoint baru /api/tempmail/tempmailv10 menggunakan provider tempmail.ing. Aksi: create (generate email) dan inbox (cek pesan masuk). API mengembalikan alamat email + list pesan.",
+        "releaseVersion": "1.9.7",
+        "title": "New TempMail v10 — tempmail.ing"
+      },
+      {
+        "date": "July 7, 2026",
+        "description": "Endpoint baru /api/tools/web2apk — Konversi website menjadi APK Android via webappcreator.amethystlab.org. Parameter: url, appName, icon, packageName.",
+        "releaseVersion": "1.9.7",
+        "title": "New Tool: Web2Apk — Website ke APK"
+      },
+      {
+        "date": "July 7, 2026",
+        "description": "Endpoint /api/tools/nikparse di-rewrite dengan data wilayah lokal (data/wilayah.json). Tambahan: zodiak, kodepos, hari lahir, dan perhitungan usia (tahun + bulan/hari). Fix mapping Jakarta Barat/Pusat.",
+        "releaseVersion": "1.9.7",
+        "title": "NIK Parser Upgrade — Zodiak, Kodepos & Usia Detail"
+      },
+      {
+        "date": "July 7, 2026",
+        "description": "Endpoint /api/tools/spam-otp di-rewrite: pengiriman berurutan via background task, polling status via ?phone=x&status=true. Mendukung 13 layanan Indonesia.",
+        "releaseVersion": "1.9.7",
+        "title": "Spam OTP — Background Mode & 13 Layanan"
+      },
+      {
+        "date": "June 28, 2026",
+        "description": "Endpoint baru /api/imagehd/imageupscaler — Upscale gambar 2x/4x/6x via imageupscaler.com. WordPress AJAX scraper dengan session auto-renew. Support GET & POST.",
+        "releaseVersion": "1.9.6",
+        "title": "New Image HD: Image Upscaler — 2x/4x/6x Upscale!"
+      },
+      {
+        "date": "June 28, 2026",
+        "description": "Endpoint /api/ai/deepseek-flash dan /api/ai/gemini-flash kembali aktif setelah perbaikan. Sebelumnya hanya mengembalikan error 503.",
+        "releaseVersion": "1.9.6",
+        "title": "DeepSeek Flash & Gemini Flash Revived"
+      },
+      {
+        "date": "June 28, 2026",
+        "description": "Endpoint /api/search/pinvid-search diperbaiki dari file kosong menjadi Pinterest video search scraper yang berfungsi penuh.",
+        "releaseVersion": "1.9.6",
+        "title": "Pinterest Video Search Fix"
+      },
+      {
+        "date": "June 26, 2026",
+        "description": "Menambahkan endpoint baru /api/tools/ocr — Ekstrak teks dari gambar menggunakan Tesseract.js. Support berbagai bahasa (eng, ind, jpn, dll). Upload file via POST.",
+        "releaseVersion": "1.9.6",
+        "title": "New Tool: OCR — Image to Text"
+      },
+      {
+        "date": "June 26, 2026",
+        "description": "Optimasi besar /api/solve/recaptcha-v2: response time turun dari ~36s jadi ~6s. Hapus endpoint /api/solve/hcaptcha karena tidak stabil.",
+        "releaseVersion": "1.9.6",
+        "title": "Recaptcha V2 — Performance Boost & Shared Browser"
+      },
+      {
+        "date": "June 26, 2026",
+        "description": "Menambahkan endpoint baru /api/ai/sakana — Chat dengan Sakana AI (Namazu). Support 5 model (namazu, sakana, namazu-v2, namazu-pro, llama), web search, dan thinking mode. Guest auth via Firebase.",
+        "releaseVersion": "1.9.6",
+        "title": "New AI Chat: Sakana AI"
+      },
+      {
+        "date": "June 26, 2026",
+        "description": "Menambahkan endpoint baru /api/tools/cuaca-bmkg — Informasi prakiraan cuaca dari BMKG. 7 actions: search, weather, current, provinces, districts, subdistricts, villages.",
+        "releaseVersion": "1.9.6",
+        "title": "New Tool: BMKG Cuaca Scraper"
+      },
+      {
+        "date": "June 26, 2026",
+        "description": "Menyederhanakan tampilan Parameters di halaman docs — hanya menampilkan nama parameter + REQUIRED badge. Semua parameter enum di endpoint AI dijadikan required: true. Playground auto-fill dengan default/example value.",
+        "releaseVersion": "1.9.6",
+        "title": "Docs & Params Refactory"
+      },
+      {
+        "date": "June 26, 2026",
+        "description": "Menambahkan endpoint baru /api/ai/freetochat — AI Chat gratis dengan 15 model AI (Grok 4.3, GPT-5 Mini, DeepSeek V4, Kimi K2.7, dll). Default model: grok-4.3. Mendukung session multi-turn.",
+        "releaseVersion": "1.9.6",
+        "title": "New AI Chat: FreeToChat AI"
+      },
+      {
+        "date": "June 26, 2026",
+        "description": "Menambahkan endpoint baru /api/ai/minimax — AI Chat model MiniMax M3 via notegpt.io. Support input gambar via parameter image.",
+        "releaseVersion": "1.9.6",
+        "title": "New AI Chat: MiniMax M3"
+      },
+      {
+        "date": "June 25, 2026",
+        "description": "Menambahkan kembali endpoint /api/tempmail/tempmailv9 menggunakan provider mail-server.1timetech.com. Pengecekan inbox kini disederhanakan dan hanya memerlukan input parameter 'email' saja.",
+        "releaseVersion": "1.9.6",
+        "title": "Restore & Simplified TempMail v9"
+      },
+      {
+        "date": "June 23, 2026",
+        "description": "Menambahkan 4 endpoint baru: /api/ai/turboseek (AI Web Research dengan referensi sumber), /api/maker/fake-tweet (Fake Tweet Generator), /api/maker/ttqc (Tiktok Quote Chat) dan /api/maker/fake-notif-wa (Fake Whatsapp Notification). Semua endpoint Maker berjalan secara lokal dengan aset offline.",
+        "releaseVersion": "1.9.6",
+        "title": "New AI & Maker Endpoints: TurboSeek AI, Fake Tweet, TTQC & Fake Notif WA"
+      },
+      {
+        "date": "June 21, 2026",
+        "description": "Menambahkan endpoint baru untuk kategori AlightMotion: /api/am/email (mengirim email verifikasi) dan /api/am/verify (memverifikasi link). Mendukung parameter dari query (GET) maupun body (POST).",
+        "releaseVersion": "1.9.6",
+        "title": "New Category: AlightMotion (AM)"
+      },
+      {
+        "date": "June 21, 2026",
+        "description": "Memperbaiki parsing parameter 'number' pada endpoint /api/checknumber/tricheck agar mendukung request body secara benar. Menghapus 2 endpoint reaksi WhatsApp Channel (/api/fun/react-wa dan /api/fun/reach-wa-v2) yang tidak lagi aktif.",
+        "releaseVersion": "1.9.6",
+        "title": "Tri Check Parameter Fix & WA Reaction Endpoints Deprecated"
+      },
+      {
+        "date": "June 21, 2026",
+        "description": "Menghapus seluruh folder api/canvas/ beserta 18 endpoint generator gambar/video Canvas (boarding-nasa, brat, brat-anime, brat-gojo, brat-vermeil, bratvid-gojo, bratvid-vermeil, carbon, createlogo, reminder, roblox, sertifikat-tolol, struk-generator, welcomev1-4, wmp). Total endpoint: 219.",
+        "releaseVersion": "1.9.6",
+        "title": "Canvas Category Removed — All 18 Endpoints Deprecated"
+      },
+      {
+        "date": "June 21, 2026",
+        "description": "Menghapus endpoint /api/maker/fake-wa dan /api/maker/fakenotif karena upstream template host (tmpfile.link) sudah expired (>13 hari TTL). Endpoint Maker lain (fakeig, saldo-dana, saldo-gopay, motivasi, wafat) tetap aktif. Total endpoint: 237.",
+        "releaseVersion": "1.9.6",
+        "title": "Maker Cleanup — fake-wa & fakenotif Deprecated"
+      },
+      {
+        "date": "June 21, 2026",
+        "description": "Endpoint baru /api/ai/nova-ai — AI chat via upstream Cloud Functions (okhttp Android v1.4.0). Response disederhanakan: result field berupa string AI reply (bukan nested moderation JSON). Mendukung GET & POST, input validation (maxLength 2000), optional multi-turn session memory via src/utils/session, dan observability headers (X-NovaAI-Endpoint, X-NovaAI-Model, X-NovaAI-Turn). Total endpoint: 238.",
+        "releaseVersion": "1.9.6",
+        "title": "New AI Endpoint — Nova AI Chat"
+      },
+      {
+        "date": "June 20, 2026",
+        "description": "Menghapus endpoint mati: /api/ai/mimo (Invalid API key) dan /api/ai/qwen-codex-v2 (duplikat dari qwen-coder-v2). Menghapus OpenAI API Proxy /api/v1/chat/completions & /api/v1/models karena upstream down (HTTP 500). Menambahkan health-bar (API Status, Avg Latency, Uptime, Version, Endpoints) di halaman utama agar seragam dengan halaman /docs. Total endpoint kini 237.",
+        "releaseVersion": "1.9.6",
+        "title": "Dead Endpoint Cleanup & Homepage Health Bar"
+      },
+      {
+        "date": "June 20, 2026",
+        "description": "Menambahkan endpoint pencarian baru /api/search/jadwal-sepakbola (scraped dari jadwaltv.net). Menyelaraskan seluruh kategori search (prodi, jadwalbola, jadwaltv) menjadi SEARCH agar terkelompok dengan rapi. Parameter 'mode' di /api/search/prodi kini bersifat opsional dengan default 'all'. Menghapus endpoint tempmailv7 dan tempmailv9 yang tidak aktif dari server eksternal.",
+        "releaseVersion": "1.9.6",
+        "title": "Search & TempMail Cleanup & Categorization Update"
+      },
+      {
+        "date": "June 15, 2026",
+        "description": "Menambahkan endpoint baru /api/fun/tiktokview & tiktokviewstatus untuk injeksi view Tiktok. Update besar pada sistem HMR & index.js: Anti-Crash global error handling dan auto-retry module loading. File API bisa diubah/ditambahkan tanpa restart server.",
+        "releaseVersion": "1.9.6",
+        "title": "System Upgrade & New Endpoints — Tiktok View"
+      },
+      {
+        "date": "June 14, 2026",
+        "description": "Endpoint baru /api/downloader/tiktokv4 — Download video TikTok tanpa watermark menggunakan scraper dari ssstik.io. Total endpoint: 238.",
+        "releaseVersion": "1.9.5",
+        "title": "New Endpoint — TikTok v4 (ssstik.io)"
+      },
+      {
+        "date": "June 14, 2026",
+        "description": "Endpoint baru /api/maker/motivasi — Generate gambar quotes motivasi estetik secara otomatis menggunakan Canvas. Tersedia di kategori Maker. Total endpoint: 238.",
+        "releaseVersion": "1.9.5",
+        "title": "New Maker Endpoint — Motivasi"
+      },
+      {
+        "date": "June 14, 2026",
+        "description": "Endpoint baru /api/ai/halodoc — AI Konsultasi Kesehatan dari Halodoc (Hilda) untuk pertanyaan seputar kesehatan dan rekomendasi obat-obatan. Total endpoint: 238.",
+        "releaseVersion": "1.9.5",
+        "title": "New AI Endpoint — Halodoc Hilda"
+      },
+      {
+        "date": "June 14, 2026",
+        "description": "Pembersihan besar-besaran untuk endpoint yang rusak/mati (Bstation, Facebook, Sfile, dll). Memperbaiki parsing parameter POST untuk YouTube Downloader v2 dan YouTube-Analytic. Menambahkan folder/kategori baru 'Maker' untuk generator notifikasi dan saldo palsu.",
+        "releaseVersion": "1.9.5",
+        "title": "v1.9.5 Release — Cleanups & Parameter Fixes & New Category 'Maker'"
+      },
+      {
+        "date": "June 13, 2026",
+        "description": "Endpoint baru /api/ai/mistral — Mistral AI (Le Chat) gratis via tRPC scraper. MuslimAI diupgrade ke versi streaming /api/chat dengan Quran sources. Total endpoint: 244.",
+        "releaseVersion": "1.9.4",
+        "title": "New AI Endpoints — Mistral AI & MuslimAI v2"
+      },
+      {
+        "date": "June 13, 2026",
+        "description": "Menambahkan endpoint baru /api/fun/tikboost untuk mengirim likes/views otomatis pada video TikTok target (Maksimal 50) dengan input manual.",
+        "releaseVersion": "1.9.4",
+        "title": "NEW: TikTok Like Booster (TikBoost) — Naikkan Likes/Views Instan!"
+      },
+      {
+        "date": "June 13, 2026",
+        "description": "Menambahkan endpoint baru /api/downloader/youtube3 untuk mempermudah unduhan video (MP4) dan audio (MP3) dari YouTube via VidsSave.",
+        "releaseVersion": "1.9.4",
+        "title": "NEW: YouTube Downloader — Download Video & Audio Mudah!"
+      },
+      {
+        "date": "June 13, 2026",
+        "description": "Menambahkan endpoint baru /api/search/jadwalbola untuk memantau jadwal siaran langsung sepakbola terpopuler secara real-time dari jadwaltv.net.",
+        "releaseVersion": "1.9.4",
+        "title": "NEW: Jadwal Sepakbola — Dapatkan Jadwal Siaran Langsung Bola!"
+      },
+      {
+        "date": "June 13, 2026",
+        "description": "Menambahkan endpoint baru /api/search/jadwaltv untuk memantau jadwal acara stasiun TV nasional terpopuler (RCTI, SCTV, TransTV, GTV, Indosiar, TVRI, ANTV, Moji, dll) secara real-time dalam satu endpoint terintegrasi menggunakan parameter enum.",
+        "releaseVersion": "1.9.4",
+        "title": "NEW: Jadwal TV Nasional — Akses Jadwal Acara TV Favoritmu!"
+      },
+      {
+        "date": "June 13, 2026",
+        "description": "Fitur Baru besar-besaran! Menambahkan 22+ endpoint baru hasil manual scan yang mencakup: AI Humanizer (/api/ai/humanizer via ZeroGPT), Qwen Coder V2 & Qwen3 Coder (/api/ai/qwen-coder-v2, /api/ai/qwen3-coder), Canvas Brat Vermeil & Bratvid Vermeil (/api/canvas/brat-vermeil, /api/canvas/bratvid-vermeil), Sertifikat Tolol (/api/canvas/sertifikat-tolol), Downloader Drama/LK21/TikTokv3-v5, Video & Image Upscaler Wink HD, DeepAI Image Edit, Solve Turnstile (/api/solve/turnstile), dan Crypto/Search Tools lainnya.",
+        "releaseVersion": "1.9.4",
+        "title": "NEW: Audit Internal & Penambahan 22+ Endpoint Baru ke API!"
+      },
+      {
+        "date": "June 10, 2026",
+        "description": "Dua endpoint baru: /api/ai/mathgpt — AI Chat untuk matematika via math-gpt.ai. Menyelesaikan soal aljabar, kalkulus, trigonometri dengan step-by-step. Support reasoning mode & upload gambar soal (S3 upload). Tested: 2⁵ × 2⁹ × √2x + √8⁴ = 16384√2x + 64 ✅. Response ~4-7 detik. Juga: /api/canvas/fake-wa — generate fake WhatsApp notification image dengan custom nama & pesan. Pakai @napi-rs/canvas + font Poppins. Tested: response ~70ms, PNG 37KB.",
+        "releaseVersion": "1.9.4",
+        "title": "New MathGPT AI & Fake WA Notification — 2 Endpoint Baru!"
+      },
+      {
+        "date": "June 10, 2026",
+        "description": "Endpoint /api/solve/turnstile berhasil diperbaiki! Browser-based manual bypass (rebrowser-puppeteer + stealth). Coordinate click + polling tiap 1.5s + Xvfb fallback. Response time ~5-7 detik (headless). Berhasil dapat token dari 2captcha demo dalam 5035ms. File lama turnstile.js (API-based) dihapus, turnstilev2.js di-rename jadi turnstile.js. bypassadlink.js juga dihapus. Solve module kini 7 endpoint: bypasslink, bypasslinkv2, bypass-safelinku, recaptcha-v2, recaptcha-v3, turnstile, uam, waf.",
+        "releaseVersion": "1.9.4",
+        "title": "Turnstile Solver Fix — Browser-Based Manual Bypass Berhasil!"
+      },
+      {
+        "date": "June 10, 2026",
+        "description": "Endpoint baru /api/image/lego — transformasi gambar menjadi Lego brick pixel art. 24 warna Lego palette. Parameter: url (wajib), cols (default 40, max 150), brick (default 20, min 8). Sudah di-test: 25KB PNG dalam 159ms. Pakai canvas (tanpa ImageMagick). Powered by NexaDev.",
+        "releaseVersion": "1.9.4",
+        "title": "New Image to Lego Converter — Ubah Gambar Jadi Lego Pixel Art!"
+      },
+      {
+        "date": "June 10, 2026",
+        "description": "Audit menyeluruh menemukan 13 endpoint baru yang belum tercatat: /api/ai/deepseek-r1 (DeepSeek R1 AI), /api/ai/geminiv2 (Gemini V2), /api/canvas/carbon (Carbon code screenshot), /api/fun/anime-quotes & philosopher-quotes, /api/search/wikipedia, /api/image/removewm (EZRemove AI), /api/tempmail/tempmailv7 & tempmailv8, /api/solve/bypasslink, bypasslinkv2, bypass-safelinku, waf. Solve module di-expand dari 4 ke 7 endpoint. Total endpoint kini 208. CLAUDE.md sudah diperbarui sesuai realita.",
+        "releaseVersion": "1.9.4",
+        "title": "Audit Lengkap — 13+ Endpoint Baru Ditemukan & CLAUDE.md Diperbarui!"
+      },
+      {
+        "date": "June 9, 2026",
+        "description": "UAM Solver diupgrade ke rebrowser-puppeteer + stealth — berhasil bypass Cloudflare UAM dan dapat cf_clearance (~7-10s). reCAPTCHA v3 bekerja dengan response time ~95ms. Turnstile endpoint dihapus. Copy URL di docs kini otomatis include default parameter. Parameter recaptcha-v3 disederhanakan: hanya url + sitekey.",
+        "releaseVersion": "1.9.4",
+        "title": "v1.9.4 Update — Solve Module Upgrade & Docs Fix"
+      },
+      {
+        "date": "June 8, 2026",
+        "description": "Endpoint baru /api/imageai/quil-image — generate gambar AI via Quillbot image generator. Parameter: prompt. Support GET & POST.",
+        "releaseVersion": "1.9.4",
+        "title": "New: Quil Image — AI Image Generator via Quillbot!"
+      },
+      {
+        "date": "June 8, 2026",
+        "description": "Endpoint React WA Channel telah dipindahkan dari /api/tools/react-wa ke /api/fun/react-wa (kategori baru: Fun). Fungsionalitas tetap sama — kirim reaksi emoji ke postingan WhatsApp Channel. Update URL jika kamu menggunakan endpoint ini.",
+        "releaseVersion": "1.9.4",
+        "title": "Update: React WA Channel Dipindah ke /api/fun/react-wa"
+      },
+      {
+        "date": "June 7, 2026",
+        "description": "Endpoint baru /api/tools/react-wa — kirim reaksi emoji ke postingan WhatsApp Channel. Masukkan URL postingan (format: https://whatsapp.com/channel/CHANNEL_ID/POST_ID) dan emoji yang ingin dikirim (pisahkan dengan koma, default: 🔥,✨,☝️). Support GET & POST.",
+        "releaseVersion": "1.9.4",
+        "title": "New: React WA Channel — Kirim Reaksi ke Postingan WhatsApp Channel!"
+      },
+      {
+        "date": "June 6, 2026",
+        "description": "Endpoint baru /api/ai/blackbox — AI chat powered oleh Blackbox AI (VscodeAgent). Auto-refresh validated token jika expired. Support reasoning output (field 'think') untuk chain-of-thought. Parameter: teks. Support GET & POST.",
+        "releaseVersion": "1.9.4",
+        "title": "New: Blackbox AI — AI Chat via app.blackbox.ai!"
+      },
+      {
+        "date": "June 6, 2026",
+        "description": "Release v1.9.4: 4 endpoint baru — /api/ai/deepseek-v3 (DeepSeek V3 via deep-seek.ai), /api/ai/wormgpt (WormGPT AI), /api/tempmail/tempmailv6 (TempMail via tempamail.com support create & inbox), /api/canvas/brat-patrick (Patrick Star image generator). Optimasi I/O: UUID caching tempmailv6, stream timeout fix (langchain & z-ai), async fs di 8 file (pakasir-create, pakasir-status, brat-anime, fakeig, saldo-gopay, toanimev2, upload, upload2). brat-anime & toanimev2 kini pure in-memory (zero disk write). Response sederhana di sparkpix. UI fix: header legal pages & docs di-center, route /legal/privacy-policy & /legal/terms-of-service diperbaiki. 4 endpoint deprecated dihapus (claude, deepimg, dream, neko). Total: 194 endpoint.",
+        "releaseVersion": "1.9.4",
+        "title": "v1.9.4 — 4 Endpoint Baru, Optimasi I/O Besar-besaran & UI Fix!"
+      },
+      {
+        "date": "June 6, 2026",
+        "description": "Update Juni 6, 2026: 3 endpoint baru ditambahkan — /api/ai/deepseek-v3 (DeepSeek V3 via deep-seek.ai), /api/tempmail/tempmailv6 (TempMail via tempamail.com, support create & inbox), /api/canvas/brat-patrick (Patrick Star image generator). Optimasi I/O: UUID caching tempmailv6, stream timeout fix (langchain, z-ai), async fs di 8 file (pakasir, brat-anime, fakeig, saldo-gopay, toanimev2, upload). brat-anime & toanimev2 kini pure in-memory (zero disk write). UI fix: header legal pages & docs di-center, route /legal/privacy-policy & /legal/terms-of-service diperbaiki.",
+        "releaseVersion": "1.9.4",
+        "title": "3 Endpoint Baru + Optimasi I/O & UI Fix!"
+      },
+      {
+        "date": "June 2, 2026",
+        "description": "Endpoint /api/solve/recaptcha-v2 telah diperbaiki! Sekarang menggunakan Qwen AI login (bukan guest mode) untuk menganalisis dan menyelesaikan image challenge captcha. Terverifikasi: solve 2captcha demo dalam ~53-88 detik. /api/solve/recaptcha-v3 juga bekerja dengan response time hanya ~118ms via request langsung ke Google API. Parameter: url, sitekey, qwenEmail, qwenPassword, timeout, maxAttempts.",
+        "releaseVersion": "1.9.3",
+        "title": "🔥 reCAPTCHA v2 & v3 FIXED — Sekarang Berfungsi Penuh!"
+      },
+      {
+        "date": "May 31, 2026",
+        "description": "Endpoint baru /api/ai/nvidia — AI chat powered oleh NVIDIA NIM dengan 15 model gratis: Nemotron 3 Nano (reasoning), Mistral Large 675B, Qwen3 Coder 480B, Llama 4 Maverick, Gemma 3n, GLM 5.1, Seed OSS 36B, dan lainnya. Support reasoning output untuk model Nemotron. Parameter: teks & model (dropdown selector).",
+        "releaseVersion": "1.9.3",
+        "title": "New: NVIDIA NIM AI — 15 Model Gratis!"
+      },
+      {
+        "date": "May 31, 2026",
+        "description": "2 endpoint AI chat baru: /api/ai/chatgpt-org (ChatGPT multi-model via chatgpt.org — GPT-4o Mini, Claude Haiku, DeepSeek, Qwen, Perplexity) dan /api/ai/zelai (Tini AI by ZelApi Team dengan 3 mode: instant, thinking, web search).",
+        "releaseVersion": "1.9.3",
+        "title": "New: ChatGPT Org & ZelAI — 2 AI Chat Baru!"
+      },
+      {
+        "date": "May 29, 2026",
+        "description": "Release v1.9.3: Endpoint count sekarang auto-update di semua halaman (index, docs) via JavaScript — tidak perlu edit manual lagi. Meta tags (description, OG, Twitter, JSON-LD) juga auto-update. Brat Gojo canvas endpoints fix (welcomev4 URL validation). Total endpoint: 190.",
+        "releaseVersion": "1.9.3",
+        "title": "v1.9.3 — Auto-Update Endpoint Count & UI Improvements!"
+      },
+      {
+        "date": "May 29, 2026",
+        "description": "2 endpoint canvas baru: /api/canvas/brat-gojo (generate gambar Gojo dengan teks custom — auto center, auto wrap, auto resize font) dan /api/canvas/bratvid-gojo (generate video Gojo dengan teks muncul bertahap per kata). Powered by Poppins font + ffmpeg. Total endpoint: 190.",
+        "releaseVersion": "1.9.2",
+        "title": "New Canvas Endpoints — Brat Gojo Image & Video!"
+      },
+      {
+        "date": "May 27, 2026",
+        "description": "Release v1.9.2 menghadirkan: ML Stalker (/api/stalker/ml) — cek akun Mobile Legends by User ID & Zone ID, Play Store Search (/api/search/playstore), reCAPTCHA v2 Solver (/api/solve/recaptcha-v2) dengan Puppeteer + Qwen AI, Free Fire Stalker upgrade ke freefirehub.com dengan data lebih lengkap. Total endpoint: 195.",
+        "releaseVersion": "1.9.2",
+        "title": "New ML Stalker, Play Store Search, reCAPTCHA v2 & FF Stalker Upgrade!"
+      },
+      {
+        "date": "May 27, 2026",
+        "description": "Release v1.9.1 menghadirkan: Spotify Downloader (/api/downloader/spotify), Claude V2 Sonnet 4.6 & Opus 4.7 (/api/ai/claude-v2), Gemini Pro, NowSecure, Pinterest, TempMail v5. Docs Playground sekarang support upload file (FormData) dan badge POST. WA channel references dihapus dari source code. Upload fix: URL output sekarang pakai domain. Total: 191 endpoints.",
+        "releaseVersion": "1.9.1",
+        "title": "New Endpoints, Docs Fix & Quality Updates!"
+      },
+      {
+        "date": "May 27, 2026",
+        "description": "Endpoint baru /api/downloader/spotify — download lagu dari Spotify langsung sebagai MP3. Masukkan URL track Spotify, dapatkan audio stream. Powered by SpotiSoft. Support GET & POST.",
+        "releaseVersion": "1.9.1",
+        "title": "New Spotify Downloader — Download Spotify Tracks as MP3!"
+      },
+      {
+        "date": "May 27, 2026",
+        "description": "Endpoint baru /api/ai/claude-v2 — akses langsung ke claude.ai dengan model terbaru Sonnet 4.6 dan Opus 4.7. Membutuhkan session cookie & orgId dari akun Claude. Support web search, artifacts, dan SSE streaming.",
+        "releaseVersion": "1.9.1",
+        "title": "New Claude V2 — Direct claude.ai API (Sonnet 4.6 & Opus 4.7)"
+      },
+      {
+        "date": "May 27, 2026",
+        "description": "Halaman /docs diperbaiki! Playground sekarang support upload file (FormData multipart) untuk endpoint POST seperti /api/tools/upload. Badge method GET & POST ditampilkan dengan benar. Upload file dari browser langsung ke API.",
+        "releaseVersion": "1.9.1",
+        "title": "Improved Docs Playground — Upload File & POST Method Support"
+      },
+      {
+        "date": "May 26, 2026",
+        "description": "Endpoint baru: /api/ai/gemini-pro (Google Gemini Pro), /api/search/nowsecure (NowSecure mobile security search), /api/search/pinterest (Pinterest image search), /api/tempmail/tempmailv5 (TempMail v5 via Boomlify API). Total endpoint: 191.",
+        "releaseVersion": "1.9.1",
+        "title": "4 New Endpoints — Gemini Pro, NowSecure, Pinterest, TempMail v5"
+      },
+      {
+        "date": "May 26, 2026",
+        "description": "Endpoint /api/solve/turnstile dan /api/solve/uam di-rewrite! Sekarang menggunakan Playwright langsung (bukan localhost proxy) dengan anti-detection scripts — lebih reliable dan tidak butuh solver external. reCAPTCHA v3 juga diupgrade: support GET+POST, default values, enums (action, hl), dan response timing.",
+        "releaseVersion": "1.9.1",
+        "title": "Improved Solve Module — Playwright-Based Turnstile & UAM"
+      },
+      {
+        "date": "May 26, 2026",
+        "description": "Rate limiter sekarang fully config-driven! Max Requests, Window (ms), Max Violations, dan Max Unique IPs bisa diubah langsung dari Admin Dashboard → Settings tanpa restart server. Spam Detection settings juga ditambahkan ke dashboard.",
+        "releaseVersion": "1.9.1",
+        "title": "New Dynamic Rate Limiter — Config via Admin Dashboard"
+      },
+      {
+        "date": "May 26, 2026",
+        "description": "Endpoint /api/ai/claude diperbaiki — internal references sudah benar (Claude Sonnet, bukan DeepSeek). /api/ai/mimo diubah ke GET only. /api/tools/ssweb sekarang support GET+POST.",
+        "releaseVersion": "1.9.1",
+        "title": "Claude Endpoint Fix & Method Updates"
+      },
+      {
+        "date": "May 24, 2026",
+        "description": "Endpoint /api/ai/mimo diperbaiki! Upstream API sekarang membutuhkan API key. Sudah diupdate dengan authentication yang valid — 5 model Xiaomi MiMo (V2.5 Pro, V2 Pro, V2.5, V2 Omni, V2 Flash) berfungsi normal.",
+        "releaseVersion": "1.9.0",
+        "title": "MiMo AI Fix — API Key Authentication"
+      },
+      {
+        "date": "May 24, 2026",
+        "description": "Endpoint /api/random/waifu diperbaiki! Provider lama (waifu.pics) sudah tidak aktif, diganti dengan waifu.im — gambar anime berkualitas tinggi, random setiap request, anti-cache.",
+        "releaseVersion": "1.9.0",
+        "title": "Random Waifu Fix — Switched to waifu.im"
+      },
+      {
+        "date": "May 24, 2026",
+        "description": "Endpoint baru /api/imagehd/sparkpix — upscale gambar hingga resolusi 8K (4x) dengan optional face enhancement. Powered by SparkPix AI. Support URL input, 3 level kualitas (4K/6K/8K), dan face enhance toggle.",
+        "releaseVersion": "1.9.0",
+        "title": "New SparkPix Free HD Upscale — 4K/6K/8K + Face Enhance!"
+      },
+      {
+        "date": "May 23, 2026",
+        "description": "Release v1.9.0 menghadirkan: Nano Banana WASM AI Image Edit, Admin Dashboard lengkap dengan login & API Key auth, Solve Module (reCAPTCHA v3, Turnstile, UAM), 6 AI models baru (Mimo, Deep AI, GPT-4o-mini, GPT-4.1 Nano, Lumo, GPT-5), Canvas Effects baru (Fake IG, Saldo Dana, Saldo GoPay, Reminder), Games baru (Tebak Bendera 2, Tebak Kabupaten), XL Check, Search endpoints (Lazada, Webtoon, MCPEDL, TikTok Search, YouTube Search), Downloader baru (RedNote, Terabox, Webtoon), YouTube Stalker fix, dan TextPro 81 efek typography!",
+        "releaseVersion": "1.9.0",
+        "title": "v1.9.0 - 26 New Features & Major Updates!"
+      },
+      {
+        "date": "May 23, 2026",
+        "description": "Panel admin baru di /admin/dashboard dengan sistem login, manajemen API keys, rate stats, unban IP, dan real-time monitoring. Endpoint kini mendukung API Key authentication via X-API-Key header.",
+        "releaseVersion": "1.8.0",
+        "title": "New Admin Dashboard & API Key Auth"
+      },
+      {
+        "date": "May 23, 2026",
+        "description": "Edit gambar pakai AI via /api/image/nanobanana! Powered by easemate.ai dengan WASM-based signing. Upload gambar + prompt text, dapatkan hasil edit langsung. Support PNG/JPEG/WebP output.",
+        "releaseVersion": "1.8.0",
+        "title": "New Nano Banana — AI Image Editing dengan WASM"
+      },
+      {
+        "date": "May 23, 2026",
+        "description": "Tiga endpoint solver baru: /api/solve/recaptcha-v3, /api/solve/turnstile, dan /api/solve/uam. Kategori terpisah dari tools untuk kemudahan akses. Bypass Cloudflare Turnstile, Google reCAPTCHA v3, dan UAM protection.",
+        "releaseVersion": "1.8.0",
+        "title": "New Solve Module: reCAPTCHA v3, Turnstile & UAM"
+      },
+      {
+        "date": "May 18, 2026",
+        "description": "Integrasi ephoto360.com dengan 62 efek text: glitch, neon, Blackpink, PUBG, Naruto, Deadpool, Dragon Ball, Captain America, dan masih banyak lagi! Output otomatis detect image/video (MP4/GIF/PNG/JPEG/WebP). Lengkap dengan endpoint /list & cache 1 jam.",
+        "releaseVersion": "1.8.0",
+        "title": "Added Ephoto 360 API"
+      },
+      {
+        "date": "May 18, 2026",
+        "description": "Rate limit dinaikkan dari 200 req/menit menjadi 500 req/hari. X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, dan X-Violation-Count kini muncul di SETIAP response API (termasuk IP baru, reset harian, localhost, dan whitelist).",
+        "releaseVersion": "1.8.0",
+        "title": "Improved Rate Limit — Ditingkatkan"
+      },
+      {
+        "date": "May 18, 2026",
+        "description": "Photooxy effects dari ephoto.js sudah diintegrasikan ke endpoint /api/ephoto/photooxy dengan berbagai efek teks keren seperti 3D glowing, vintage, typography artistik, dan lainnya.",
+        "releaseVersion": "1.8.0",
+        "title": "Added Photooxy Integration"
+      },
+      {
+        "date": "May 17, 2026",
+        "description": "Perbaikan bug pada sistem: fix logger.debug → info di unwatermark, perbaikan endpoint nanobanana v4/v5/toanime/tofigure (dihapus karena API eksternal berubah), integrasi turnstile solver ke tozombiev, normalisasi category endpoint, dan update status endpoint di configuration.",
+        "releaseVersion": "1.8.0",
+        "title": "System Bug Fix & Optimization"
+      },
+      {
+        "date": "May 17, 2026",
+        "description": "Halaman Donasi total diremake dengan UI lebih modern, animasi halus, QR zoom preview, countdown real-time, leaderboard otomatis, dan session recovery. Tampilan konsisten dengan halaman docs.",
+        "releaseVersion": "1.8.0",
+        "title": "Improved Donation Center Redesigned"
+      },
+      {
+        "date": "May 17, 2026",
+        "description": "Halaman Changelog baru (/changelog) dengan timeline interaktif yang menarik data dari configuration.json. Menampilkan riwayat rilis dan update secara real-time.",
+        "releaseVersion": "1.8.0",
+        "title": "Changelog Page Added"
+      },
+      {
+        "date": "May 17, 2026",
+        "description": "Menu navigasi 3-titik sekarang konsisten di SEMUA halaman (Home, Docs, Support, Status, Changelog, Request, Donasi) dengan ikon dan styling seragam.",
+        "releaseVersion": "1.8.0",
+        "title": "Improved Unified Navigation Menu"
+      },
+      {
+        "date": "May 23, 2026",
+        "description": "TextPro effects sudah terintegrasi ke Canvas API! 81 efek typography: 3D, neon, glow, logo Avengers, fire, dan masih banyak lagi. Coba: /api/canvas/textpro?effect=neon-light&text=HALO&text2=DUA",
+        "releaseVersion": "1.8.0",
+        "title": "New Canvas TextPro Effects — 81 Efek Typography Keren!"
+      },
+      {
+        "date": "May 16, 2026",
+        "description": "Integrated all scraper features: Qwen3, FeelBetter, Olabiba, Unlimited AI, Claude OverChat, GPT-5 Nano, DeepSeek V4 Flash, Gemini Flash Lite, Text2Image v1/v2/v3, Canvas Reminder, & TempMail Generator. Sessions moved to data/session/, canvas output saved to files/.",
+        "releaseVersion": "1.8.0",
+        "title": "13 Scraper Features Added to API"
+      },
+      {
+        "date": "May 15, 2026",
+        "description": "YouTube Stalker fixed & improved with caching. GitHub rate limit error fixed. Removed deprecated Instagram stalker.",
+        "releaseVersion": "1.8.0",
+        "title": "Stalker API Update"
+      },
+      {
+        "date": "March 5, 2026",
+        "description": "Introducing the latest version with major performance improvements and new features.",
+        "releaseVersion": "1.8.0",
+        "title": "New Nano Banana v4 Released"
+      },
+      {
+        "date": "February 22, 2026",
+        "description": "We have recently modified and enhanced the security of the API system.",
+        "releaseVersion": "1.8.0",
+        "title": "API System Update"
+      },
+      {
+        "date": "Feb 18, 2026",
+        "description": "API documentation has been completely rewritten with better examples.",
+        "releaseVersion": "1.8.0",
+        "title": "Documentation Update"
+      },
+      {
+        "date": "Feb 3, 2026",
+        "description": "Added support for better performance and lower latency.",
+        "releaseVersion": "1.8.0",
+        "title": "New Features Added"
+      },
+      {
+        "date": "January 10, 2026",
+        "description": "Critical security update deployed to protect user data.",
+        "releaseVersion": "1.8.0",
+        "title": "Fix Security Patch Released"
+      },
+      {
+        "date": "January 10, 2026",
+        "description": "Beta testing for API v1.0.5 now available for select users.",
+        "releaseVersion": "1.8.0",
+        "title": "New API Version 1.0.5 Beta"
+      },
+      {
+        "date": "Jan 7, 2026",
+        "description": "Free tier rate limit increased from 100 to 200 requests per minute.",
+        "releaseVersion": "1.8.0",
+        "title": "Improved Rate Limit Increase"
+      },
+      {
+        "date": "Jan 1, 2026",
+        "description": "Thank you for being part of our community. Here's to a great year ahead!",
+        "releaseVersion": "1.8.0",
+        "title": "Happy New Year 2026"
+      }
+    ]
+  },
+  "endpointsStatus": {
+    "/api/ai/aichatting": "online",
+    "/api/ai/aiseek": "online",
+    "/api/ai/askme": "online",
+    "/api/ai/chatai": "online",
+    "/api/ai/chatgpt": "online",
+    "/api/ai/chatgptis": "online",
+    "/api/ai/cloudai": "online",
+    "/api/ai/deepseek-v3": "online",
+    "/api/ai/edubrain": "online",
+    "/api/ai/feelbetter": "online",
+    "/api/ai/freetochat": "online",
+    "/api/ai/gitreverse": "online",
+    "/api/ai/gpt4o-mini": "online",
+    "/api/ai/gpt4v2": "online",
+    "/api/ai/gpt5": "online",
+    "/api/ai/halodoc": "online",
+    "/api/ai/heck-ai": "online",
+    "/api/ai/humanizer": "online",
+    "/api/ai/islamiai": "online",
+    "/api/ai/luna": "online",
+    "/api/ai/motif": "online",
+    "/api/ai/muslimai": "online",
+    "/api/ai/notegptv2": "online",
+    "/api/ai/notrack": "online",
+    "/api/ai/nova-ai": "online",
+    "/api/ai/olabiba": "online",
+    "/api/ai/qwen": "online",
+    "/api/ai/qwen-coder-v2": "online",
+    "/api/ai/strom-ai": "online",
+    "/api/ai/turboseek": "online",
+    "/api/ai/tutorgpt": "online",
+    "/api/ai/unlimited": "online",
+    "/api/ai/voidchat": "online",
+    "/api/ai/wormgpt": "online",
+    "/api/ai/zerogpt": "online",
+    "/api/am/bulk": "online",
+    "/api/am/bulkv3": "online",
+    "/api/am/bulkv4": "online",
+    "/api/am/bulkv5": "online",
+    "/api/am/preset": "online",
+    "/api/am/presetv2": "online",
+    "/api/am/send": "online",
+    "/api/am/sendv2": "online",
+    "/api/am/sendv3": "online",
+    "/api/am/verifv2": "online",
+    "/api/am/verify": "online",
+    "/api/anime/anichi": "online",
+    "/api/anime/anichin": "online",
+    "/api/anime/anichin-help": "online",
+    "/api/anime/animeav1": "online",
+    "/api/anime/animein": "online",
+    "/api/anime/animexin": "online",
+    "/api/anime/animotv": "online",
+    "/api/anime/crunchyroll": "online",
+    "/api/anime/donghive": "online",
+    "/api/anime/drakorid": "online",
+    "/api/anime/dubbindo": "online",
+    "/api/anime/livechart": "online",
+    "/api/anime/samehadaku": "online",
+    "/api/anime/winbu": "online",
+    "/api/bypass/bypasslink": "online",
+    "/api/bypass/bypasslinkv2": "online",
+    "/api/bypass/bypasslinkv3": "online",
+    "/api/bypass/modjall": "online",
+    "/api/bypass/move2link": "online",
+    "/api/bypass/ouo-bypass": "online",
+    "/api/bypass/safelink": "online",
+    "/api/bypass/shrinkme": "online",
+    "/api/bypass/wellbypass": "online",
+    "/api/bypass/xmz": "online",
+    "/api/canvas/applemusic": "online",
+    "/api/canvas/boarding-nasa": "online",
+    "/api/canvas/brat": "online",
+    "/api/canvas/brat-anime": "online",
+    "/api/canvas/brat-gojo": "online",
+    "/api/canvas/brat-vermeil": "online",
+    "/api/canvas/bratvid-gojo": "online",
+    "/api/canvas/bratvid-vermeil": "online",
+    "/api/canvas/carbon": "online",
+    "/api/canvas/createlogo": "online",
+    "/api/canvas/drake": "online",
+    "/api/canvas/reminder": "online",
+    "/api/canvas/roblox": "online",
+    "/api/canvas/sertifikat-tolol": "online",
+    "/api/canvas/struk-generator": "online",
+    "/api/canvas/welcomev1": "online",
+    "/api/canvas/welcomev2": "online",
+    "/api/canvas/welcomev3": "online",
+    "/api/canvas/welcomev4": "online",
+    "/api/canvas/wmp": "online",
+    "/api/checknumber/checkban": "online",
+    "/api/checknumber/checknumber": "online",
+    "/api/checknumber/simdopul": "online",
+    "/api/checknumber/tricheck": "online",
+    "/api/checknumber/xlcheck": "online",
+    "/api/downloader/7reels": "online",
+    "/api/downloader/9xbuddy": "online",
+    "/api/downloader/allinone": "online",
+    "/api/downloader/allinonev2": "online",
+    "/api/downloader/allinonev3": "online",
+    "/api/downloader/allinonev4": "online",
+    "/api/downloader/apkmody": "online",
+    "/api/downloader/applemusic": "online",
+    "/api/downloader/capcut": "online",
+    "/api/downloader/capcutv2": "online",
+    "/api/downloader/deezer": "online",
+    "/api/downloader/drama": "online",
+    "/api/downloader/facebook": "online",
+    "/api/downloader/flac": "online",
+    "/api/downloader/frama": "online",
+    "/api/downloader/gdrive": "online",
+    "/api/downloader/getdl": "online",
+    "/api/downloader/gtw": "online",
+    "/api/downloader/igexport": "online",
+    "/api/downloader/instaloadr": "online",
+    "/api/downloader/insvid": "online",
+    "/api/downloader/lk21": "online",
+    "/api/downloader/lk21v2": "online",
+    "/api/downloader/mcpelife": "online",
+    "/api/downloader/mediafire": "online",
+    "/api/downloader/mediafirev2": "online",
+    "/api/downloader/meganz": "online",
+    "/api/downloader/omnify": "online",
+    "/api/downloader/pinterest": "online",
+    "/api/downloader/pinterest-dl": "online",
+    "/api/downloader/pinvid": "online",
+    "/api/downloader/rednote": "online",
+    "/api/downloader/savefrom": "online",
+    "/api/downloader/savefromins": "online",
+    "/api/downloader/savetube": "online",
+    "/api/downloader/saveus": "online",
+    "/api/downloader/snapany": "online",
+    "/api/downloader/snapinsta": "online",
+    "/api/downloader/spotify": "online",
+    "/api/downloader/spotifyv2": "online",
+    "/api/downloader/sssinstagram": "online",
+    "/api/downloader/terabox": "online",
+    "/api/downloader/tiktok": "online",
+    "/api/downloader/tiktokio": "online",
+    "/api/downloader/tiktokv2": "online",
+    "/api/downloader/tiktokv3": "online",
+    "/api/downloader/tiktokv4": "online",
+    "/api/downloader/tiktokv5": "online",
+    "/api/downloader/tiktokv6": "online",
+    "/api/downloader/webtoon": "online",
+    "/api/downloader/weibo": "online",
+    "/api/downloader/xdl": "online",
+    "/api/downloader/youtube-analytic": "online",
+    "/api/downloader/youtubev1": "online",
+    "/api/downloader/youtubev2": "online",
+    "/api/downloader/youtubev3": "online",
+    "/api/downloader/youtubev4": "online",
+    "/api/downloader/youtubev5": "online",
+    "/api/downloader/ytplay": "online",
+    "/api/downloader/ytscrape": "online",
+    "/api/downloader/zippyshare": "online",
+    "/api/ephoto/ephoto": "online",
+    "/api/ephoto/photooxy": "online",
+    "/api/ephoto/textpro": "online",
+    "/api/fun/anime-quotes": "online",
+    "/api/fun/capcut": "online",
+    "/api/fun/kahoot": "online",
+    "/api/fun/netflix": "vip",
+    "/api/fun/philosopher-quotes": "online",
+    "/api/fun/reach-ch": "online",
+    "/api/fun/reach-ch-vip": "vip",
+    "/api/fun/tiktokviewstatus": "online",
+    "/api/games/akinator": "online",
+    "/api/games/asahotak": "online",
+    "/api/games/caklontong": "online",
+    "/api/games/cc-sd": "online",
+    "/api/games/family100": "online",
+    "/api/games/lengkapikalimat": "online",
+    "/api/games/math": "online",
+    "/api/games/susunkata": "online",
+    "/api/games/tebakan": "online",
+    "/api/games/tebakbendera": "online",
+    "/api/games/tebakbendera2": "online",
+    "/api/games/tebakgambar": "online",
+    "/api/games/tebakgame": "online",
+    "/api/games/tebakheroml": "online",
+    "/api/games/tebakjkt48": "online",
+    "/api/games/tebakkabupaten": "online",
+    "/api/games/tebakkalimat": "online",
+    "/api/games/tebakkarakterff": "online",
+    "/api/games/tebakkartun": "online",
+    "/api/games/tebakkata": "online",
+    "/api/games/tebakkimia": "online",
+    "/api/games/tebaklagu": "online",
+    "/api/games/tebaklirik": "online",
+    "/api/games/tebaklogo": "online",
+    "/api/games/tebaksiapa": "online",
+    "/api/games/tebaksurah": "online",
+    "/api/games/tebakwarna": "online",
+    "/api/games/tekateki": "online",
+    "/api/hdvidio/ai-upscale-vidio": "online",
+    "/api/hdvidio/tohd": "online",
+    "/api/hdvidio/wink-hd-video": "online",
+    "/api/image/blur": "online",
+    "/api/image/faceswap": "online",
+    "/api/image/gibli": "online",
+    "/api/image/lego": "online",
+    "/api/image/nanobanana": "online",
+    "/api/image/nanobanana-lite": "online",
+    "/api/image/nanobananav2": "premium",
+    "/api/image/nanobananav3": "premium",
+    "/api/image/nanobananav4": "online",
+    "/api/image/nsfw-check": "online",
+    "/api/image/qwen-edit": "online",
+    "/api/image/removebg": "online",
+    "/api/image/removebgbgv2": "online",
+    "/api/image/removewm": "online",
+    "/api/image/removewm-v2": "online",
+    "/api/image/toanimev2": "online",
+    "/api/image/unblur": "online",
+    "/api/image/unblurv2": "online",
+    "/api/image/unwatermark": "online",
+    "/api/imageai/aiseek": "online",
+    "/api/imageai/bingimg": "online",
+    "/api/imageai/dezgo": "online",
+    "/api/imageai/freeforai": "online",
+    "/api/imageai/gstory": "online",
+    "/api/imageai/nanobanana": "online",
+    "/api/imageai/pollinations": "online",
+    "/api/imageai/quil-image": "online",
+    "/api/imageai/strom-img": "online",
+    "/api/imageai/text2image": "online",
+    "/api/imageai/text2imgv2": "online",
+    "/api/imageai/text2imgv3": "online",
+    "/api/imagehd/ai-enhance": "online",
+    "/api/imagehd/ai-enhancev2": "online",
+    "/api/imagehd/ai-enhancev3": "premium",
+    "/api/imagehd/ai-enhancev4": "online",
+    "/api/imagehd/ai-enhancev5": "premium",
+    "/api/imagehd/ai-enhancev6": "online",
+    "/api/imagehd/ai-enhancev7": "premium",
+    "/api/imagehd/ai-enhancev8": "online",
+    "/api/imagehd/clearpng": "online",
+    "/api/imagehd/imageupscaler": "online",
+    "/api/imagehd/imgenhance": "online",
+    "/api/imagehd/nexupscale": "online",
+    "/api/imagehd/optimole": "online",
+    "/api/imagehd/photoihancer": "online",
+    "/api/imagehd/remini": "online",
+    "/api/imagehd/sparkpix": "online",
+    "/api/imagehd/super-resolution": "online",
+    "/api/imagehd/upscale": "online",
+    "/api/imagehd/upscalev2": "online",
+    "/api/imagehd/upscalev3": "online",
+    "/api/imagehd/webability": "online",
+    "/api/imagehd/wink-hd": "online",
+    "/api/kalender/hari-ini": "online",
+    "/api/kalender/hari-libur": "online",
+    "/api/maker/bounty": "online",
+    "/api/maker/ektp": "online",
+    "/api/maker/fake-afinitas-ml": "online",
+    "/api/maker/fake-ff": "online",
+    "/api/maker/fake-ml": "online",
+    "/api/maker/fake-nokia": "online",
+    "/api/maker/fake-profile-ff": "online",
+    "/api/maker/fake-tele": "online",
+    "/api/maker/fake-tweet": "online",
+    "/api/maker/fakebca": "online",
+    "/api/maker/fakeboard": "online",
+    "/api/maker/fakebook": "online",
+    "/api/maker/fakecall-andro": "online",
+    "/api/maker/fakecall-ios": "online",
+    "/api/maker/fakech": "online",
+    "/api/maker/fakedev": "online",
+    "/api/maker/fakegc": "online",
+    "/api/maker/fakeig": "online",
+    "/api/maker/fakeigprofile": "online",
+    "/api/maker/fakeigprofilev2": "online",
+    "/api/maker/fakenote": "online",
+    "/api/maker/fakenotif": "online",
+    "/api/maker/fakenotifwa": "online",
+    "/api/maker/igstory": "online",
+    "/api/maker/iqc": "online",
+    "/api/maker/iqc-dark": "online",
+    "/api/maker/iqc-pink": "online",
+    "/api/maker/jarvis-meme": "online",
+    "/api/maker/motivasi": "online",
+    "/api/maker/nulis": "online",
+    "/api/maker/post-ig": "online",
+    "/api/maker/profilejson": "online",
+    "/api/maker/qcwa": "online",
+    "/api/maker/quotecard": "online",
+    "/api/maker/quotes-anime": "online",
+    "/api/maker/resize": "online",
+    "/api/maker/rusdi-quote": "online",
+    "/api/maker/saldo-dana": "online",
+    "/api/maker/saldo-gopay": "online",
+    "/api/maker/saldo-ovo": "online",
+    "/api/maker/sertifikat-nasa": "online",
+    "/api/maker/students": "online",
+    "/api/maker/textvideo": "online",
+    "/api/maker/ttqc": "online",
+    "/api/maker/twobuttons": "online",
+    "/api/maker/wafat": "online",
+    "/api/movie/freemovie": "online",
+    "/api/movie/melolo": "online",
+    "/api/movie/moviebox": "online",
+    "/api/movie/moviezone": "online",
+    "/api/nsfw/foot": "premium",
+    "/api/nsfw/masturbation": "premium",
+    "/api/payment/assets/gopay/cloudStorage": "online",
+    "/api/payment/assets/gopay/helpers": "online",
+    "/api/payment/assets/gopay/index": "online",
+    "/api/payment/assets/gopay/qrisRegistry": "online",
+    "/api/payment/assets/gopay/sdk": "online",
+    "/api/payment/assets/gopay/tokenManager": "online",
+    "/api/payment/gopay-history": "online",
+    "/api/payment/gopay-history-auto": "online",
+    "/api/payment/gopay-journal": "online",
+    "/api/payment/gopay-login": "online",
+    "/api/payment/gopay-me": "online",
+    "/api/payment/gopay-merchant": "online",
+    "/api/payment/gopay-payouts": "online",
+    "/api/payment/gopay-qris": "online",
+    "/api/payment/gopay-qris-official-create": "premium",
+    "/api/payment/gopay-qris-official-status": "premium",
+    "/api/payment/gopay-qris-status": "online",
+    "/api/payment/gopay-refresh": "online",
+    "/api/payment/gopay-token-save": "premium",
+    "/api/payment/gopay-token-status": "online",
+    "/api/payment/gopay-verif": "online",
+    "/api/payment/qris-static": "online",
+    "/api/payment/qris-static-v2": "online",
+    "/api/payment/sociabuzz-create": "online",
+    "/api/payment/sociabuzz-status": "online",
+    "/api/primbon/artinama": "online",
+    "/api/primbon/cocokpasangan": "online",
+    "/api/primbon/nomorhoki": "online",
+    "/api/primbon/penyakit": "online",
+    "/api/primbon/ramalanjodohbali": "online",
+    "/api/primbon/ramaljodoh": "online",
+    "/api/primbon/rezekihokiweton": "online",
+    "/api/primbon/sifatusaha": "online",
+    "/api/primbon/tafsirmimpi": "online",
+    "/api/primbon/zodiac": "online",
+    "/api/random/blue-archive": "online",
+    "/api/random/lahelu": "online",
+    "/api/random/quotesanime": "online",
+    "/api/random/seegore": "online",
+    "/api/random/waifu": "online",
+    "/api/search/4kwallpapers": "online",
+    "/api/search/7reels": "online",
+    "/api/search/8daudio": "online",
+    "/api/search/anime": "online",
+    "/api/search/apkcombo": "online",
+    "/api/search/bacakomik": "online",
+    "/api/search/bgn": "online",
+    "/api/search/bilibili": "online",
+    "/api/search/cekbansos": "online",
+    "/api/search/cinesubz": "online",
+    "/api/search/cookpad": "online",
+    "/api/search/dapodik": "online",
+    "/api/search/douyin-search": "online",
+    "/api/search/duckduckgo": "online",
+    "/api/search/flac": "online",
+    "/api/search/gempa": "online",
+    "/api/search/genius": "online",
+    "/api/search/goal": "online",
+    "/api/search/ipa-pelajaran": "online",
+    "/api/search/jadwal-sepakbola": "online",
+    "/api/search/jadwalbola": "online",
+    "/api/search/jadwaltv": "online",
+    "/api/search/kodepos": "online",
+    "/api/search/lazada": "online",
+    "/api/search/livescore": "online",
+    "/api/search/mangadex": "online",
+    "/api/search/manhwaindo": "online",
+    "/api/search/manhwaland": "online",
+    "/api/search/mcpedl": "online",
+    "/api/search/moviedetail": "online",
+    "/api/search/murotal-quran": "online",
+    "/api/search/musixmatch": "online",
+    "/api/search/nasa": "online",
+    "/api/search/nowsecure": "online",
+    "/api/search/otakudesu": "online",
+    "/api/search/pinterest": "online",
+    "/api/search/pinvid-search": "online",
+    "/api/search/playstore": "online",
+    "/api/search/prodi": "online",
+    "/api/search/search-song": "online",
+    "/api/search/sigstick": "online",
+    "/api/search/sinopsis": "online",
+    "/api/search/soundcloud": "online",
+    "/api/search/spotify": "online",
+    "/api/search/spotifyv2": "online",
+    "/api/search/tiktok-search": "online",
+    "/api/search/tokusatsu": "online",
+    "/api/search/voratoon": "online",
+    "/api/search/webtoon": "online",
+    "/api/search/wikipedia": "online",
+    "/api/search/youtube-search": "online",
+    "/api/search/ytscrape": "online",
+    "/api/shortlink/bitly": "online",
+    "/api/shortlink/cuttly": "online",
+    "/api/shortlink/tinyurl": "online",
+    "/api/shortlink/tinyurlv2": "online",
+    "/api/shortlink/tinyurlwithalias": "online",
+    "/api/shortlink/xmz": "online",
+    "/api/solve/altcha": "online",
+    "/api/solve/cloudflare": "online",
+    "/api/solve/friendly": "online",
+    "/api/solve/getsitekey": "online",
+    "/api/solve/linkvertise": "online",
+    "/api/solve/recaptcha-v2": "online",
+    "/api/solve/recaptcha-v3": "online",
+    "/api/solve/turnstile": "online",
+    "/api/solve/uam": "online",
+    "/api/solve/waf": "online",
+    "/api/stalker/deepsearch": "online",
+    "/api/stalker/freefire": "online",
+    "/api/stalker/getcontact": "vip",
+    "/api/stalker/github": "online",
+    "/api/stalker/instagram": "online",
+    "/api/stalker/ml": "online",
+    "/api/stalker/ml-id": "online",
+    "/api/stalker/roblox": "online",
+    "/api/stalker/telegram": "online",
+    "/api/stalker/tiktok": "online",
+    "/api/stalker/whatsapp": "online",
+    "/api/stalker/x": "online",
+    "/api/stalker/youtube": "online",
+    "/api/tempmail/1timetech": "online",
+    "/api/tempmail/akunlama": "online",
+    "/api/tempmail/boomlify": "online",
+    "/api/tempmail/cybermail": "online",
+    "/api/tempmail/emailtick": "online",
+    "/api/tempmail/freetempmail": "online",
+    "/api/tempmail/guerrilla": "online",
+    "/api/tempmail/imailedu": "online",
+    "/api/tempmail/instanttempemail": "online",
+    "/api/tempmail/maildropy": "online",
+    "/api/tempmail/mailtm": "online",
+    "/api/tempmail/multidomain": "online",
+    "/api/tempmail/onesec-mail": "online",
+    "/api/tempmail/tempamail": "online",
+    "/api/tempmail/tempmailchat": "online",
+    "/api/tempmail/tempmailing": "online",
+    "/api/tempmail/tempmailio": "online",
+    "/api/tempmail/tempmailplus": "online",
+    "/api/tempmail/temporarymail": "online",
+    "/api/tempmail/temptf": "online",
+    "/api/tempmail/tmailor": "online",
+    "/api/tools/aidetect": "online",
+    "/api/tools/assets/cloneweb": "online",
+    "/api/tools/binner2text": "online",
+    "/api/tools/ccgenerator": "online",
+    "/api/tools/cekplat": "online",
+    "/api/tools/cloneweb": "online",
+    "/api/tools/crypto": "online",
+    "/api/tools/crypto-price": "online",
+    "/api/tools/cuaca-bmkg": "online",
+    "/api/tools/dummylabs": "online",
+    "/api/tools/ekycpro": "online",
+    "/api/tools/encrypt": "online",
+    "/api/tools/fakedata": "online",
+    "/api/tools/font": "online",
+    "/api/tools/hash": "online",
+    "/api/tools/html2img": "online",
+    "/api/tools/ilovepdf": "online",
+    "/api/tools/kodepos": "online",
+    "/api/tools/magma/catalog": "online",
+    "/api/tools/magma/status": "online",
+    "/api/tools/ngl-spam": "online",
+    "/api/tools/nikparse": "online",
+    "/api/tools/ocr": "online",
+    "/api/tools/password-generator": "online",
+    "/api/tools/proxy": "online",
+    "/api/tools/proxy2": "online",
+    "/api/tools/qr2text": "online",
+    "/api/tools/qris-info": "online",
+    "/api/tools/scanweb": "online",
+    "/api/tools/spam-otp": "online",
+    "/api/tools/ssweb": "online",
+    "/api/tools/sub4unlock": "online",
+    "/api/tools/teks2binner": "online",
+    "/api/tools/text2qr": "online",
+    "/api/tools/timestamp": "online",
+    "/api/tools/top4top": "online",
+    "/api/tools/trackip": "online",
+    "/api/tools/translate": "online",
+    "/api/tools/upload": "online",
+    "/api/tools/upload-v3": "online",
+    "/api/tools/upload2": "online",
+    "/api/tools/useragent": "online",
+    "/api/tools/uuid": "online",
+    "/api/tools/vccgen": "online",
+    "/api/tools/web2apk": "online",
+    "/api/tools/whois": "online",
+    "/api/tools/zippyshare": "online",
+    "/api/topup/assets/topupTraker": "online",
+    "/api/topup/cek": "online",
+    "/api/topup/dana": "online",
+    "/api/topup/ff": "online",
+    "/api/topup/ml": "online",
+    "/api/topup/unipin": "online",
+    "/api/v1/chat/completions": "premium",
+    "/api/v1/models": "online",
+    "/api/v2/chat/completions": "online",
+    "/api/v2/models": "online",
+    "/api/v3/chat/completions": "vip",
+    "/api/v3/models": "online",
+    "/api/vtuberspace/agencies": "online",
+    "/api/vtuberspace/debuts": "online",
+    "/api/vtuberspace/home": "online",
+    "/api/vtuberspace/lib": "online",
+    "/api/vtuberspace/news": "online",
+    "/api/vtuberspace/news-categories": "online",
+    "/api/vtuberspace/news-detail": "online",
+    "/api/vtuberspace/news-latest": "online",
+    "/api/vtuberspace/news-popular": "online",
+    "/api/vtuberspace/news-search": "online",
+    "/api/vtuberspace/news-tags": "online",
+    "/api/vtuberspace/vtuber-detail": "online",
+    "/api/vtuberspace/vtuber-search": "online",
+    "/api/vtuberspace/vtubers": "online",
+    "/api/vtuberspace/youtube-avatar": "online",
+    "/api/downloader/m-7reels": "online",
+    "/api/downloader/m-9xbuddy": "online",
+    "/api/search/m-4kwallpapers": "online",
+    "/api/search/m-7reels": "online",
+    "/api/search/m-8daudio": "online",
+    "/api/tempmail/m-1timetech": "online",
+    "/api/tools/viu": "online"
+  },
+  "feedbackButton": {
+    "enabled": false,
+    "url": "https://github.com"
+  },
+  "maintenance": false,
+  "notifications": {
+    "buttonText": "Ikuti Saluran",
+    "enabled": true,
+    "message": "Ikuti saluran Zyvor Project di WhatsApp",
+    "sourceCodeText": "Ikuti Saluran",
+    "sourceCodeUrl": "https://whatsapp.com/channel/0029Vb8vO7o2f3EEsjefzm0w",
+    "title": "Saluran WhatsApp"
+  },
+  "popularLimit": 50,
+  "rateLimit": {
+    "enabled": false,
+    "maxRequests": 20000,
+    "message": "Rate limit exceeded - your IP has been blocked.",
+    "windowMs": 86400000
+  },
+  "releases": [
+    {
+      "changelog": [
+        "Reach CH VIP Upgrade — /api/fun/reach-ch-vip engine reaksi diperbarui via ReactionWA VIP API, integrasi data/key-reach.json, auto-regenerasi key saat limit harian habis, respon bersih tanpa task_id & vip_key",
+        "Downloader Unification — Penyelarasan kategori /api/downloader/allinonev3 (DOWNLOADER → Downloader), konsistensi penamaan All-In-One Downloader v3, dan fix proxy helper di pinterest.js (total 61 endpoint downloader seragam)",
+        "AI Endpoints Cleanup — Penghapusan 25 endpoint AI rusak/terblokir (mathgpt, sakana, venice, felo, deep-ai, deepai, gemini-pro, gpt4, gpt5-4, qwen3-coder, nvidia, quily-ai, scite-ai, chatgpt-org, chatilm, apodex, duckai, genspark, langchain, lumo, notegpt, qwenv2, qwenguest, manus, jolly, claude-v2) beserta file cache terkait",
+        "Verified Active AI — 35 endpoint AI aktif tersisa terverifikasi berfungsi normal (200 OK)",
+        "New Endpoint — /api/fun/reach-ch: Kirim reaksi emoji otomatis ke postingan WhatsApp Channel via bycf Turnstile solver & proxy pool",
+        "New Endpoint — /api/anime/animeav1: Scraper streaming & unduh anime codec AV1 kualitas tinggi",
+        "Engine Upgrade — /api/imagehd/upscalev2: Migrasi solver Turnstile Cloudflare ke modul bycf",
+        "AI Assistant — /api/ai/luna: AI Chat interaktif dengan multi-turn memory",
+        "Check Number — /api/checknumber/checkban: Pengecekan status nomor WhatsApp banned/aktif",
+        "Captcha Solver — /api/solve/wellbypass: Bypass shortlink & protector"
+      ],
+      "date": "October 21, 2026",
+      "version": "2.1.2"
+    },
+    {
+      "changelog": [
+        "Subdomain Finder Rewrite — /api/tools/subdomain-finder rewritten with 7 sources + DNS bruteforce engine",
+        "DNS Bruteforce — Auto-scan 400+ common subdomains via DNS resolution, returns live IPs",
+        "Response Format — New format { subdomain, ips } showing resolved IPs for each subdomain",
+        "Per-source Count — Each source reports its result count in response",
+        "New Sources — AlienVault OTX, URLScan, RapidDNS, CertSpotter, ThreatMiner (replaced dead sources)",
+        "Wildcard Filtering — *.domain entries and root domain excluded from results",
+        "Total endpoint: 305+"
+      ],
+      "date": "July 25, 2026",
+      "version": "2.0.0"
+    },
+    {
+      "changelog": [
+        "IP Spoofing Fix — getClientIP() rewrite: hanya trust cf-connecting-ip dari Cloudflare edge IP, trust proxy: 1",
+        "Session Secret Hardcoded — hapus fallback SCBOT, random ephemeral secret + startup warning",
+        "SSRF Protection — centralized middleware blokir private IPs, DNS rebinding, non-HTTP protocols",
+        "Bot Shield — smart firewall blokir scanner/probe berbahaya",
+        "Path Traversal Fix — path.basename() + startsWith check di /files/:filename dan /src/images/:filename",
+        "Endpoint Sync — rescan filesystem: 265 → 303 endpoints",
+        "New Categories — nsfw/ (2), v1/ (2)",
+        "New Utils — safeFetch, botShield, apiCache, cacheCleaner, chromePath, gameCache, circuitBreaker, logApiRequest",
+        "New Endpoint — /api/maker/jarvis-meme (Jarvis meme generator, auto-shrink text, offline-first)",
+        "New Endpoint — /api/maker/fakecall-ios (Fake call iOS generator, offline template, Apple emoji)",
+        "Endpoint Sync — 303 → 305 endpoints"
+      ],
+      "date": "July 18, 2026",
+      "version": "1.9.8"
+    },
+    {
+      "changelog": [
+        "SQLite → JSON — Migrasi api-stats.db ke api-stats.json (zero external deps)",
+        "Hapus better-sqlite3 dependency",
+        "Path traversal fix — /files/:filename dan /src/images/:filename aman dari directory traversal",
+        "Hardcoded credentials — fix session secret fallback SCBOT, hapus GitHub PAT di recaptcha-v2.js, fix AES key di waf.js",
+        "HMR Notifications — endpoint added / changed / removed otomatis log",
+        "Cleanup — hapus data/session/, api/v1/messages.js, stale endpoint dari api-stats.json",
+        "Stale endpoint stats cleanup — 13 endpoint mati dihapus dari api-stats.json",
+        "Total endpoint: 275"
+      ],
+      "date": "July 5, 2026",
+      "version": "1.9.7"
+    },
+    {
+      "changelog": [
+        "Qwen V2 Rewrite — /api/ai/qwenv2 rewritten using kitsulabs Android wrapper, auto-login, no recaptcha dependency",
+        "FF Topup Fix — PACKAGES array refreshed with current tokogame product codes, all packages now work",
+        "NVIDIA API Key — Updated across nvidia, mistral, qwen3-coder endpoints",
+        "V1 Proxy Simplified — /api/v1/chat/completions pure passthrough, no tools/rate limiting",
+        "QR Auto-Delete — QRIS images auto-delete after 5 minutes (ff, ml, dana topup)",
+        "QR Tracker — data/topup.json tracks generated QR files, auto-cleanup on expired/missing files",
+        "Recaptcha V2 Fix — Fixed CHROME_PATH resolution, shared browser init error handling",
+        "Stats Cleanup — Removed orphaned api-stats entries (react-wa, reachch, bypasslinkv3)",
+        "Gacha Feature Removed — Deleted gacha endpoints and related files",
+        "HMR Config — Updated ignoreFiles to exclude middleware/rateLimiter.js and function/chrome",
+        "Topup Cek Fix — Simplified error response, use actual tokogame HTTP status code",
+        "Duplicate Directory Removed — Deleted apiku/apiku/ duplicate folder",
+        "Config Cleanup — Removed stale data/topup-config.json, simplified README.md",
+        "Total endpoint: 265"
+      ],
+      "date": "July 3, 2026",
+      "version": "1.9.6"
+    },
+    {
+      "changelog": [
+        "Total endpoint: 240",
+        "Features: Maker Motivasi — /api/maker/motivasi untuk generate quote canvas",
+        "Features: Halodoc AI — /api/ai/halodoc untuk AI konsultasi kesehatan (Hilda)",
+        "Features: Kategori baru 'Maker' (/api/maker) untuk fake-wa, fakeig, fakenotif, saldo-dana, dan saldo-gopay",
+        "Fixed: Memperbaiki parsing parameter POST untuk /api/downloader/youtube2 dan /api/downloader/youtube-analytic",
+        "Fixed: Memperbaiki circular dependency isu di /api/downloader/tiktok menggunakan fallback global.getRandomProxy",
+        "Improved: Validasi parameter ketat untuk savefrom.js (type: vidio/audio) dan savetube.js (quality enum)",
+        "Removed: Pembersihan API yang sudah mati/tidak berfungsi (Bstation, Facebook, Github, ReelsVidio, Sfile, YouTube v1, TikTok v3, TikTok v4, Brat Patrick, FreeLikeTikTok)",
+        "Features: Penambahan reverse proxy untuk kompatibilitas client OpenAI (/api/v1/chat/completions dan /api/v1/models)"
+      ],
+      "date": "June 14, 2026",
+      "version": "1.9.5"
+    },
+    {
+      "changelog": [
+        "Features: Mistral AI Chat — /api/ai/mistral untuk AI chat via Mistral Le Chat (tRPC scraper)",
+        "Improved: MuslimAI v2 — Upgrade ke streaming /api/chat dengan Quran sources (dari 2-step ke 1-step)",
+        "Total endpoint: 244",
+        "Features: TikTok Like Booster (TikBoost) — /api/fun/tikboost untuk menaikkan likes/views video TikTok secara instan (Maks 50)",
+        "Features: YouTube Downloader — /api/downloader/youtube3 untuk mengunduh video dan audio YouTube via VidsSave",
+        "Features: Jadwal Sepakbola — /api/search/jadwalbola untuk memantau jadwal siaran langsung sepakbola hari ini",
+        "Features: Jadwal TV Nasional — /api/search/jadwaltv untuk memantau jadwal stasiun TV terpopuler dengan parameter enum",
+        "Features: Audit Internal & Penambahan 22+ Endpoint Baru ke API",
+        "Features: ZeroGPT AI Humanizer — /api/ai/humanizer untuk mengubah teks buatan AI agar lebih natural",
+        "Features: Qwen Coder V2 & Qwen3 Coder — Model AI coding /api/ai/qwen-coder-v2 & /api/ai/qwen3-coder",
+        "Features: Canvas Brat Vermeil & Bratvid Vermeil — Card generator baru /api/canvas/brat-vermeil & /api/canvas/bratvid-vermeil",
+        "Features: Sertifikat Tolol — Generator sertifikat /api/canvas/sertifikat-tolol (port dari Generator-Sertifikat-Tolol)",
+        "Improved: Downloader Baru — Penambahan allinone, allinoneTEMP, tiktokv3-v5, drama, frama, lk21",
+        "Improved: Wink HD Video & Image Upscaler — Pemrosesan HD /api/hdvidio/wink-hd-video & /api/imagehd/wink-hd",
+        "Improved: DeepAI Image Edit — Endpoint edit gambar /api/image/deepai-edit",
+        "Improved: Crypto & Search Tools — Tambahan utility kriptografi /api/tools/crypto dan pencarian lagu /api/search/search-song, /api/search/spotify",
+        "Improved: Solve Turnstile — Pembaruan bypass manual /api/solve/turnstile",
+        "Features: Windows Media Player Canvas — Endpoint baru /api/canvas/wmp, overlay teks ke template WMP (NexaDev)",
+        "Image to Lego — Endpoint baru /api/image/lego, ubah gambar jadi Lego pixel art (24 warna, canvas-based)",
+        "Telegram Stalker — Endpoint baru /api/stalker/telegram, scrape t.me untuk info profil publik",
+        "WhatsApp Stalker — Endpoint baru /api/stalker/whatsapp, scrape WhatsApp Channel (nama, followers, deskripsi)",
+        "Stalker kategori — Kini 7 endpoint (freefire, github, ml, telegram, tiktok, whatsapp, youtube)",
+        "Audit endpoint — Ditemukan 13 endpoint yang belum tercatat di dokumentasi",
+        "DeepSeek R1 — Endpoint baru /api/ai/deepseek-r1, model reasoning DeepSeek R1",
+        "Gemini V2 — Endpoint baru /api/ai/geminiv2, versi baru Google Gemini",
+        "Carbon — Endpoint baru /api/canvas/carbon, code screenshot generator",
+        "Solve Module Upgrade — bypass.js diganti dengan 4 endpoint baru: bypasslink, bypasslinkv2, bypass-safelinku, waf",
+        "TempMail v7 & v8 — 2 endpoint temp mail baru",
+        "Fun — 2 endpoint baru: anime-quotes & philosopher-quotes",
+        "Wikipedia Search — Endpoint baru /api/search/wikipedia",
+        "Remove Watermark — Endpoint baru /api/image/removewm via EZRemove AI",
+        "CLAUDE.md — Dokumentasi diperbarui (208 endpoint, real count)",
+        "DeepSeek V3 — Endpoint baru /api/ai/deepseek-v3 via deep-seek.ai, model deepseek-v3.2",
+        "WormGPT — Endpoint baru /api/ai/wormgpt, WormGPT AI chat",
+        "TempMail v6 — Endpoint baru /api/tempmail/tempmailv6 via tempamail.com, support create & inbox",
+        "Brat Patrick — Endpoint baru /api/canvas/brat-patrick, Patrick Star image generator",
+        "Optimasi I/O — UUID caching tempmailv6, stream timeout fix di langchain & z-ai",
+        "Async fs — 8 file dioptimasi: pakasir-create, pakasir-status, brat-anime, fakeig, saldo-gopay, toanimev2, upload, upload2",
+        "Zero Disk Write — brat-anime & toanimev2 kini pure in-memory (pakai getBufferAsync)",
+        "SparkPix Response — Response di-sederhanakan (langsung result & download URL)",
+        "UI Fix — Header legal pages & docs di-center, route /legal/* diperbaiki",
+        "4 Endpoint Dihapus — claude (not working), deepimg & dream (deprecated API), neko (not working)",
+        "Total endpoint: 244"
+      ],
+      "date": "June 13, 2026",
+      "version": "1.9.4"
+    },
+    {
+      "changelog": [
+        "Auto-Update Endpoint Count — Semua halaman (index, docs) sekarang auto-update jumlah endpoint dari API, tidak perlu edit manual",
+        "Auto-Update Meta Tags — Meta description, OG tags, Twitter cards, dan JSON-LD schema auto-update via JavaScript",
+        "Brat Gojo Image — Endpoint baru /api/canvas/brat-gojo, generate gambar Gojo dengan teks custom (auto center, wrap, resize font)",
+        "Brat Gojo Video — Endpoint baru /api/canvas/bratvid-gojo, generate video Gojo dengan teks muncul bertahap per kata (ffmpeg)",
+        "Welcome v4 Fix — URL validation diperbaiki, sekarang support semua URL image (tidak hanya whitelist hostname)",
+        "Total endpoint: 190"
+      ],
+      "date": "May 29, 2026",
+      "version": "1.9.3"
+    },
+    {
+      "changelog": [
+        "ML Stalker — Endpoint baru /api/stalker/ml, cek akun Mobile Legends by User ID & Zone ID via pizzoshop.com",
+        "Play Store Search — Endpoint baru /api/search/playstore, cari aplikasi dari Google Play Store",
+        "reCAPTCHA v2 Solver — Endpoint baru /api/solve/recaptcha-v2, browser-based bypass dengan Puppeteer + Qwen AI",
+        "Free Fire Stalker Upgrade — /api/stalker/freefire sekarang pakai freefirehub.com dengan data jauh lebih lengkap",
+        "Total endpoint: 195"
+      ],
+      "date": "May 27, 2026",
+      "version": "1.9.2"
+    },
+    {
+      "changelog": [
+        "Spotify Downloader — Endpoint baru /api/downloader/spotify, download lagu Spotify sebagai MP3 via SpotiSoft",
+        "Claude V2 — Endpoint baru /api/ai/claude-v2 dengan akses langsung ke claude.ai, support model Sonnet 4.6 & Opus 4.7",
+        "Gemini Pro — Endpoint baru /api/ai/gemini-pro, Google Gemini 2.5 Pro via MiniToolAI",
+        "NowSecure Search — Endpoint baru /api/search/nowsecure, pencarian aplikasi mobile security verified",
+        "Pinterest Search — Endpoint baru /api/search/pinterest, pencarian gambar dari Pinterest",
+        "TempMail v5 — Endpoint baru /api/tempmail/tempmailv5, temporary email via Boomlify API",
+        "Docs Playground Fix — Support upload file (FormData multipart) untuk endpoint POST, badge GET & POST ditampilkan dengan benar",
+        "Upload URL Fix — /api/tools/upload sekarang mengembalikan URL dengan domain (bukan localhost)",
+        "WA Channel References Dihapus — Source code dibersihkan dari referensi WhatsApp channel external",
+        "Method Fix — /api/ai/mimo diubah ke GET only",
+        "Total endpoint: 191"
+      ],
+      "date": "May 27, 2026",
+      "version": "1.9.1"
+    },
+    {
+      "changelog": [
+        "Nano Banana WASM AI Image Edit — /api/image/nanobanana dengan easemate.ai integration, support PNG/JPEG/WebP",
+        "Admin Dashboard & Authentication — Panel admin (/admin/dashboard) dengan login, API Key auth, real-time monitoring",
+        "Solve Module — 3 endpoint baru: recaptcha-v3, turnstile, uam (kategori terpisah dari tools)",
+        "6 AI Models Baru — Mimo, Deep AI, GPT-4o-mini, GPT-4.1 Nano, Lumo, GPT-5",
+        "Canvas Effects Baru — Fake IG, Saldo Dana, Saldo GoPay, Reminder (4 endpoint baru)",
+        "Games Baru — Tebak Bendera 2 & Tebak Kabupaten",
+        "XL Check — Provider XL/Tri checker tool",
+        "Search Endpoints — Lazada, Webtoon, MCPEDL, Movie Detail, SoundCloud, TikTok Search, YouTube Search",
+        "Downloader Baru — RedNote, Terabox, Webtoon downloader",
+        "YouTube Stalker — Fixed with improved caching & rate limit handling",
+        "TextPro 81 Efek Typography — Terintegrasi penuh via /api/ephoto/textpro",
+        "Organisasi endpoint — TempMail & Solve dipindah ke kategori terpisah untuk navigasi lebih rapi",
+        "Bug fixes & performance improvements di berbagai endpoint"
+      ],
+      "date": "May 23, 2026",
+      "version": "1.9.0"
+    },
+    {
+      "changelog": [
+        "Ephoto 360 API — 62 efek teks keren dengan dukungan image & video output (MIME auto-detect)",
+        "Rate limit ditingkatkan jadi 500 request/hari dengan X-RateLimit headers di semua response",
+        "Photooxy effects diintegrasikan ke API endpoint /api/ephoto/photooxy",
+        "Donation Center - total redesign with modern UI, QR zoom, countdown, leaderboard",
+        "Changelog page (/changelog) added with interactive dynamic timeline",
+        "Unified navigation menu with Changelog link across all HTML pages",
+        "Consistent Tailwind config, scrollbar, and CSS styling across all pages",
+        "Donasi page - shadow-neon, selection colors, boxShadow utilities from docs",
+        "Improved responsive design for mobile and tablet breakpoints"
+      ],
+      "date": "May 23, 2026",
+      "version": "1.8.0"
+    }
+  ],
+  "spamDetection": {
+    "maxRequests": 100,
+    "maxUniqueIPs": 1000,
+    "maxViolations": 20,
+    "windowMs": 120000
+  },
+  "version": "2.1.2",
+  "endpoints": [
+    {
+      "name": "AIChatting",
+      "category": "AI Chat",
+      "route": "/api/ai/aichatting",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Seek",
+      "category": "AI Chat",
+      "route": "/api/ai/aiseek",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AskMe AI",
+      "category": "AI Chat",
+      "route": "/api/ai/askme",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ChatAI (Auto Proxy Request & Multi-Model Stream)",
+      "category": "AI Chat",
+      "route": "/api/ai/chatai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ChatGPT Android App",
+      "category": "AI Chat",
+      "route": "/api/ai/chatgpt",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ChatGPTis AI Chat",
+      "category": "AI Chat",
+      "route": "/api/ai/chatgptis",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cloud AI Chat",
+      "category": "AI Chat",
+      "route": "/api/ai/cloudai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "DeepSeek V3",
+      "category": "AI Chat",
+      "route": "/api/ai/deepseek-v3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "EduBrain AI",
+      "category": "AI Chat",
+      "route": "/api/ai/edubrain",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "FeelBetter AI",
+      "category": "AI Chat",
+      "route": "/api/ai/feelbetter",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "FreeToChat AI",
+      "category": "AI Chat",
+      "route": "/api/ai/freetochat",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GitReverse",
+      "category": "AI Chat",
+      "route": "/api/ai/gitreverse",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GPT-4o-mini",
+      "category": "AI Chat",
+      "route": "/api/ai/gpt4o-mini",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GPT-4 Chat v2",
+      "category": "AI Chat",
+      "route": "/api/ai/gpt4v2",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GPT 5.4",
+      "category": "AI Chat",
+      "route": "/api/ai/gpt5",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Halodoc AI",
+      "category": "AI Chat",
+      "route": "/api/ai/halodoc",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Heck Ai",
+      "category": "AI Chat",
+      "route": "/api/ai/heck-ai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Humanizer",
+      "category": "AI Chat",
+      "route": "/api/ai/humanizer",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Islami AI",
+      "category": "AI Chat",
+      "route": "/api/ai/islamiai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Luna - GPT-5.6 Luna",
+      "category": "AI Chat",
+      "route": "/api/ai/luna",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Motif AI",
+      "category": "AI Chat",
+      "route": "/api/ai/motif",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Muslim AI Chat",
+      "category": "AI Chat",
+      "route": "/api/ai/muslimai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NoteGPT AI Chat v2 (Anonymous)",
+      "category": "AI Chat",
+      "route": "/api/ai/notegptv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NoTrack AI",
+      "category": "AI Chat",
+      "route": "/api/ai/notrack",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Nova AI",
+      "category": "AI Chat",
+      "route": "/api/ai/nova-ai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Olabiba AI",
+      "category": "AI Chat",
+      "route": "/api/ai/olabiba",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Qwen Coder V2",
+      "category": "AI Chat",
+      "route": "/api/ai/qwen-coder-v2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Qwen AI Chat",
+      "category": "AI Chat",
+      "route": "/api/ai/qwen",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Strom-AI Chat",
+      "category": "AI Chat",
+      "route": "/api/ai/strom-ai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TurboSeek AI",
+      "category": "AI Chat",
+      "route": "/api/ai/turboseek",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TutorGPT AI",
+      "category": "AI Chat",
+      "route": "/api/ai/tutorgpt",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Unlimited AI Chat",
+      "category": "AI Chat",
+      "route": "/api/ai/unlimited",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VoidChat",
+      "category": "AI Chat",
+      "route": "/api/ai/voidchat",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "WormGPT",
+      "category": "AI Chat",
+      "route": "/api/ai/wormgpt",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ZeroGPT AI",
+      "category": "AI Chat",
+      "route": "/api/ai/zerogpt",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Bulk",
+      "category": "AlightMotion",
+      "route": "/api/am/bulk",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Bulk V3",
+      "category": "AlightMotion",
+      "route": "/api/am/bulkv3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Bulk V4",
+      "category": "AlightMotion",
+      "route": "/api/am/bulkv4",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Bulk V5",
+      "category": "AlightMotion",
+      "route": "/api/am/bulkv5",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Preset Finder",
+      "category": "AlightMotion",
+      "route": "/api/am/preset",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Preset Finder v2",
+      "category": "AlightMotion",
+      "route": "/api/am/presetv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Send",
+      "category": "AlightMotion",
+      "route": "/api/am/send",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Send v2",
+      "category": "AlightMotion",
+      "route": "/api/am/sendv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Send v3",
+      "category": "AlightMotion",
+      "route": "/api/am/sendv3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Verify v2",
+      "category": "AlightMotion",
+      "route": "/api/am/verifv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AlightMotion Verify",
+      "category": "AlightMotion",
+      "route": "/api/am/verify",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Anichi",
+      "category": "Anime",
+      "route": "/api/anime/anichi",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Anichin Help",
+      "category": "Anime",
+      "route": "/api/anime/anichin-help",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Anichin Donghua",
+      "category": "Anime",
+      "route": "/api/anime/anichin",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AnimeAV1",
+      "category": "Anime",
+      "route": "/api/anime/animeav1",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AnimeIn",
+      "category": "Anime",
+      "route": "/api/anime/animein",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Animexin Anime",
+      "category": "Anime",
+      "route": "/api/anime/animexin",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AnimoTVSlash",
+      "category": "Anime",
+      "route": "/api/anime/animotv",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Crunchyroll Anime",
+      "category": "Anime",
+      "route": "/api/anime/crunchyroll",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Donghive",
+      "category": "Anime",
+      "route": "/api/anime/donghive",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "DrakorID Scraper",
+      "category": "Anime",
+      "route": "/api/anime/drakorid",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Dubbindo",
+      "category": "Anime",
+      "route": "/api/anime/dubbindo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "LiveChart Anime",
+      "category": "Anime",
+      "route": "/api/anime/livechart",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Samehadaku",
+      "category": "Anime",
+      "route": "/api/anime/samehadaku",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Winbu",
+      "category": "Anime",
+      "route": "/api/anime/winbu",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bypass Link",
+      "category": "Bypass",
+      "route": "/api/bypass/bypasslink",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bypass Link v2",
+      "category": "Bypass",
+      "route": "/api/bypass/bypasslinkv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bypass Safelink Universal",
+      "category": "Bypass",
+      "route": "/api/bypass/bypasslinkv3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ModJall Bypass",
+      "category": "Bypass",
+      "route": "/api/bypass/modjall",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Move2link Bypass",
+      "category": "Bypass",
+      "route": "/api/bypass/move2link",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Ouo.io Link Bypass",
+      "category": "Bypass",
+      "route": "/api/bypass/ouo-bypass",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bypass Safelinku",
+      "category": "Bypass",
+      "route": "/api/bypass/safelink",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Shrinkme Bypass",
+      "category": "Bypass",
+      "route": "/api/bypass/shrinkme",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "WellBypass Link Bypass",
+      "category": "Bypass",
+      "route": "/api/bypass/wellbypass",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "XMZ Bypass",
+      "category": "Bypass",
+      "route": "/api/bypass/xmz",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Apple Music Card Generator",
+      "category": "Canvas",
+      "route": "/api/canvas/applemusic",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Canvas Boarding Nasa",
+      "category": "Canvas",
+      "route": "/api/canvas/boarding-nasa",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Brat Anime Generator",
+      "category": "Canvas",
+      "route": "/api/canvas/brat-anime",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Brat Gojo",
+      "category": "Canvas",
+      "route": "/api/canvas/brat-gojo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Brat Vermeil",
+      "category": "Canvas",
+      "route": "/api/canvas/brat-vermeil",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Brat Canvas Generator",
+      "category": "Canvas",
+      "route": "/api/canvas/brat",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bratvid Gojo",
+      "category": "Canvas",
+      "route": "/api/canvas/bratvid-gojo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bratvid Vermeil",
+      "category": "Canvas",
+      "route": "/api/canvas/bratvid-vermeil",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Carbon Code",
+      "category": "Canvas",
+      "route": "/api/canvas/carbon",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Logo Generator",
+      "category": "Canvas",
+      "route": "/api/canvas/createlogo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Drake Meme",
+      "category": "Canvas",
+      "route": "/api/canvas/drake",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Canvas Reminder",
+      "category": "Canvas",
+      "route": "/api/canvas/reminder",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Roblox Profile Generator",
+      "category": "Canvas",
+      "route": "/api/canvas/roblox",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Sertifikat Tolol",
+      "category": "Canvas",
+      "route": "/api/canvas/sertifikat-tolol",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Struk Generator",
+      "category": "Canvas",
+      "route": "/api/canvas/struk-generator",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Welcome Image Generator V1",
+      "category": "Canvas",
+      "route": "/api/canvas/welcomev1",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Welcome Image Generator V2",
+      "category": "Canvas",
+      "route": "/api/canvas/welcomev2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Welcome Image Generator V3",
+      "category": "Canvas",
+      "route": "/api/canvas/welcomev3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Welcome Image Generator V4",
+      "category": "Canvas",
+      "route": "/api/canvas/welcomev4",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Windows Media Player Canvas",
+      "category": "Canvas",
+      "route": "/api/canvas/wmp",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Check Ban WhatsApp",
+      "category": "Check Number",
+      "route": "/api/checknumber/checkban",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Check Number (XL & Tri)",
+      "category": "Check Number",
+      "route": "/api/checknumber/checknumber",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SIDOMPUL CHECKER",
+      "category": "Check Number",
+      "route": "/api/checknumber/simdopul",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tri Check",
+      "category": "Check Number",
+      "route": "/api/checknumber/tricheck",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "XL Check",
+      "category": "Check Number",
+      "route": "/api/checknumber/xlcheck",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "7REELS Movie & TV Stream Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/7reels",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "9xBuddy Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/9xbuddy",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "All-In-One Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/allinone",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "All-In-One Downloader v2",
+      "category": "Downloader",
+      "route": "/api/downloader/allinonev2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "All-In-One Downloader v3",
+      "category": "Downloader",
+      "route": "/api/downloader/allinonev3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "All-In-One Downloader v4",
+      "category": "Downloader",
+      "route": "/api/downloader/allinonev4",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "APKModY Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/apkmody",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Apple Music Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/applemusic",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CapCut Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/capcut",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CapCut Downloader v2",
+      "category": "Downloader",
+      "route": "/api/downloader/capcutv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Deezer Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/deezer",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Drama Series Stream Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/drama",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Facebook Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/facebook",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "FlacDownloader Download",
+      "category": "Downloader",
+      "route": "/api/downloader/flac",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Frama Series Stream Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/frama",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Google Drive Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/gdrive",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GetDL Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/getdl",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GTW APK Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/gtw",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "IGExport Instagram Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/igexport",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Instaloadr Instagram Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/instaloadr",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Insvid YouTube Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/insvid",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "LK21 Stream Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/lk21",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "LK21 Stream v2",
+      "category": "Downloader",
+      "route": "/api/downloader/lk21v2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MCPelife Scraper",
+      "category": "Downloader",
+      "route": "/api/downloader/mcpelife",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MediaFire Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/mediafire",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MediaFire Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/mediafirev2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MEGA.NZ Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/meganz",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Omnify AIO",
+      "category": "Downloader",
+      "route": "/api/downloader/omnify",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Pinterest Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/pinterest-dl",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Pinterest",
+      "category": "Downloader",
+      "route": "/api/downloader/pinterest",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Pinterest Video Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/pinvid",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "RedNote Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/rednote",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SaveFrom Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/savefrom",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SaveFromIns Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/savefromins",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SaveTube",
+      "category": "Downloader",
+      "route": "/api/downloader/savetube",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SaveUs AIO Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/saveus",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SnapAny Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/snapany",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SnapInsta Instagram Story Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/snapinsta",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Spotify Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/spotify",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Spotify Downloader v2",
+      "category": "Downloader",
+      "route": "/api/downloader/spotifyv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SssInstagram Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/sssinstagram",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Terabox Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/terabox",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/tiktok",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTokIO Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/tiktokio",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Downloader v2",
+      "category": "Downloader",
+      "route": "/api/downloader/tiktokv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Downloader v3",
+      "category": "Downloader",
+      "route": "/api/downloader/tiktokv3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Downloader v4",
+      "category": "Downloader",
+      "route": "/api/downloader/tiktokv4",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Downloader Direct v5",
+      "category": "Downloader",
+      "route": "/api/downloader/tiktokv5",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Downloader v6",
+      "category": "Downloader",
+      "route": "/api/downloader/tiktokv6",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Webtoon Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/webtoon",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Weibo Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/weibo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "X (Twitter) Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/xdl",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Downloader & Analyzer",
+      "category": "Downloader",
+      "route": "/api/downloader/youtube-analytic",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Downloader V2",
+      "category": "Downloader",
+      "route": "/api/downloader/youtubev1",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Downloader (VidsSave)",
+      "category": "Downloader",
+      "route": "/api/downloader/youtubev2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Downloader v4",
+      "category": "Downloader",
+      "route": "/api/downloader/youtubev3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Downloader v5",
+      "category": "Downloader",
+      "route": "/api/downloader/youtubev4",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Downloader V5",
+      "category": "Downloader",
+      "route": "/api/downloader/youtubev5",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Play",
+      "category": "Downloader",
+      "route": "/api/downloader/ytplay",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Downloader (YTScrape)",
+      "category": "Downloader",
+      "route": "/api/downloader/ytscrape",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Zippyshare Downloader",
+      "category": "Downloader",
+      "route": "/api/downloader/zippyshare",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Ephoto 360 Text Effects",
+      "category": "Ephoto",
+      "route": "/api/ephoto/ephoto",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Photooxy Text Effects",
+      "category": "Ephoto",
+      "route": "/api/ephoto/photooxy",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TextPro Effects Generator",
+      "category": "Ephoto",
+      "route": "/api/ephoto/textpro",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Anime Quotes",
+      "category": "Fun",
+      "route": "/api/fun/anime-quotes",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CapCut Account Creator",
+      "category": "Fun",
+      "route": "/api/fun/capcut",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Kahoot Quiz & Answers",
+      "category": "Fun",
+      "route": "/api/fun/kahoot",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Netflix Token Generator",
+      "category": "Fun",
+      "route": "/api/fun/netflix",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "vip"
+    },
+    {
+      "name": "Philosopher Quotes",
+      "category": "Fun",
+      "route": "/api/fun/philosopher-quotes",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Reach CH VIP",
+      "category": "Fun",
+      "route": "/api/fun/reach-ch-vip",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "vip"
+    },
+    {
+      "name": "Reach CH",
+      "category": "Fun",
+      "route": "/api/fun/reach-ch",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tiktok View Status",
+      "category": "Fun",
+      "route": "/api/fun/tiktokviewstatus",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Akinator",
+      "category": "Games",
+      "route": "/api/games/akinator",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Asah Otak",
+      "category": "Games",
+      "route": "/api/games/asahotak",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cak Lontong",
+      "category": "Games",
+      "route": "/api/games/caklontong",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cerdas Cermat SD",
+      "category": "Games",
+      "route": "/api/games/cc-sd",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Family 100",
+      "category": "Games",
+      "route": "/api/games/family100",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Lengkapi Kalimat",
+      "category": "Games",
+      "route": "/api/games/lengkapikalimat",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Math Challenge",
+      "category": "Games",
+      "route": "/api/games/math",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Susun Kata",
+      "category": "Games",
+      "route": "/api/games/susunkata",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Tebakan",
+      "category": "Games",
+      "route": "/api/games/tebakan",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Bendera",
+      "category": "Games",
+      "route": "/api/games/tebakbendera",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Bendera 2",
+      "category": "Games",
+      "route": "/api/games/tebakbendera2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Gambar",
+      "category": "Games",
+      "route": "/api/games/tebakgambar",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Game",
+      "category": "Games",
+      "route": "/api/games/tebakgame",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Hero ML",
+      "category": "Games",
+      "route": "/api/games/tebakheroml",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak JKT48",
+      "category": "Games",
+      "route": "/api/games/tebakjkt48",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Kabupaten",
+      "category": "Games",
+      "route": "/api/games/tebakkabupaten",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Kalimat",
+      "category": "Games",
+      "route": "/api/games/tebakkalimat",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Karakter Free Fire",
+      "category": "Games",
+      "route": "/api/games/tebakkarakterff",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Kartun",
+      "category": "Games",
+      "route": "/api/games/tebakkartun",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Kata",
+      "category": "Games",
+      "route": "/api/games/tebakkata",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Kimia",
+      "category": "Games",
+      "route": "/api/games/tebakkimia",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Lagu",
+      "category": "Games",
+      "route": "/api/games/tebaklagu",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Lirik",
+      "category": "Games",
+      "route": "/api/games/tebaklirik",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Logo",
+      "category": "Games",
+      "route": "/api/games/tebaklogo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Siapakah Aku",
+      "category": "Games",
+      "route": "/api/games/tebaksiapa",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Surah",
+      "category": "Games",
+      "route": "/api/games/tebaksurah",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tebak Warna",
+      "category": "Games",
+      "route": "/api/games/tebakwarna",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Teka Teki",
+      "category": "Games",
+      "route": "/api/games/tekateki",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Video Upscale AI",
+      "category": "HD Video",
+      "route": "/api/hdvidio/ai-upscale-vidio",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "HD Video Processor",
+      "category": "HD Video",
+      "route": "/api/hdvidio/tohd",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Wink HD Video Enhancer",
+      "category": "HD Video",
+      "route": "/api/hdvidio/wink-hd-video",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Blur",
+      "category": "Image",
+      "route": "/api/image/blur",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Face Swap",
+      "category": "Image",
+      "route": "/api/image/faceswap",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Ghibli Style Generator",
+      "category": "Image",
+      "route": "/api/image/gibli",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image to Lego Converter",
+      "category": "Image",
+      "route": "/api/image/lego",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NanoBanana Lite",
+      "category": "Image",
+      "route": "/api/image/nanobanana-lite",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Nano Banana",
+      "category": "Image",
+      "route": "/api/image/nanobanana",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Nano Banana V2",
+      "category": "Image",
+      "route": "/api/image/nanobananav2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "Nano Banana V3",
+      "category": "Image",
+      "route": "/api/image/nanobananav3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "Nano Banana V4",
+      "category": "Image",
+      "route": "/api/image/nanobananav4",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NSFW Check",
+      "category": "Image",
+      "route": "/api/image/nsfw-check",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Qwen Image Edit",
+      "category": "Image",
+      "route": "/api/image/qwen-edit",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Remove Background",
+      "category": "Image",
+      "route": "/api/image/removebg",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Remove Background v2",
+      "category": "Image",
+      "route": "/api/image/removebgbgv2",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Remove Watermark (Magic Eraser)",
+      "category": "Image",
+      "route": "/api/image/removewm-v2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Remove Watermark (EZRemove)",
+      "category": "Image",
+      "route": "/api/image/removewm",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "To Anime V2",
+      "category": "Image",
+      "route": "/api/image/toanimev2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Unblur",
+      "category": "Image",
+      "route": "/api/image/unblur",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Unblur v2 (PicWish AI)",
+      "category": "Image",
+      "route": "/api/image/unblurv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Unwatermark",
+      "category": "Image",
+      "route": "/api/image/unwatermark",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Seek Image",
+      "category": "Image AI",
+      "route": "/api/imageai/aiseek",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Bing Image",
+      "category": "Image AI",
+      "route": "/api/imageai/bingimg",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Dezgo Image Generator",
+      "category": "Image AI",
+      "route": "/api/imageai/dezgo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "FreeForAI Image Generator",
+      "category": "Image AI",
+      "route": "/api/imageai/freeforai",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GStory AI Image",
+      "category": "Image AI",
+      "route": "/api/imageai/gstory",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Nano Banana AI",
+      "category": "Image AI",
+      "route": "/api/imageai/nanobanana",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Pollinations AI Image",
+      "category": "Image AI",
+      "route": "/api/imageai/pollinations",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Quillbot Image Generator",
+      "category": "Image AI",
+      "route": "/api/imageai/quil-image",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Strom-AI Text to Image",
+      "category": "Image AI",
+      "route": "/api/imageai/strom-img",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Text to Image (FreeGen)",
+      "category": "Image AI",
+      "route": "/api/imageai/text2image",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Text to Image v2 (FLUX)",
+      "category": "Image AI",
+      "route": "/api/imageai/text2imgv2",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Text to Image v3 (Baidu Ernie)",
+      "category": "Image AI",
+      "route": "/api/imageai/text2imgv3",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Enhance HD",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhance",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Enhance HD v2",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhancev2",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Enhance HD v3",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhancev3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "AI Enhance HD v4",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhancev4",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Enhance HD v5",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhancev5",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "AI Enhance HD v6",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhancev6",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Enhance HD v7",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhancev7",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "AI Enhance HD v8",
+      "category": "Image HD",
+      "route": "/api/imagehd/ai-enhancev8",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ClearPNG Upscaler",
+      "category": "Image HD",
+      "route": "/api/imagehd/clearpng",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Upscaler",
+      "category": "Image HD",
+      "route": "/api/imagehd/imageupscaler",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Enhancer",
+      "category": "Image HD",
+      "route": "/api/imagehd/imgenhance",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NexUpscale",
+      "category": "Image HD",
+      "route": "/api/imagehd/nexupscale",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Optimole Upscaler",
+      "category": "Image HD",
+      "route": "/api/imagehd/optimole",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Photoihancer",
+      "category": "Image HD",
+      "route": "/api/imagehd/photoihancer",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Remini HD",
+      "category": "Image HD",
+      "route": "/api/imagehd/remini",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SparkPix HD Upscale",
+      "category": "Image HD",
+      "route": "/api/imagehd/sparkpix",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Super Resolution",
+      "category": "Image HD",
+      "route": "/api/imagehd/super-resolution",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Upscale AI",
+      "category": "Image HD",
+      "route": "/api/imagehd/upscale",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Upscaler",
+      "category": "Image HD",
+      "route": "/api/imagehd/upscalev2",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Upscaler V3",
+      "category": "Image HD",
+      "route": "/api/imagehd/upscalev3",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "WebAbility Upscaler",
+      "category": "Image HD",
+      "route": "/api/imagehd/webability",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Wink HD Enhancer",
+      "category": "Image HD",
+      "route": "/api/imagehd/wink-hd",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Hari Ini",
+      "category": "Kalender",
+      "route": "/api/kalender/hari-ini",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Hari Libur Nasional",
+      "category": "Kalender",
+      "route": "/api/kalender/hari-libur",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Bounty",
+      "category": "Maker",
+      "route": "/api/maker/bounty",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "EKTP Generator",
+      "category": "Maker",
+      "route": "/api/maker/ektp",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Afinitas ML",
+      "category": "Maker",
+      "route": "/api/maker/fake-afinitas-ml",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake FF",
+      "category": "Maker",
+      "route": "/api/maker/fake-ff",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake ML",
+      "category": "Maker",
+      "route": "/api/maker/fake-ml",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Nokia Message",
+      "category": "Maker",
+      "route": "/api/maker/fake-nokia",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Profile FF",
+      "category": "Maker",
+      "route": "/api/maker/fake-profile-ff",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Telegram Profile",
+      "category": "Maker",
+      "route": "/api/maker/fake-tele",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Tweet Generator",
+      "category": "Maker",
+      "route": "/api/maker/fake-tweet",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake BCA Canvas",
+      "category": "Maker",
+      "route": "/api/maker/fakebca",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Board",
+      "category": "Maker",
+      "route": "/api/maker/fakeboard",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Book",
+      "category": "Maker",
+      "route": "/api/maker/fakebook",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Call Android",
+      "category": "Maker",
+      "route": "/api/maker/fakecall-andro",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Call iOS",
+      "category": "Maker",
+      "route": "/api/maker/fakecall-ios",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Channel iOS",
+      "category": "Maker",
+      "route": "/api/maker/fakech",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Dev Generator",
+      "category": "Maker",
+      "route": "/api/maker/fakedev",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Grup iOS",
+      "category": "Maker",
+      "route": "/api/maker/fakegc",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake IG Canvas",
+      "category": "Maker",
+      "route": "/api/maker/fakeig",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake IG Profile Canvas",
+      "category": "Maker",
+      "route": "/api/maker/fakeigprofile",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake IG Profile V2",
+      "category": "Maker",
+      "route": "/api/maker/fakeigprofilev2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Note Message Canvas",
+      "category": "Maker",
+      "route": "/api/maker/fakenote",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Whatsapp Notification Generator",
+      "category": "Maker",
+      "route": "/api/maker/fakenotif",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Whatsapp Lockscreen Notif (ZenzzXD)",
+      "category": "Maker",
+      "route": "/api/maker/fakenotifwa",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "IG Story Image",
+      "category": "Maker",
+      "route": "/api/maker/igstory",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "IQC Dark",
+      "category": "Maker",
+      "route": "/api/maker/iqc-dark",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "IQC Pink",
+      "category": "Maker",
+      "route": "/api/maker/iqc-pink",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "IQC Quotes",
+      "category": "Maker",
+      "route": "/api/maker/iqc",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Jarvis Meme",
+      "category": "Maker",
+      "route": "/api/maker/jarvis-meme",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Motivasi",
+      "category": "Maker",
+      "route": "/api/maker/motivasi",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Nulis",
+      "category": "Maker",
+      "route": "/api/maker/nulis",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "IG Story Generator",
+      "category": "Maker",
+      "route": "/api/maker/post-ig",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Profile JSON Card",
+      "category": "Maker",
+      "route": "/api/maker/profilejson",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "WA Quote Chat",
+      "category": "Maker",
+      "route": "/api/maker/qcwa",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "QuoteCard",
+      "category": "Maker",
+      "route": "/api/maker/quotecard",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Quotes Anime",
+      "category": "Maker",
+      "route": "/api/maker/quotes-anime",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Image Resize",
+      "category": "Maker",
+      "route": "/api/maker/resize",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Rusdi Quote",
+      "category": "Maker",
+      "route": "/api/maker/rusdi-quote",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Saldo Dana",
+      "category": "Maker",
+      "route": "/api/maker/saldo-dana",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Saldo Gopay",
+      "category": "Maker",
+      "route": "/api/maker/saldo-gopay",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Saldo OVO",
+      "category": "Maker",
+      "route": "/api/maker/saldo-ovo",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Sertifikat NASA",
+      "category": "Maker",
+      "route": "/api/maker/sertifikat-nasa",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Student ID Card Maker",
+      "category": "Maker",
+      "route": "/api/maker/students",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Text Video Generator",
+      "category": "Maker",
+      "route": "/api/maker/textvideo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tiktok Quote Chat",
+      "category": "Maker",
+      "route": "/api/maker/ttqc",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Two Buttons Meme",
+      "category": "Maker",
+      "route": "/api/maker/twobuttons",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Wafat",
+      "category": "Maker",
+      "route": "/api/maker/wafat",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Free Movie",
+      "category": "Movie",
+      "route": "/api/movie/freemovie",
+      "methods": [
+        "GET",
+        "POST",
+        "HEAD",
+        "OPTIONS"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Melolo",
+      "category": "Movie",
+      "route": "/api/movie/melolo",
+      "methods": [
+        "GET",
+        "POST",
+        "HEAD",
+        "OPTIONS"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MovieBox",
+      "category": "Movie",
+      "route": "/api/movie/moviebox",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MovieZone",
+      "category": "Movie",
+      "route": "/api/movie/moviezone",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NSFW Foot",
+      "category": "NSFW",
+      "route": "/api/nsfw/foot",
+      "methods": [
+        "GET"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "NSFW Masturbation",
+      "category": "NSFW",
+      "route": "/api/nsfw/masturbation",
+      "methods": [
+        "GET"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "GoPay History Auto",
+      "category": "Payment",
+      "route": "/api/payment/gopay-history-auto",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay History",
+      "category": "Payment",
+      "route": "/api/payment/gopay-history",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Journal",
+      "category": "Payment",
+      "route": "/api/payment/gopay-journal",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Login",
+      "category": "Payment",
+      "route": "/api/payment/gopay-login",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Me",
+      "category": "Payment",
+      "route": "/api/payment/gopay-me",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Merchant",
+      "category": "Payment",
+      "route": "/api/payment/gopay-merchant",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Payouts",
+      "category": "Payment",
+      "route": "/api/payment/gopay-payouts",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay QRIS Official Create",
+      "category": "Payment",
+      "route": "/api/payment/gopay-qris-official-create",
+      "methods": [
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "GoPay QRIS Official Status",
+      "category": "Payment",
+      "route": "/api/payment/gopay-qris-official-status",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "GoPay QRIS Status",
+      "category": "Payment",
+      "route": "/api/payment/gopay-qris-status",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay QRIS",
+      "category": "Payment",
+      "route": "/api/payment/gopay-qris",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Refresh",
+      "category": "Payment",
+      "route": "/api/payment/gopay-refresh",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Token Save",
+      "category": "Payment",
+      "route": "/api/payment/gopay-token-save",
+      "methods": [
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "GoPay Token Status",
+      "category": "Payment",
+      "route": "/api/payment/gopay-token-status",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GoPay Verif",
+      "category": "Payment",
+      "route": "/api/payment/gopay-verif",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "QRIS Static v2",
+      "category": "Payment",
+      "route": "/api/payment/qris-static-v2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "QRIS STATIC ALL PAYMENT",
+      "category": "Payment",
+      "route": "/api/payment/qris-static",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Sociabuzz Create Payment",
+      "category": "Payment",
+      "route": "/api/payment/sociabuzz-create",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Sociabuzz Status Payment",
+      "category": "Payment",
+      "route": "/api/payment/sociabuzz-status",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Arti Nama",
+      "category": "Primbon",
+      "route": "/api/primbon/artinama",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Kecocokan Nama Pasangan",
+      "category": "Primbon",
+      "route": "/api/primbon/cocokpasangan",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Nomor Hoki",
+      "category": "Primbon",
+      "route": "/api/primbon/nomorhoki",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Cek Potensi Penyakit",
+      "category": "Primbon",
+      "route": "/api/primbon/penyakit",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Ramalan Jodoh Bali",
+      "category": "Primbon",
+      "route": "/api/primbon/ramalanjodohbali",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Ramalan Jodoh",
+      "category": "Primbon",
+      "route": "/api/primbon/ramaljodoh",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Rejeki Hoki Weton",
+      "category": "Primbon",
+      "route": "/api/primbon/rezekihokiweton",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Sifat Usaha Bisnis",
+      "category": "Primbon",
+      "route": "/api/primbon/sifatusaha",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Tafsir Mimpi",
+      "category": "Primbon",
+      "route": "/api/primbon/tafsirmimpi",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Primbon Zodiak",
+      "category": "Primbon",
+      "route": "/api/primbon/zodiac",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "random blue archive",
+      "category": "Random",
+      "route": "/api/random/blue-archive",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Random Lahelu",
+      "category": "Random",
+      "route": "/api/random/lahelu",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Random Anime Quotes",
+      "category": "Random",
+      "route": "/api/random/quotesanime",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Random Seegore",
+      "category": "Random",
+      "route": "/api/random/seegore",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Random Waifu",
+      "category": "Random",
+      "route": "/api/random/waifu",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Search Wallpaper 4K",
+      "category": "Search",
+      "route": "/api/search/4kwallpapers",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "7REELS Movie & TV Search",
+      "category": "Search",
+      "route": "/api/search/7reels",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "8D Audio",
+      "category": "Search",
+      "route": "/api/search/8daudio",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Anime Search (LiveChart)",
+      "category": "Search",
+      "route": "/api/search/anime",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ApkCombo Search",
+      "category": "Search",
+      "route": "/api/search/apkcombo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "BacaKomik",
+      "category": "Search",
+      "route": "/api/search/bacakomik",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Badan Gizi Nasional",
+      "category": "Search",
+      "route": "/api/search/bgn",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bilibili Search",
+      "category": "Search",
+      "route": "/api/search/bilibili",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cek Bansos (Kemensos)",
+      "category": "Search",
+      "route": "/api/search/cekbansos",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CineSubz",
+      "category": "Search",
+      "route": "/api/search/cinesubz",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cookpad",
+      "category": "Search",
+      "route": "/api/search/cookpad",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Dapodik Sekolah",
+      "category": "Search",
+      "route": "/api/search/dapodik",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Douyin Search",
+      "category": "Search",
+      "route": "/api/search/douyin-search",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "DuckDuckGo Search",
+      "category": "Search",
+      "route": "/api/search/duckduckgo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "FlacDownloader Search",
+      "category": "Search",
+      "route": "/api/search/flac",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Info Gempa BMKG",
+      "category": "Search",
+      "route": "/api/search/gempa",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Genius Lyrics",
+      "category": "Search",
+      "route": "/api/search/genius",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Goal.com",
+      "category": "Search",
+      "route": "/api/search/goal",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "IPA Pelajaran Search",
+      "category": "Search",
+      "route": "/api/search/ipa-pelajaran",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Jadwal Sepakbola (StarLabs)",
+      "category": "Search",
+      "route": "/api/search/jadwal-sepakbola",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Jadwal Sepakbola",
+      "category": "Search",
+      "route": "/api/search/jadwalbola",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Jadwal TV",
+      "category": "Search",
+      "route": "/api/search/jadwaltv",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Search KodePos",
+      "category": "Search",
+      "route": "/api/search/kodepos",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Lazada Search",
+      "category": "Search",
+      "route": "/api/search/lazada",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Livescore",
+      "category": "Search",
+      "route": "/api/search/livescore",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MangaDex",
+      "category": "Search",
+      "route": "/api/search/mangadex",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Manhwaindo Detail",
+      "category": "Search",
+      "route": "/api/search/manhwaindo",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Manhwaland Search",
+      "category": "Search",
+      "route": "/api/search/manhwaland",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MCPEDL Search & Downloader",
+      "category": "Search",
+      "route": "/api/search/mcpedl",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Movie Detail (TMDB)",
+      "category": "Search",
+      "route": "/api/search/moviedetail",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Murotal Quran",
+      "category": "Search",
+      "route": "/api/search/murotal-quran",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Musixmatch Lyrics",
+      "category": "Search",
+      "route": "/api/search/musixmatch",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NASA Search",
+      "category": "Search",
+      "route": "/api/search/nasa",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NowSecure Search",
+      "category": "Search",
+      "route": "/api/search/nowsecure",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "OtakuDesu",
+      "category": "Search",
+      "route": "/api/search/otakudesu",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Search Pinterest",
+      "category": "Search",
+      "route": "/api/search/pinterest",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Pinterest Video Search",
+      "category": "Search",
+      "route": "/api/search/pinvid-search",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Play Store Search",
+      "category": "Search",
+      "route": "/api/search/playstore",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "PDDIKTI Search",
+      "category": "Search",
+      "route": "/api/search/prodi",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Search Song",
+      "category": "Search",
+      "route": "/api/search/search-song",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SigStick Sticker Search",
+      "category": "Search",
+      "route": "/api/search/sigstick",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Sinopsis Film",
+      "category": "Search",
+      "route": "/api/search/sinopsis",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "SoundCloud Search",
+      "category": "Search",
+      "route": "/api/search/soundcloud",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Spotify Search",
+      "category": "Search",
+      "route": "/api/search/spotify",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Spotify Search V2",
+      "category": "Search",
+      "route": "/api/search/spotifyv2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Search v2 (CDP Browser)",
+      "category": "Search",
+      "route": "/api/search/tiktok-search",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tokusatsu Search",
+      "category": "Search",
+      "route": "/api/search/tokusatsu",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Voratoon Updates",
+      "category": "Search",
+      "route": "/api/search/voratoon",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Webtoon Search",
+      "category": "Search",
+      "route": "/api/search/webtoon",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Wikipedia",
+      "category": "Search",
+      "route": "/api/search/wikipedia",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Search",
+      "category": "Search",
+      "route": "/api/search/youtube-search",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Search (YTScrape)",
+      "category": "Search",
+      "route": "/api/search/ytscrape",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Bitly Shortener",
+      "category": "Shortlink",
+      "route": "/api/shortlink/bitly",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cutt.ly Shortener",
+      "category": "Shortlink",
+      "route": "/api/shortlink/cuttly",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TinyURL Shortener",
+      "category": "Shortlink",
+      "route": "/api/shortlink/tinyurl",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TinyURL File Shortener",
+      "category": "Shortlink",
+      "route": "/api/shortlink/tinyurlv2",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TinyURL with Custom Alias",
+      "category": "Shortlink",
+      "route": "/api/shortlink/tinyurlwithalias",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "XMZ Shortlink",
+      "category": "Shortlink",
+      "route": "/api/shortlink/xmz",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Altcha Solver",
+      "category": "Solve",
+      "route": "/api/solve/altcha",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cloudflare Challenge Solver",
+      "category": "Solve",
+      "route": "/api/solve/cloudflare",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "FriendlyCaptcha Solver",
+      "category": "Solve",
+      "route": "/api/solve/friendly",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Get Sitekey",
+      "category": "Solve",
+      "route": "/api/solve/getsitekey",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Linkvertise Bypass",
+      "category": "Solve",
+      "route": "/api/solve/linkvertise",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Recaptcha V2 Solver",
+      "category": "Solve",
+      "route": "/api/solve/recaptcha-v2",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Recaptcha V3 Bypass",
+      "category": "Solve",
+      "route": "/api/solve/recaptcha-v3",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Turnstile Solver",
+      "category": "Solve",
+      "route": "/api/solve/turnstile",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "UAM Solver v4",
+      "category": "Solve",
+      "route": "/api/solve/uam",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "WAF Solver (AWS WAF)",
+      "category": "Solve",
+      "route": "/api/solve/waf",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Deep Search Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/deepsearch",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Free Fire Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/freefire",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "GetContact Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/getcontact",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "vip"
+    },
+    {
+      "name": "GitHub Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/github",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Instagram Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/instagram",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Mobile Legends ID Checker",
+      "category": "Stalker",
+      "route": "/api/stalker/ml-id",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "ML Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/ml",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Roblox Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/roblox",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Telegram Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/telegram",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TikTok Auto-Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/tiktok",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "WhatsApp Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/whatsapp",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "X (Twitter) Tweet Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/x",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "YouTube Stalker",
+      "category": "Stalker",
+      "route": "/api/stalker/youtube",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - 1TimeTech",
+      "category": "Email",
+      "route": "/api/tempmail/1timetech",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - Akunlama",
+      "category": "Email",
+      "route": "/api/tempmail/akunlama",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - Boomlify",
+      "category": "Email",
+      "route": "/api/tempmail/boomlify",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CyberMail",
+      "category": "Email",
+      "route": "/api/tempmail/cybermail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - EmailTick (emailtick.com)",
+      "category": "Email",
+      "route": "/api/tempmail/emailtick",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - FreeTempMail (Fmail)",
+      "category": "Email",
+      "route": "/api/tempmail/freetempmail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - GuerrillaMail",
+      "category": "Email",
+      "route": "/api/tempmail/guerrilla",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "iMail Edu VN (.edu.vn Tempmail)",
+      "category": "Email",
+      "route": "/api/tempmail/imailedu",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "InstantTempEmail",
+      "category": "Email",
+      "route": "/api/tempmail/instanttempemail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Maildropy Temp Mail",
+      "category": "Email",
+      "route": "/api/tempmail/maildropy",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - Mail.tm",
+      "category": "Email",
+      "route": "/api/tempmail/mailtm",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - Generator.email (Multi-Domain)",
+      "category": "Email",
+      "route": "/api/tempmail/multidomain",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "OneSec Mail (mail.tm)",
+      "category": "Email",
+      "route": "/api/tempmail/onesec-mail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - TempAMail.com",
+      "category": "Email",
+      "route": "/api/tempmail/tempamail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail Chat",
+      "category": "Email",
+      "route": "/api/tempmail/tempmailchat",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - TempMail.ing",
+      "category": "Email",
+      "route": "/api/tempmail/tempmailing",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - Temp-Mail.io",
+      "category": "Email",
+      "route": "/api/tempmail/tempmailio",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail Plus",
+      "category": "Email",
+      "route": "/api/tempmail/tempmailplus",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - TemporaryMail.com",
+      "category": "Email",
+      "route": "/api/tempmail/temporarymail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "temp.tf Temporary Email",
+      "category": "Email",
+      "route": "/api/tempmail/temptf",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "TempMail - TMailor.com",
+      "category": "Email",
+      "route": "/api/tempmail/tmailor",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "AI Image Detector",
+      "category": "Tools",
+      "route": "/api/tools/aidetect",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Binary To Text",
+      "category": "Tools",
+      "route": "/api/tools/binner2text",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Credit Card Generator",
+      "category": "Tools",
+      "route": "/api/tools/ccgenerator",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Cek Plat Nomor",
+      "category": "Tools",
+      "route": "/api/tools/cekplat",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Clone Website Builder",
+      "category": "Tools",
+      "route": "/api/tools/cloneweb",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Crypto Price",
+      "category": "Tools",
+      "route": "/api/tools/crypto-price",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Crypto & Fiat Converter",
+      "category": "Tools",
+      "route": "/api/tools/crypto",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "BMKG Cuaca",
+      "category": "Tools",
+      "route": "/api/tools/cuaca-bmkg",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "DummyLabs CC Generator",
+      "category": "Tools",
+      "route": "/api/tools/dummylabs",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "eKYC Pro Checker",
+      "category": "Tools",
+      "route": "/api/tools/ekycpro",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Simple Encrypt/Decrypt Tools",
+      "category": "Tools",
+      "route": "/api/tools/encrypt",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Fake Data Generator",
+      "category": "Tools",
+      "route": "/api/tools/fakedata",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Font Converter",
+      "category": "Tools",
+      "route": "/api/tools/font",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Hash Generator",
+      "category": "Tools",
+      "route": "/api/tools/hash",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "HTML to Image Converter",
+      "category": "Tools",
+      "route": "/api/tools/html2img",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "iLovePDF Tools",
+      "category": "Tools",
+      "route": "/api/tools/ilovepdf",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Postal Code Lookup",
+      "category": "Tools",
+      "route": "/api/tools/kodepos",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MAGMA Katalog Gunung Api",
+      "category": "Tools",
+      "route": "/api/tools/magma/catalog",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MAGMA Status Realtime",
+      "category": "Tools",
+      "route": "/api/tools/magma/status",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NGL Send Message",
+      "category": "Tools",
+      "route": "/api/tools/ngl-spam",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "NIK Parse",
+      "category": "Tools",
+      "route": "/api/tools/nikparse",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "OCR",
+      "category": "Tools",
+      "route": "/api/tools/ocr",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Password Generator API",
+      "category": "Tools",
+      "route": "/api/tools/password-generator",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CORS Proxy",
+      "category": "Tools",
+      "route": "/api/tools/proxy",
+      "methods": [
+        "GET",
+        "POST",
+        "OPTIONS"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CORS Proxy v2 — proxysite.com",
+      "category": "Tools",
+      "route": "/api/tools/proxy2",
+      "methods": [
+        "GET",
+        "POST",
+        "OPTIONS"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "QR To Text",
+      "category": "Tools",
+      "route": "/api/tools/qr2text",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "QRIS Info & Parser",
+      "category": "Tools",
+      "route": "/api/tools/qris-info",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Website Vulnerability Check",
+      "category": "Tools",
+      "route": "/api/tools/scanweb",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Spam OTP",
+      "category": "Tools",
+      "route": "/api/tools/spam-otp",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Screenshot Web",
+      "category": "Tools",
+      "route": "/api/tools/ssweb",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Sub4Unlock Generator",
+      "category": "Tools",
+      "route": "/api/tools/sub4unlock",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Text To Binary",
+      "category": "Tools",
+      "route": "/api/tools/teks2binner",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Text To QR",
+      "category": "Tools",
+      "route": "/api/tools/text2qr",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Timestamp",
+      "category": "Tools",
+      "route": "/api/tools/timestamp",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Top4Top Uploader",
+      "category": "Tools",
+      "route": "/api/tools/top4top",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Track IP",
+      "category": "Tools",
+      "route": "/api/tools/trackip",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Universal Translate",
+      "category": "Tools",
+      "route": "/api/tools/translate",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Upload V3 (Multi CDN)",
+      "category": "Tools",
+      "route": "/api/tools/upload-v3",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tourl",
+      "category": "Tools",
+      "route": "/api/tools/upload",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Tourl2",
+      "category": "Tools",
+      "route": "/api/tools/upload2",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "UserAgent Generator",
+      "category": "Tools",
+      "route": "/api/tools/useragent",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "UUID Generator",
+      "category": "Tools",
+      "route": "/api/tools/uuid",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VCC Generator",
+      "category": "Tools",
+      "route": "/api/tools/vccgen",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Web2Apk",
+      "category": "Tools",
+      "route": "/api/tools/web2apk",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Zippyshare Uploader",
+      "category": "Tools",
+      "route": "/api/tools/zippyshare",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "CEK TOP UP",
+      "category": "Topup",
+      "route": "/api/topup/cek",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "DANA TOP UP QRIS",
+      "category": "Topup",
+      "route": "/api/topup/dana",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "FREE FIRE TOP UP",
+      "category": "Topup",
+      "route": "/api/topup/ff",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "MOBILE LEGENDS TOP UP",
+      "category": "Topup",
+      "route": "/api/topup/ml",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "UniPin Topup",
+      "category": "Topup",
+      "route": "/api/topup/unipin",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "HF DeepSeek Chat Completions",
+      "category": "Agent",
+      "route": "/api/v1/chat/completions",
+      "methods": [
+        "POST"
+      ],
+      "status": "premium"
+    },
+    {
+      "name": "HF DeepSeek Models",
+      "category": "Agent",
+      "route": "/api/v1/models",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Router Chat Completions V2",
+      "category": "Agent",
+      "route": "/api/v2/chat/completions",
+      "methods": [
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "Router Models V2",
+      "category": "Agent",
+      "route": "/api/v2/models",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "HCNsec Chat Completions",
+      "category": "Agent",
+      "route": "/api/v3/chat/completions",
+      "methods": [
+        "POST"
+      ],
+      "status": "vip"
+    },
+    {
+      "name": "HCNsec Models",
+      "category": "Agent",
+      "route": "/api/v3/models",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace Agencies",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/agencies",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace Debut Roster",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/debuts",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace Home",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/home",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace News Categories",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/news-categories",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace News Detail",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/news-detail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace Latest News",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/news-latest",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace Popular News",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/news-popular",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace News Search",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/news-search",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace News Tags",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/news-tags",
+      "methods": [
+        "GET"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace News List",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/news",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace VTuber Detail",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/vtuber-detail",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace VTuber Search",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/vtuber-search",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace VTubers List",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/vtubers",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    },
+    {
+      "name": "VTuberSpace YouTube Avatar",
+      "category": "VTuberSpace",
+      "route": "/api/vtuberspace/youtube-avatar",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "status": "online"
+    }
+  ]
+}

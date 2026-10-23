@@ -1,0 +1,11 @@
+[
+  {
+    "role": "user",
+    "content": "Halo"
+  },
+  {
+    "role": "assistant",
+    "content": "Siapa yang ingin Anda ucapkan halo hari ini?  \nAdakah sesuatu yang spesial yang ingin Anda bagikan?",
+    "data": ""
+  }
+]

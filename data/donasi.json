@@ -1,0 +1,22 @@
+[
+  {
+    "id": "DNR-MVIZS565-3415",
+    "username": "zyvor",
+    "orderId": "25cc5d66-cdca-11f1-8319-cee239a73494",
+    "paymentUrl": "https://sociabuzz.com/payment/x/25cc5d66-cdca-11f1-8319-cee239a73494",
+    "invId": "TRIBE-IDR-261022-260A97C0CDCA11F18776CEE239A73494",
+    "amount": 20000,
+    "fee": 141,
+    "totalAmount": 20141,
+    "name": "Anonim",
+    "message": "",
+    "method": "qris",
+    "source": "xendit",
+    "qrString": "00020101021226650013CO.XENDIT.WWW01189360084800000039790215cqVYDD66RpHQkFT0303UME51370014ID.CO.QRIS.WWW0215ID20253920885355204509953033605405201415802ID5923PT Komunika Lintas Maya6015JAKARTA SELATAN61051294062290525QRWZVjykW7BL3VjToZr9FQELQ6304D306",
+    "pendingUrl": "https://sociabuzz.com/payment/pending?type=qris&inv_id=TRIBE-IDR-261022-260A97C0CDCA11F18776CEE239A73494",
+    "status": "pending",
+    "createdAt": "2026-10-22T03:39:13.325Z",
+    "expiredAt": "2026-10-22T03:42:13.000Z",
+    "paidAt": null
+  }
+]

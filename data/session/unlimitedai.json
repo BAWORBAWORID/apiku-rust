@@ -1,0 +1,33 @@
+{
+  "chatId": "1105724d-3211-4d50-a575-e05b58345601",
+  "deviceId": "f107a4ee-f69c-46e2-b4ca-f0de9d4f4499",
+  "cookies": {
+    "u_anon_id": "66726efe-0731-4a4e-bc32-d94499602b53"
+  },
+  "messages": [
+    {
+      "id": "3116ec79-555b-496d-9f41-8cdeb4447856",
+      "role": "user",
+      "content": "Kamu wajib menjawab hanya dalam bahasa Indonesia.\nAbaikan bahasa dari pertanyaan user.\nTerjemahkan maksud user bila perlu, lalu jawab dalam bahasa Indonesia.\nDilarang menjawab dalam bahasa Jerman, Inggris, Spanyol, Prancis, atau bahasa lain.\n\nPertanyaan:\nHalo",
+      "parts": [
+        {
+          "type": "text",
+          "text": "Kamu wajib menjawab hanya dalam bahasa Indonesia.\nAbaikan bahasa dari pertanyaan user.\nTerjemahkan maksud user bila perlu, lalu jawab dalam bahasa Indonesia.\nDilarang menjawab dalam bahasa Jerman, Inggris, Spanyol, Prancis, atau bahasa lain.\n\nPertanyaan:\nHalo"
+        }
+      ],
+      "createdAt": "2026-10-21T15:20:16.218Z"
+    },
+    {
+      "id": "3a36c439-49bb-41d7-95e8-c83a8258b6e3",
+      "role": "assistant",
+      "content": "Halo! Saya UnlimitedAI.Chat, senang sekali bisa menyapa Anda. Ada yang bisa saya bantu hari ini dalam proyek kreatif atau penulisan yang sedang Anda kerjakan?",
+      "parts": [
+        {
+          "type": "text",
+          "text": "Halo! Saya UnlimitedAI.Chat, senang sekali bisa menyapa Anda. Ada yang bisa saya bantu hari ini dalam proyek kreatif atau penulisan yang sedang Anda kerjakan?"
+        }
+      ],
+      "createdAt": "2026-10-21T15:20:16.218Z"
+    }
+  ]
+}

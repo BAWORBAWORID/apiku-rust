@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laporkan | AlwaysCodex Api'S</title>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#030712',
+                        surface: '#111827',
+                        border: '#1f2937',
+                        input: '#1f2937',
+                        primary: {
+                            DEFAULT: '#6366f1',
+                            hover: '#4f46e5',
+                            dim: 'rgba(99, 102, 241, 0.1)',
+                            glow: 'rgba(99, 102, 241, 0.5)'
+                        },
+                        success: '#10b981',
+                        error: '#ef4444',
+                        warning: '#f59e0b'
+                    },
+                    animation: {
+                        'grid-flow': 'gridMove 20s linear infinite',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                    },
+                    keyframes: {
+                        gridMove: {
+                            '0%': { backgroundPosition: '0 0' },
+                            '100%': { backgroundPosition: '40px 40px' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(99, 102, 241, 0.15)',
+                        'neon': '0 0 10px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1)',
+                    }
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            background-color: #030712;
+            color: #cbd5e1;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .cyber-grid::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, #030712 90%);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+        .glass-header {
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .form-card {
+            background-color: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .form-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .form-input {
+            width: 100%;
+            background: #0b0d12;
+            border: 1px solid #1f2937;
+            color: #e5e7eb;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            outline: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .form-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .form-input::placeholder {
+            color: #6b7280;
+        }
+
+        .form-select {
+            width: 100%;
+            background: #0b0d12;
+            border: 1px solid #1f2937;
+            color: #e5e7eb;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+        .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .form-textarea {
+            width: 100%;
+            background: #0b0d12;
+            border: 1px solid #1f2937;
+            color: #e5e7eb;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            outline: none;
+            resize: vertical;
+            min-height: 140px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .form-textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .form-textarea::placeholder {
+            color: #6b7280;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            font-weight: 700;
+            padding: 14px 32px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+        }
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .category-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: #0b0d12;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .category-option:hover {
+            border-color: #374151;
+            background: #111827;
+        }
+        .category-option.selected {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.08);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+        }
+        .category-option .radio-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #4b5563;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .category-option.selected .radio-circle {
+            border-color: #6366f1;
+        }
+        .category-option.selected .radio-circle::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #6366f1;
+            border-radius: 50%;
+        }
+        .category-option .cat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .error-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cyber-grid"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header h-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+            <!-- Left Side -->
+            <div class="flex items-center gap-4">
+                <!-- Menu Dropdown -->
+                <div class="relative z-50">
+                    <button onclick="toggleNavMenu()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors focus:outline-none">
+                        <i class="fas fa-ellipsis-v text-lg"></i>
+                    </button>
+                    
+                    <div id="navMenu" class="hidden absolute top-full left-0 mt-3 w-48 bg-[#0b0d12] border border-border rounded-xl shadow-2xl overflow-hidden animate-slide-down origin-top-left">
+                        <div class="py-1">
+                            <a href="/" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-home w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Home</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/docs" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-book w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Documentation</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/support" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-headset w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Support</span>
+                            </a>
+                            <a href="/stats" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-chart-line w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Status</span>
+                            </a>
+                            <a href="/changelog" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-clock-rotate-left w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Changelog</span>
+                            </a>
+                            <div class="h-px bg-border mx-2 my-1"></div>
+                            <a href="/request-report" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-bug w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Request</span>
+                            </a>
+                            <a href="/donasi" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-primary-DEFAULT hover:text-white transition-colors group">
+                                <i class="fas fa-hand-holding-heart w-5 text-center text-gray-500 group-hover:text-white"></i>
+                                <span class="font-semibold">Donasi</span>
+                            </a>
+                       </div>
+                    </div>
+                </div>
+
+                <!-- Logo -->
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-8 h-8 rounded bg-gradient-to-br from-primary-DEFAULT to-purple-600 flex items-center justify-center text-white font-black shadow-lg shadow-primary-DEFAULT/30 group-hover:scale-110 transition-transform">
+                        AC
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-lg leading-none text-white tracking-tight">AlwaysCodex Api'S</span>
+                        <span class="text-[10px] text-primary-DEFAULT font-mono tracking-widest uppercase">Laporkan</span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="pt-28 pb-20 px-4 sm:px-6 max-w-2xl mx-auto">
+        <div class="text-center mb-10" data-aos="fade-down">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-dim border border-primary-DEFAULT/20 text-primary-DEFAULT text-xs font-bold mb-4">
+                <i class="fas fa-bug"></i>
+                <span>LAPORKAN</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 mb-3 tracking-tight">
+                Kirim Laporan
+            </h1>
+            <p class="text-gray-400 text-sm max-w-lg mx-auto">
+                Punya saran fitur, menemukan bug, atau ingin memberi feedback? Kirim langsung ke developer!
+            </p>
+        </div>
+
+        <div class="form-card p-6 sm:p-8" data-aos="fade-up">
+            <!-- Success State -->
+            <div id="successState" class="hidden">
+                <div class="success-box">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-success/10 border border-success/20 flex items-center justify-center">
+                        <i class="fas fa-check-circle text-3xl text-success"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Laporan Terkirim! 🎉</h3>
+                    <p class="text-gray-400 text-sm mb-6" id="successMessage">Terima kasih atas masukannya!</p>
+                    <button onclick="resetForm()" class="text-sm text-primary-DEFAULT hover:text-primary-hover font-semibold transition flex items-center gap-2 mx-auto">
+                        <i class="fas fa-plus"></i>
+                        <span>Kirim laporan lain</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="reportForm" onsubmit="submitReport(event)">
+                <!-- Category -->
+                <div class="mb-8">
+                    <label class="block text-sm font-bold text-gray-300 mb-3">
+                        Kategori
+                        <span class="text-error ml-1">*</span>
+                    </label>
+                    <div class="space-y-3" id="categoryContainer">
+                        <div class="category-option selected" data-value="Request Fitur" onclick="selectCategory(this)">
+                            <div class="radio-circle"></div>
+                            <div class="cat-icon" style="background: rgba(99,102,241,0.12); color: #818cf8;">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white text-sm">Request Fitur</div>
+                                <div class="text-xs text-gray-500">Ajukan ide fitur baru untuk dikembangkan</div>
+                            </div>
+                        </div>
+                        <div class="category-option" data-value="Laporan Bug" onclick="selectCategory(this)">
+                            <div class="radio-circle"></div>
+                            <div class="cat-icon" style="background: rgba(239,68,68,0.12); color: #f87171;">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white text-sm">Laporan Bug</div>
+                                <div class="text-xs text-gray-500">Laporkan error atau masalah yang ditemukan</div>
+                            </div>
+                        </div>
+                        <div class="category-option" data-value="Feedback" onclick="selectCategory(this)">
+                            <div class="radio-circle"></div>
+                            <div class="cat-icon" style="background: rgba(16,185,129,0.12); color: #34d399;">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white text-sm">Feedback</div>
+                                <div class="text-xs text-gray-500">Berikan masukan atau pendapat tentang API</div>
+                            </div>
+                        </div>
+                        <div class="category-option" data-value="Lainnya" onclick="selectCategory(this)">
+                            <div class="radio-circle"></div>
+                            <div class="cat-icon" style="background: rgba(245,158,11,0.12); color: #fbbf24;">
+                                <i class="fas fa-ellipsis"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white text-sm">Lainnya</div>
+                                <div class="text-xs text-gray-500">Keperluan lain yang tidak tercakup di atas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="kategori" id="kategoriInput" value="Request Fitur">
+                </div>
+
+                <!-- Name (Optional) -->
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-gray-300 mb-2" for="nama">
+                        Nama
+                        <span class="text-gray-500 text-xs font-normal ml-1">(opsional)</span>
+                    </label>
+                    <input type="text" name="nama" id="nama" class="form-input" placeholder="Masukkan nama Anda..." maxlength="100">
+                </div>
+
+                <!-- Contact (Optional) -->
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-gray-300 mb-2" for="kontak">
+                        Kontak
+                        <span class="text-gray-500 text-xs font-normal ml-1">(opsional)</span>
+                    </label>
+                    <input type="text" name="kontak" id="kontak" class="form-input" placeholder="Nomor WA, email, atau sosial media..." maxlength="200">
+                </div>
+
+                <!-- Message -->
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-gray-300 mb-2" for="pesan">
+                        Detail Laporan
+                        <span class="text-error ml-1">*</span>
+                    </label>
+                    <textarea name="pesan" id="pesan" class="form-textarea" placeholder="Jelaskan secara detail laporan Anda..."></textarea>
+                    <div class="flex justify-between mt-1.5">
+                        <span class="text-xs text-gray-500" id="charCount">0 karakter</span>
+                        <span class="text-xs text-gray-500">Maks 5000 karakter</span>
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <div id="errorBox" class="error-box hidden mb-6">
+                    <p class="text-sm text-red-400" id="errorMessage">Terjadi kesalahan.</p>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" id="submitBtn" class="submit-btn w-full flex items-center justify-center gap-3">
+                    <span id="btnText">Kirim Laporan</span>
+                    <i class="fas fa-paper-plane" id="btnIcon"></i>
+                    <i class="fas fa-circle-notch fa-spin hidden" id="btnSpinner"></i>
+                </button>
+
+                <p class="text-center text-xs text-gray-600 mt-4">
+                    Laporan akan langsung dikirim ke developer via Telegram
+                    <i class="fab fa-telegram-plane text-primary-DEFAULT ml-1"></i>
+                </p>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-xs text-gray-600">
+            <i class="fas fa-code text-primary-DEFAULT text-xs mr-1"></i>
+            <span>Powered by </span>
+            <span class="text-primary-DEFAULT font-semibold">@zyvor</span>
+            <span class="text-gray-700">• v<span id="api-version">1.7.0</span></span>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, duration: 800, offset: 50 });
+
+        fetch('/configuration')
+            .then(r => r.json())
+            .then(cfg => {
+                if (cfg.releases?.[0]?.version) document.getElementById('api-version').textContent = cfg.releases[0].version;
+            })
+            .catch(() => {});
+
+        function toggleNavMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('navMenu');
+            const btn = document.querySelector('button[onclick="toggleNavMenu()"]');
+            if (menu && !menu.classList.contains('hidden')) {
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        function selectCategory(el) {
+            document.querySelectorAll('.category-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('kategoriInput').value = el.dataset.value;
+        }
+
+        document.getElementById('pesan').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('charCount').textContent = count + ' karakter';
+            if (count > 5000) {
+                this.value = this.value.substring(0, 5000);
+                document.getElementById('charCount').textContent = '5000 karakter';
+            }
+        });
+
+        function showError(msg) {
+            const box = document.getElementById('errorBox');
+            document.getElementById('errorMessage').textContent = msg;
+            box.classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorBox').classList.add('hidden');
+        }
+
+        async function submitReport(e) {
+            e.preventDefault();
+            hideError();
+
+            const kategori = document.getElementById('kategoriInput').value;
+            const pesan = document.getElementById('pesan').value.trim();
+            const nama = document.getElementById('nama').value.trim();
+            const kontak = document.getElementById('kontak').value.trim();
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnSpinner = document.getElementById('btnSpinner');
+
+            if (!pesan) {
+                showError('Harap isi detail laporan.');
+                document.getElementById('pesan').focus();
+                return;
+            }
+
+            btn.disabled = true;
+            btnText.textContent = 'Mengirim...';
+            btnIcon.classList.add('hidden');
+            btnSpinner.classList.remove('hidden');
+
+            try {
+                const res = await fetch('/api/request-report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ kategori, pesan, nama, kontak })
+                });
+
+                const data = await res.json();
+
+                if (data.status) {
+                    document.getElementById('reportForm').classList.add('hidden');
+                    document.getElementById('successMessage').textContent = data.message;
+                    document.getElementById('successState').classList.remove('hidden');
+                    btn.disabled = false;
+                    btnText.textContent = 'Kirim Laporan';
+                    btnIcon.classList.remove('hidden');
+                    btnSpinner.classList.add('hidden');
+                } else {
+                    showError(data.message || 'Gagal mengirim laporan.');
+                    btn.disabled = false;
+                    btnText.textContent = 'Kirim Laporan';
+                    btnIcon.classList.remove('hidden');
+                    btnSpinner.classList.add('hidden');
+                }
+            } catch (err) {
+                showError('Gagal terhubung ke server. Periksa koneksi Anda.');
+                btn.disabled = false;
+                btnText.textContent = 'Kirim Laporan';
+                btnIcon.classList.remove('hidden');
+                btnSpinner.classList.add('hidden');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('successState').classList.add('hidden');
+            document.getElementById('reportForm').classList.remove('hidden');
+            document.getElementById('pesan').value = '';
+            document.getElementById('nama').value = '';
+            document.getElementById('kontak').value = '';
+            document.getElementById('charCount').textContent = '0 karakter';
+            hideError();
+
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnSpinner = document.getElementById('btnSpinner');
+            btn.disabled = false;
+            btnText.textContent = 'Kirim Laporan';
+            btnIcon.classList.remove('hidden');
+            btnSpinner.classList.add('hidden');
+
+            document.querySelectorAll('.category-option').forEach((opt, i) => {
+                opt.classList.toggle('selected', i === 0);
+            });
+            document.getElementById('kategoriInput').value = 'Request Fitur';
+        }
+    </script>
+
+</body>
+</html>

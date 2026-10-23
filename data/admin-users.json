@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "$2b$10$XCD3xgIZUzbxPHLrpN1I8ueMr3S360HQYrgrVXM4uR4jCUAVm3z9e",
+      "role": "superadmin",
+      "createdAt": "2026-07-02T00:00:00.000Z",
+      "updatedAt": "2026-07-07T00:00:00.000Z"
+    },
+    {
+      "username": "apin",
+      "password": "$2b$10$X61FsaiRQse7JcsJ/7a3cOm8ivT8dQtSJa3cSQPSnWpFGU.37XlGi",
+      "role": "admin",
+      "createdAt": "2026-10-03T17:40:00.461Z",
+      "updatedAt": "2026-10-03T17:40:00.461Z"
+    }
+  ]
+}

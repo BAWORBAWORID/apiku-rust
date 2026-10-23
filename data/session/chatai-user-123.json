@@ -1,0 +1,28 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Halo"
+    },
+    {
+      "role": "assistant",
+      "content": "Halo! 👋 Ada yang bisa saya bantu hari ini?"
+    },
+    {
+      "role": "user",
+      "content": "Halo, jelaskan apa itu black hole secara singkat😭"
+    },
+    {
+      "role": "assistant",
+      "content": "Black hole (lubang hitam) adalah wilayah di ruang angkasa dengan gravitasi sangat kuat, sehingga tidak ada apa pun—bahkan cahaya—yang bisa lolos darinya. Biasanya terbentuk ketika bintang masif runtuh ke dalam dirinya sendiri. 😭✨"
+    },
+    {
+      "role": "user",
+      "content": "Halo, jelaskan apa itu black hole secara singkat😭"
+    },
+    {
+      "role": "assistant",
+      "content": "Black hole adalah objek luar angkasa dengan gravitasi sangat kuat sehingga cahaya pun tidak dapat lolos. Biasanya terbentuk dari runtuhnya bintang besar. 🌌"
+    }
+  ]
+}
